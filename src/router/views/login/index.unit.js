@@ -1,4 +1,4 @@
-import Login from './login'
+import Login from './index'
 
 describe('@views/login', () => {
   it('is a valid view', () => {
