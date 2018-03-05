@@ -29,7 +29,7 @@ module.exports = {
     '!src/state/store.js',
     '!src/state/helpers.js',
     '!src/state/modules/index.js',
-    '!src/components/_globals.js',
+    '!src/components/globals/index.js',
   ],
   // https://facebook.github.io/jest/docs/en/configuration.html#testurl-string
   // Set the `testURL` to a provided base URL if one exists, or the mock API base URL

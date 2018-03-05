@@ -28,12 +28,12 @@ Vue.config.productionTip = false
 // ===
 
 const globalComponentFiles = fs
-  .readdirSync(path.join(__dirname, '../../src/components'))
+  .readdirSync(path.join(__dirname, '../../src/components/globals'))
   .filter(fileName => /^_base-.+\.vue$/.test(fileName))
 
 for (const fileName of globalComponentFiles) {
   const componentName = _.pascalCase(fileName.match(/^_(base-.+)\.vue$/)[1])
-  const componentConfig = require('../../src/components/' + fileName)
+  const componentConfig = require('../../src/components/globals/' + fileName)
   Vue.component(componentName, componentConfig.default || componentConfig)
 }
 
