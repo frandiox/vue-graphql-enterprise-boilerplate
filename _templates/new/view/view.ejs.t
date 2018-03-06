@@ -1,5 +1,5 @@
 ---
-to: "src/router/views/<%= h.inflection.dasherize(name) %>.vue"
+to: "src/router/views/<%= h.inflection.dasherize(name) + (folder ? '/index' : '') %>.vue"
 ---
 <%
   const fileName = h.inflection.dasherize(name)

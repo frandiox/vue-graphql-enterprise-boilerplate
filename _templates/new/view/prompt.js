@@ -12,6 +12,11 @@ module.exports = [
   },
   {
     type: 'confirm',
+    name: 'folder',
+    message: 'Create its own folder?',
+  },
+  {
+    type: 'confirm',
     name: 'useStyles',
     message: 'Add <style> block?',
   },

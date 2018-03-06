@@ -52,7 +52,7 @@ This project manages assets via Vue CLI. Learn more about [its asset handling he
 
 ### `components`
 
-Where most of the components in our app will live, including our [global base components](development.md#base-components).
+Where all the common components in our app will live, including our [global base components](development.md#base-components). Components that are used by at least other 2 components should be placed here.
 
 ### `design`
 

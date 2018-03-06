@@ -1,10 +1,10 @@
 ---
-to: "src/router/views/<%= h.inflection.dasherize(name) %>.unit.js"
+to: "src/router/views/<%= h.inflection.dasherize(name) + (folder ? '/index' : '') %>.unit.js"
 ---
 <%
   const fileName = h.inflection.dasherize(name)
   const importName = h.inflection.camelize(fileName.replace(/-/g, '_'))
-%>import <%= importName %> from './<%= fileName %>'
+%>import <%= importName %> from './<%= folder ? 'index' : fileName %>'
 
 describe('@views/<%= fileName %>', () => {
   it('is a valid view', () => {
