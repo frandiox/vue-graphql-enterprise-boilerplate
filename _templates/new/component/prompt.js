@@ -17,6 +17,16 @@ module.exports = [
     },
   },
   {
+    type: 'input',
+    name: 'view',
+    message: "What's the parent view? (empty for common component)",
+  },
+  {
+    type: 'confirm',
+    name: 'folder',
+    message: 'Create its own folder?',
+  },
+  {
     type: 'checkbox',
     name: 'blocks',
     message: 'Blocks:',
