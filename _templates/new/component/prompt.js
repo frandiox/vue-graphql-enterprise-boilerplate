@@ -19,7 +19,7 @@ module.exports = [
   {
     type: 'input',
     name: 'view',
-    message: "What's the parent view? (empty for common component)",
+    message: "What's the parent view? (empty for common or global components)",
   },
   {
     type: 'confirm',
