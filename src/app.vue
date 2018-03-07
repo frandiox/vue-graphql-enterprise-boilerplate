@@ -9,6 +9,16 @@ export default {
       return title ? `${title} | ${appConfig.title}` : appConfig.title
     },
   },
+  data() {
+    return {
+      hydrated: false,
+    }
+  },
+  mounted() {
+    this.$apollo.provider.defaultClient
+      .hydrated()
+      .then(() => (this.hydrated = true))
+  },
 }
 </script>
 
@@ -18,7 +28,10 @@ export default {
     Even when routes use the same component, treat them
     as distinct and create the component again.
     -->
-    <div :key="$route.fullPath">
+    <div
+      :key="$route.fullPath"
+      v-if="hydrated"
+    >
       <router-view/>
     </div>
   </div>

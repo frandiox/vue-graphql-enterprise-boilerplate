@@ -10,6 +10,16 @@ module.exports = {
       extensions: ['/index.vue'],
       alias: require('./aliases.config').webpack,
     },
+    // Add gql loader
+    module: {
+      rules: [
+        {
+          test: /\.(graphql|gql)$/,
+          exclude: /node_modules/,
+          use: 'graphql-tag/loader',
+        },
+      ],
+    },
   },
   css: {
     // Enable CSS source maps.
