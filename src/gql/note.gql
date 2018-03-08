@@ -1,0 +1,42 @@
+### QUERIES
+
+query ListNotes {
+  listNotes {
+    items {
+      id
+      title
+    }
+  }
+}
+
+query GetNote($id: ID!) {
+  getNote(id: $id) {
+    id
+    title
+    description
+  }
+}
+
+### MUTATIONS
+
+mutation CreateNote($id: ID!, $title: String!, $description: String) {
+  createNote(input: { id: $id, title: $title, description: $description }) {
+    id
+    title
+    description
+  }
+}
+
+mutation UpdateNote($id: ID!, $title: String!, $description: String) {
+  updateNote(input: { id: $id, title: $title, description: $description }) {
+    id
+    title
+    description
+  }
+}
+
+mutation DeleteNote($id: ID!) {
+  deleteNote(input: { id: $id }) {
+    id
+  }
+}

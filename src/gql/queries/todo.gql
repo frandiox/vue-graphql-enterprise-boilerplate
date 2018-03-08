@@ -1,9 +1,0 @@
-query listTodos {
-  listTodos {
-    items {
-      id
-      name
-      completed
-    }
-  }
-}

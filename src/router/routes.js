@@ -7,6 +7,11 @@ export default [
     component: require('@views/home').default,
   },
   {
+    path: '/create-note',
+    name: 'create-note',
+    component: require('@views/create-note').default,
+  },
+  {
     path: '/login',
     name: 'login',
     component: require('@views/login').default,

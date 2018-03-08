@@ -11,6 +11,10 @@ export default {
           name: 'home',
           title: 'Home',
         },
+        {
+          name: 'create-note',
+          title: 'New note',
+        },
       ],
       loggedInNavRoutes: [
         {
