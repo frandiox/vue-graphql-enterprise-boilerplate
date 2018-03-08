@@ -8,7 +8,7 @@ module.exports = {
     name: appConfig.title,
     // Set up all the aliases we use in our app.
     resolve: {
-      extensions: ['/index.vue'],
+      extensions: ['/index.vue', '.gql', '.graphql'],
       alias: require('./aliases.config').webpack,
     },
     plugins: [
