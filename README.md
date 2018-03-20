@@ -6,6 +6,10 @@
 
 **:warning: This project uses Vue CLI 3, which is currently in beta so may not yet be appropriate for production projects.**
 
+## Intro
+
+This template is based on the [`vue-enterprise-boilerplate` project](https://github.com/chrisvfritz/vue-enterprise-boilerplate) made by [Chris Fritz](https://github.com/chrisvfritz). This repo includes some extra opinionated features such as components inside folders and GraphQL generators.
+
 ## Features
 
 * [**Thorough documentation**](#documentation): Written with the same care as Vue's core docs to quickly train new team members and consolidate knowledge.
