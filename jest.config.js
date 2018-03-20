@@ -12,12 +12,11 @@ module.exports = {
   testMatch: ['**/(*.)unit.js'],
   moduleFileExtensions: ['js', 'jsx', 'json', 'vue'],
   transform: {
-    '^.+\\.vue$': 'vue-jest',
+    '.*\\.(vue)$': 'vue-jest',
     '^.+\\.jsx?$': 'babel-jest',
   },
   moduleNameMapper: require('./aliases.config').jest,
   snapshotSerializers: ['jest-serializer-vue'],
-  collectCoverage: true,
   coverageDirectory: '<rootDir>/tests/unit/coverage',
   collectCoverageFrom: [
     'src/**/*.{js,vue}',
@@ -36,4 +35,11 @@ module.exports = {
   // Solves: https://stackoverflow.com/questions/42677387/jest-returns-network-error-when-doing-an-authenticated-request-with-axios
   testURL:
     process.env.API_BASE_URL || `http://localhost:${process.env.MOCK_API_PORT}`,
+  globals: {
+    'vue-jest': {
+      resources: {
+        scss: ['./src/design/index.scss'],
+      },
+    },
+  },
 }

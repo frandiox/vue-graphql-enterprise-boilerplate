@@ -18,9 +18,6 @@ module.exports = {
     // This option does not affect *.vue files.
     modules: true,
   },
-  // Split dependencies into their own bundle.
-  // https://github.com/vuejs/vue-cli/blob/dev/docs/cli-service.md#dll-mode
-  dll: true,
   // Configure Webpack's dev server.
   // https://github.com/vuejs/vue-cli/blob/dev/docs/cli-service.md
   devServer: {

@@ -9,12 +9,22 @@ module.exports = {
       },
     ],
   ],
+  plugins: [
+    // Support async/await
+    // https://babeljs.io/docs/plugins/transform-runtime/
+    [
+      '@babel/transform-runtime',
+      { helpers: true, polyfill: false, regenerator: true },
+    ],
+  ],
   env: {
     test: {
       presets: [
         [
           '@vue/app',
           {
+            // Enable Babel's polyfills for Jest tests
+            useBuiltIns: 'usage',
             // Use CommonJS modules for Jest tests
             modules: 'commonjs',
           },
