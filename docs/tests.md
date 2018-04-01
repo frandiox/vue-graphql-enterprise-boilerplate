@@ -74,7 +74,24 @@ yarn dev:e2e
 
 ### Introduction to Cypress
 
-I recommend checking out our Cypress tests in `tests/e2e/specs`, then reading through [the _Core Concepts_](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html#Cypress-Is-Simple) in the Cypress docs, which are fantastic. This section will be pretty short, because I can't offer much improvement over what you'll see there.
+Cypress offers many advantages over other test frameworks, including the abilities to:
+
+* Travel through time to dissect the source of a problem when a test fails
+* Automatically record video and screenshots of your tests
+* Easily test in a wide range of screen sizes
+
+And much more! I recommend checking out our Cypress tests in `tests/e2e/specs`, then reading through at least these sections of the excellent Cypress docs:
+
+* [Core Concepts](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html#Cypress-Is-Simple)
+* [Best Practices](https://docs.cypress.io/guides/references/best-practices.html)
+
+Beyond that, also know that you can access our app in Cypress on the `window`. For example, to dispatch a Vuex action that sets up some state:
+
+```js
+cy.window().then(window => {
+  return window.__app__.$store.dispatch('someModule/someAction')
+})
+```
 
 ## The mock API
 
@@ -89,7 +106,7 @@ The mock API is an [Express](https://expressjs.com/) server in `tests/mock-api` 
 
 ### Testing/developing against a real server
 
-In some situations, you might prefer to test against a local server while developing, or maybe just during continuous integration. To do so, you can run any development or test command with the `API_BASE_URL` environment variable:
+In some situations, you might prefer to test against a local server while developing, or maybe just during continuous integration. To do so, you can run any development or test command with the `API_BASE_URL` environment variable. For example:
 
 ```sh
 API_BASE_URL=http://localhost:3000 yarn test

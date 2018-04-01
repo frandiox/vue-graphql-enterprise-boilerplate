@@ -6,11 +6,13 @@ to: "<%
 %>src/<%= path %>components/<%= base %><%= folder ? (d(name) + '/index') : d(name) %>.unit.js"
 ---
 <%
-  const componentName = h.inflection.dasherize(name)
-  const importName = h.inflection.camelize(componentName.replace(/-/g, '_'))
-%>import <%= importName %> from './<%= folder ? 'index' : componentName %>'
+  const fileName =
+    (h.inflection.dasherize(name).toLowerCase().slice(0, 5) === 'base-' ? '_' : '') +
+    h.inflection.dasherize(name)
+  const importName = h.inflection.camelize(fileName.replace(/-/g, '_'))
+%>import <%= importName %> from './<%= folder ? 'index' : fileName %>'
 
-describe('@components/<%= componentName %>', () => {
+describe('@components/<%= fileName %>', () => {
   it('exports a valid component', () => {
     expect(<%= importName %>).toBeAComponent()
   })
