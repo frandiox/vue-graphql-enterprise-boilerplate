@@ -11,6 +11,16 @@ module.exports = {
       extensions: ['/index.vue', '.gql', '.graphql'],
       alias: require('./aliases.config').webpack,
     },
+    // Add gql loader
+    module: {
+      rules: [
+        {
+          test: /\.(graphql|gql)$/,
+          exclude: /node_modules/,
+          use: 'graphql-tag/loader',
+        },
+      ],
+    },
     plugins: [
       // Optionally produce a bundle analysis
       // TODO: Remove once this feature is built into Vue CLI
