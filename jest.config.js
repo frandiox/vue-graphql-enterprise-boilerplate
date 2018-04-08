@@ -10,10 +10,10 @@ module.exports = {
   globalTeardown: '<rootDir>/tests/unit/global-teardown',
   setupTestFrameworkScriptFile: '<rootDir>/tests/unit/matchers',
   testMatch: ['**/(*.)unit.js'],
-  moduleFileExtensions: ['js', 'jsx', 'json', 'vue', 'gql', 'graphql'],
+  moduleFileExtensions: ['js', 'json', 'vue', 'gql', 'graphql'],
   transform: {
-    '.*\\.(vue)$': 'vue-jest',
-    '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.vue$': 'vue-jest',
+    '^.+\\.js$': 'babel-jest',
     '\\.(gql|graphql)$': 'jest-transform-graphql',
   },
   moduleNameMapper: require('./aliases.config').jest,

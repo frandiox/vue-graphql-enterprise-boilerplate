@@ -33,6 +33,8 @@ node _start.js
 
 # 4. Delete the start script, as there can be only one beginning.
 rm _start.js
+
+# 5. Read the documentation linked below for "Setup and development".
 ```
 
 ## Documentation
@@ -48,6 +50,7 @@ This project includes a `docs` folder with more details on:
 1.  [Linting and formatting](docs/linting.md)
 1.  [Editor integration](docs/editors.md)
 1.  [Building and deploying to production](docs/production.md)
+1.  [Troubleshooting](docs/troubleshooting.md)
 
 ## FAQ
 
