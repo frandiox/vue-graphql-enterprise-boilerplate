@@ -1,20 +1,35 @@
+// Globally register all base components for convenience, because they
+// will be used very frequently. Components are registered using the
+// PascalCased version of their filename.
+
 import Vue from 'vue'
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 
-// Globally register all base components, because they
-// will be used very frequently.
-const requireComponent = require.context('.', true, /[\w-]+\.vue$/)
+// https://webpack.js.org/guides/dependency-management/#require-context
+const requireComponent = require.context(
+  // Look for files in the current directory
+  '.',
+  // Look in subdirectories
+  true,
+  // Any .vue file
+  /[\w-]+\.vue$/
+)
+
+// For each matching filename...
 requireComponent.keys().forEach(fileName => {
+  // Get the component config
   const componentConfig = requireComponent(fileName)
+  // Get the PascalCase version of the component name
   const componentName = upperFirst(
     camelCase(
       fileName
-        .replace(/^\.\//, '')
+        // Remove the "./_" from the beginning
+        .replace(/^\.\/_/, '')
+        // Remove the file extension from the end
         .replace(/\.\w+$/, '')
-        .replace(/\/\w+$/, '')
     )
   )
-
+  // Globally register the component
   Vue.component(componentName, componentConfig.default || componentConfig)
 })
