@@ -1,5 +1,3 @@
-import store from '@state/store'
-
 export default [
   {
     path: '/',
@@ -11,14 +9,15 @@ export default [
     name: 'login',
     component: () => lazyLoadView(import('@views/login')),
     beforeEnter(routeTo, routeFrom, next) {
+      next() // TODO
       // If the user is already logged in
-      if (store.getters['auth/loggedIn']) {
-        // Redirect to the home page instead
-        next({ name: 'home' })
-      } else {
-        // Continue to the login page
-        next()
-      }
+      // if (store.getters['auth/loggedIn']) {
+      //   // Redirect to the home page instead
+      //   next({ name: 'home' })
+      // } else {
+      //   // Continue to the login page
+      //   next()
+      // }
     },
   },
   {
@@ -28,7 +27,7 @@ export default [
     meta: {
       authRequired: true,
     },
-    props: route => ({ user: store.state.auth.currentUser }),
+    // props: route => ({ user: store.state.auth.currentUser }), // TODO
   },
   {
     path: '/profile/:username',
@@ -38,21 +37,22 @@ export default [
       authRequired: true,
     },
     beforeEnter(routeTo, routeFrom, next) {
-      store
-        // Try to fetch the user's information by their username
-        .dispatch('users/fetchUser', { username: routeTo.params.username })
-        .then(user => {
-          // Add the user to the route params, so that it can
-          // be provided as a prop for the view component below.
-          routeTo.params.user = user
-          // Continue to the route.
-          next()
-        })
-        .catch(() => {
-          // If a user with the provided username could not be
-          // found, redirect to the 404 page.
-          next({ name: '404', params: { resource: 'User' } })
-        })
+      next() // TODO
+      // store
+      //   // Try to fetch the user's information by their username
+      //   .dispatch('users/fetchUser', { username: routeTo.params.username })
+      //   .then(user => {
+      //     // Add the user to the route params, so that it can
+      //     // be provided as a prop for the view component below.
+      //     routeTo.params.user = user
+      //     // Continue to the route.
+      //     next()
+      //   })
+      //   .catch(() => {
+      //     // If a user with the provided username could not be
+      //     // found, redirect to the 404 page.
+      //     next({ name: '404', params: { resource: 'User' } })
+      //   })
     },
     // Set the user from the route params, once it's set in the
     // beforeEnter route guard.
@@ -65,12 +65,13 @@ export default [
       authRequired: true,
     },
     beforeEnter(routeTo, routeFrom, next) {
-      store.dispatch('auth/logOut')
-      const authRequiredOnPreviousRoute = routeFrom.matched.some(
-        route => route.meta.authRequired
-      )
-      // Navigate back to previous page, or home as a fallback
-      next(authRequiredOnPreviousRoute ? { name: 'home' } : { ...routeFrom })
+      next() // TODO
+      // store.dispatch('auth/logOut')
+      // const authRequiredOnPreviousRoute = routeFrom.matched.some(
+      //   route => route.meta.authRequired
+      // )
+      // // Navigate back to previous page, or home as a fallback
+      // next(authRequiredOnPreviousRoute ? { name: 'home' } : { ...routeFrom })
     },
   },
   {

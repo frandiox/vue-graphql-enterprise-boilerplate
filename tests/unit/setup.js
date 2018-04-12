@@ -1,8 +1,6 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
 import fs from 'fs'
 import path from 'path'
-import axios from 'axios'
 
 // ===
 // Utility functions
@@ -110,43 +108,6 @@ global.createComponentMocks = ({ store, router, style, mocks, stubs }) => {
   // https://vue-test-utils.vuejs.org/en/api/options.html#mocks
   returnOptions.mocks = mocks || {}
 
-  // Converts a `store` option shaped like:
-  //
-  // store: {
-  //   someModuleName: {
-  //     state: { ... },
-  //     getters: { ... },
-  //     actions: { ... },
-  //   },
-  //   anotherModuleName: {
-  //     getters: { ... },
-  //   },
-  // },
-  //
-  // to a store instance, with each module namespaced by
-  // default, just like in our app.
-  if (store) {
-    localVue.use(Vuex)
-    returnOptions.store = new Vuex.Store({
-      modules: Object.keys(store)
-        .map(moduleName => {
-          const storeModule = store[moduleName]
-          return {
-            [moduleName]: {
-              state: storeModule.state || {},
-              getters: storeModule.getters || {},
-              actions: storeModule.actions || {},
-              namespaced:
-                typeof storeModule.namespaced === 'undefined'
-                  ? true
-                  : storeModule.namespaced,
-            },
-          }
-        })
-        .reduce((moduleA, moduleB) => Object.assign({}, moduleA, moduleB), {}),
-    })
-  }
-
   // If using `router: true`, we'll automatically stub out
   // components from Vue Router.
   if (router) {
@@ -160,26 +121,4 @@ global.createComponentMocks = ({ store, router, style, mocks, stubs }) => {
   }
 
   return returnOptions
-}
-
-global.createModuleStore = (vuexModule, options = {}) => {
-  vueTestUtils.createLocalVue().use(Vuex)
-  const store = new Vuex.Store({
-    ..._.cloneDeep(vuexModule),
-    modules: {
-      auth: {
-        namespaced: true,
-        state: {
-          currentUser: options.currentUser,
-        },
-      },
-    },
-  })
-  axios.defaults.headers.common.Authorization = options.currentUser
-    ? options.currentUser.token
-    : ''
-  if (vuexModule.actions.init) {
-    store.dispatch('init')
-  }
-  return store
 }

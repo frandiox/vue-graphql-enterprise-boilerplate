@@ -1,6 +1,5 @@
 <script>
 import Layout from '@layouts/main'
-import { authMethods } from '@state/helpers'
 import appConfig from '@src/app.config'
 
 export default {
@@ -18,25 +17,24 @@ export default {
     }
   },
   methods: {
-    ...authMethods,
     // Try to log the user in with the username
     // and password they provided.
     tryToLogIn() {
       this.tryingToLogIn = true
       // Reset the authError if it existed.
       this.authError = null
-      return this.logIn({
-        username: this.username,
-        password: this.password,
-      })
-        .then(token => {
-          this.tryingToLogIn = false
-          this.$router.push({ name: 'home' })
-        })
-        .catch(error => {
-          this.tryingToLogIn = false
-          this.authError = error
-        })
+      // return this.logIn({
+      //   username: this.username,
+      //   password: this.password,
+      // })
+      //   .then(token => {
+      //     this.tryingToLogIn = false
+      //     this.$router.push({ name: 'home' })
+      //   })
+      //   .catch(error => {
+      //     this.tryingToLogIn = false
+      //     this.authError = error
+      //   })
     },
   },
 }
