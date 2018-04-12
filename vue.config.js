@@ -1,4 +1,5 @@
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const Dotenv = require('dotenv-webpack')
 const appConfig = require('./src/app.config')
 
 module.exports = {
@@ -12,6 +13,8 @@ module.exports = {
       alias: require('./aliases.config').webpack,
     },
     plugins: [
+      // Add environment variables from .env
+      new Dotenv(),
       // Optionally produce a bundle analysis
       // TODO: Remove once this feature is built into Vue CLI
       new BundleAnalyzerPlugin({

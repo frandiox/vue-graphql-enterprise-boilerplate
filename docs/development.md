@@ -21,6 +21,8 @@ Then update the following files to suit your application:
 * `src/app.config.js` (provides metadata about your app)
 * `.circleci/config.yml` (assuming you want to automatically [deploy to production](production.md) with continuous integration)
 
+Optionally, add your environment variables to a `.env` file and they will be included in `process.env` by Webpack.
+
 ## Installation
 
 ```sh
