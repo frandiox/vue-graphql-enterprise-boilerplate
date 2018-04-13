@@ -14,7 +14,7 @@ const options = {
     subscription: process.env.GRAPHQL_SUBSCRIPTIONS_PATH || '/graphql',
   },
   persisting: false,
-  subscriptions: true,
+  subscriptions: false,
 }
 
 // Create apollo client
