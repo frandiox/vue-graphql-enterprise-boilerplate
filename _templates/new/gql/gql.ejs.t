@@ -1,7 +1,7 @@
 ---
 to: "<%
-  const path = view ? `router/views/${h.inflection.dasherize(view)}/` : '';
-%>src/<%= path %>gql/<%= h.inflection.dasherize(name) %>.gql"
+  const path = view ? `router/views/${h.inflection.dasherize(view)}/` : 'state/';
+%>src/<%= path %>graphql/<%= h.inflection.dasherize(name) %>.gql"
 ---
 <%
   const camelName = h.inflection.camelize(name)
