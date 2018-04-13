@@ -8,6 +8,9 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import { createPersistedQueryLink } from 'apollo-link-persisted-queries'
 import { setContext } from 'apollo-link-context'
+import { withClientState } from 'apollo-link-state'
+import resolvers from '@state/resolvers'
+import defaults from '@state/defaults'
 
 function getAuth() {
   // get the authentication token from local storage if it exists
@@ -117,6 +120,14 @@ export default function createApolloClient({
   } else {
     // On the server, we don't want WebSockets and Upload links
   }
+
+  const stateLink = withClientState({
+    cache,
+    resolvers,
+    defaults,
+  })
+
+  link = stateLink.concat(link)
 
   const apolloClient = new ApolloClient({
     link,
