@@ -4,7 +4,7 @@
   * [Polyfills](#polyfills)
   * [Vue](#vue)
   * [Vue Router](#vue-router)
-  * [Vuex (state management)](#vuex-state-management)
+  * [Apollo (state management)](#apollo-state-management)
   * [JavaScript FAQ](#javascript-faq)
 * [HTML](#html)
   * [Templates](#templates)
@@ -46,9 +46,11 @@ Since Vue is such a huge part of our app, I strongly recommend everyone read thr
 
 To understand how to manage pages with Vue Router, I recommend reading through the _Essentials_ of [those docs](https://router.vuejs.org/en/essentials/getting-started.html). Then you can read more about [routing in this application](routing.md).
 
-### Vuex (state management)
+### Apollo (state management)
 
-To wrap your head around our state management, I recommend reading through [those docs](https://vuex.vuejs.org/en/intro.html), starting at _What is Vuex?_ and stopping before _Application Architecture_. Then skip down and read [_Form Handling_](https://vuex.vuejs.org/en/forms.html) and [_Testing_](https://vuex.vuejs.org/en/testing.html). Finally, read about [state management in this application](state.md).
+Both `apollo-client` and `vue-apollo` are included for state management through GraphQL. Have a look first at [Apollo Client introduction](https://www.apollographql.com/docs/) and then at [Vue Apollo integration docs](https://github.com/akryum/vue-apollo).
+
+On top of that, `apollo-link-state` is used for local state management. Read about [state management in this application](state.md).
 
 ### JavaScript FAQ
 

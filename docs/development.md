@@ -21,7 +21,7 @@ Then update the following files to suit your application:
 * `src/app.config.js` (provides metadata about your app)
 * `.circleci/config.yml` (assuming you want to automatically [deploy to production](production.md) with continuous integration)
 
-Optionally, add your environment variables to a `.env` file and they will be included in `process.env` by Webpack.
+Optionally, add your environment variables (such as `GRAPHQL_ENDPOINT`) to a `.env` file and they will be included in `process.env` by Webpack.
 
 ## Installation
 
@@ -71,14 +71,14 @@ yarn new view
 # Generate a new layout component with adjacent unit test
 yarn new layout
 
-# Generate a new Vuex module with adjacent unit test
-yarn new module
-
 # Generate a new utility function with adjacent unit test
 yarn new util
 
 # Generate a new end-to-end spec
 yarn new e2e
+
+# Generate a new GraphQL query/mutation
+yarn new gql
 ```
 
 Update existing or create new generators in the `_templates` folder, with help from the [Hygen docs](http://www.hygen.io/).

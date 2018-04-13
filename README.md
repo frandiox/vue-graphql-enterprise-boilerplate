@@ -8,7 +8,7 @@
 
 ## Intro
 
-This template is based on the [`vue-enterprise-boilerplate` project](https://github.com/chrisvfritz/vue-enterprise-boilerplate) made by [Chris Fritz](https://github.com/chrisvfritz). This repo includes some extra opinionated features such as components inside folders and GraphQL generators.
+This template is based on the [`vue-enterprise-boilerplate` project](https://github.com/chrisvfritz/vue-enterprise-boilerplate) made by [Chris Fritz](https://github.com/chrisvfritz). This repo includes some extra opinionated features such as components inside folders and GraphQL integration with Apollo.
 
 ## Features
 
