@@ -8,13 +8,17 @@
     "e2e": "vue-cli-service e2e",
     "lint":
       "eslint --ext .js,.vue --fix . && stylelint --fix \"src/**/*.vue\" \"src/**/*.scss\" && markdownlint docs/*.md *.md && prettier --list-different --write \"**/*.{js,json,css,scss,vue,md}\"",
-    "dev": "vue-cli-service serve",
+    "dev": "npm-run-all --parallel dev:back dev:front",
+    "dev:front": "vue-cli-service serve",
+    "dev:back": "cd server && yarn start",
     "dev:e2e": "vue-cli-service e2e:open --mode=development",
     "unit:watch": "yarn unit --watch --notify --notifyMode change",
     "build:ci": "cross-env ANALYZE=true yarn build",
     "new": "hygen new",
     "test:ci": "yarn lint && yarn unit --coverage --ci && yarn e2e",
-    "unit": "vue-cli-service test \\.unit\\.js$"
+    "unit": "vue-cli-service test \\.unit\\.js$",
+    "prisma": "cd server && yarn prisma",
+    "playground": "cd server && yarn playground"
   },
   "dependencies": {
     "@fortawesome/fontawesome": "1.1.4",
@@ -52,6 +56,7 @@
     "@vue/test-utils": "1.0.0-beta.12",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "22.4.x",
+    "babel-loader": "^8.0.0-beta.2",
     "cross-env": "5.1.x",
     "eslint-plugin-graphql": "^1.5.0",
     "express": "4.16.x",
@@ -79,7 +84,8 @@
     "pre-commit": "PRE_COMMIT=true lint-staged"
   },
   "engines": {
-    "node": ">=8.9.0",
-    "yarn": ">=1.0.0"
-  }
+    "node": ">=9.0.0",
+    "yarn": ">=1.5.0"
+  },
+  "workspaces": ["server"]
 }
