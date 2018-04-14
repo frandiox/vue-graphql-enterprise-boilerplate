@@ -8,10 +8,10 @@ Vue.use(VueApollo)
 // Config
 const options = {
   ssr: false,
-  base: process.env.GRAPHQL_ENDPOINT || 'http://localhost:4000',
+  base: process.env.VUE_APP_GRAPHQL_ENDPOINT || 'http://localhost:4000',
   endpoints: {
-    graphql: process.env.GRAPHQL_PATH || '/graphql',
-    subscription: process.env.GRAPHQL_SUBSCRIPTIONS_PATH || '/graphql',
+    graphql: process.env.VUE_APP_GRAPHQL_PATH || '/graphql',
+    subscription: process.env.VUE_APP_GRAPHQL_SUBSCRIPTIONS_PATH || '/graphql',
   },
   persisting: false,
   subscriptions: false,

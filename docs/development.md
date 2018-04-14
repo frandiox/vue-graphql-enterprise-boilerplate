@@ -21,7 +21,7 @@ Then update the following files to suit your application:
 * `src/app.config.js` (provides metadata about your app)
 * `.circleci/config.yml` (assuming you want to automatically [deploy to production](production.md) with continuous integration)
 
-Optionally, add your environment variables (such as `GRAPHQL_ENDPOINT`) to a `.env` file and they will be included in `process.env` by Webpack.
+Optionally, add your environment variables (such as `VUE_APP_GRAPHQL_ENDPOINT`) to a `.env` file and they will be included in `process.env` by Webpack. More info in [Vue CLI docs](https://github.com/vuejs/vue-cli/blob/dev/docs/env.md)
 
 ## Installation
 

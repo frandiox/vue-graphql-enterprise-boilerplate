@@ -12,7 +12,6 @@ node_modules/
 /tests/unit/coverage/
 
 # Local Env Files
-.env
 .env.local
 .env.*.local
 
