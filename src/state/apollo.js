@@ -9,8 +9,8 @@ import { getMainDefinition } from 'apollo-utilities'
 import { createPersistedQueryLink } from 'apollo-link-persisted-queries'
 import { setContext } from 'apollo-link-context'
 import { withClientState } from 'apollo-link-state'
-import resolvers from '@state/resolvers'
-import defaults from '@state/defaults'
+import resolvers from '@state/local/resolvers'
+import defaults from '@state/local/defaults'
 
 function getAuth() {
   // get the authentication token from local storage if it exists
