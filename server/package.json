@@ -20,6 +20,7 @@
     "dotenv": "5.0.1",
     "express-jwt": "^5.3.1",
     "graphql-cli": "2.15.9",
+    "jwks-rsa": "^1.2.1",
     "nodemon": "1.17.3",
     "npm-run-all": "^4.1.2",
     "prisma": "1.6.0"
