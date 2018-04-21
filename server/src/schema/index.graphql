@@ -1,0 +1,26 @@
+# import {} from "./directives.graphql"
+# import {} from "./inputs.graphql"
+# import {} from "./types.graphql"
+
+type Query {
+  feed: [Post!]!
+  drafts: [Post!]! @isAuthenticated
+  post(id: ID!): Post
+  me: User @isAuthenticated
+}
+
+type Mutation {
+  authenticate(idToken: String!): User!
+  createDraft(title: String!, text: String!): Post! @isAuthenticated
+  publish(id: ID!): Post! @isAuthenticated
+  deletePost(id: ID!): Post! @isAuthenticated
+}
+
+type Subscription {
+  feedSubscription: PostSubscriptionPayload!
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}

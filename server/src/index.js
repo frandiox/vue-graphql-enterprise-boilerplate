@@ -5,6 +5,7 @@ const verifyAccessToken = require('./middleware/verifyAccessToken')
 const getUserFromDB = require('./middleware/getUserFromDB')
 
 const resolvers = require('./resolvers')
+const directiveResolvers = require('./directives')
 
 const db = new Prisma({
   typeDefs: 'src/generated/prisma.graphql', // the Prisma DB schema
@@ -14,8 +15,9 @@ const db = new Prisma({
 })
 
 const server = new GraphQLServer({
-  typeDefs: 'src/schema.graphql',
+  typeDefs: 'src/schema/index.graphql',
   resolvers,
+  directiveResolvers,
   context: req => ({
     ...req,
     db,
