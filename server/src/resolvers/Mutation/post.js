@@ -1,8 +1,6 @@
-const { getUserId } = require('../../utils')
-
-const post = {
+module.exports = {
   async createDraft(parent, { title, text }, ctx, info) {
-    const userId = getUserId(ctx)
+    const userId = ctx.request.user.id
     return ctx.db.mutation.createPost(
       {
         data: {
@@ -19,7 +17,7 @@ const post = {
   },
 
   async publish(parent, { id }, ctx, info) {
-    const userId = getUserId(ctx)
+    const userId = ctx.request.user.id
     const postExists = await ctx.db.exists.Post({
       id,
       author: { id: userId },
@@ -38,7 +36,7 @@ const post = {
   },
 
   async deletePost(parent, { id }, ctx, info) {
-    const userId = getUserId(ctx)
+    const userId = ctx.request.user.id
     const postExists = await ctx.db.exists.Post({
       id,
       author: { id: userId },
@@ -50,5 +48,3 @@ const post = {
     return ctx.db.mutation.deletePost({ where: { id } })
   },
 }
-
-module.exports = { post }

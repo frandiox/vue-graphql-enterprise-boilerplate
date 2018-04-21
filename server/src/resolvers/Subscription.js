@@ -1,4 +1,4 @@
-const Subscription = {
+module.exports = {
   feedSubscription: {
     subscribe: (parent, args, ctx, info) => {
       return ctx.db.subscription.post({}, info)
@@ -26,5 +26,3 @@ const Subscription = {
 //     },
 //   },
 // }
-
-module.exports = { Subscription }
