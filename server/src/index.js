@@ -1,20 +1,43 @@
 const { GraphQLServer } = require('graphql-yoga')
 const { Prisma } = require('prisma-binding')
+
+const verifyAccessToken = require('./middleware/verifyAccessToken')
+const getUserFromDB = require('./middleware/getUserFromDB')
+
 const resolvers = require('./resolvers')
+
+const db = new Prisma({
+  typeDefs: 'src/generated/prisma.graphql', // the Prisma DB schema
+  endpoint: process.env.PRISMA_ENDPOINT, // the endpoint of the Prisma DB service (value is set in .env)
+  secret: process.env.PRISMA_SECRET, // taken from database/prisma.yml (value is set in .env)
+  debug: true, // log all GraphQL queries & mutations
+})
 
 const server = new GraphQLServer({
   typeDefs: 'src/schema.graphql',
   resolvers,
   context: req => ({
     ...req,
-    db: new Prisma({
-      typeDefs: 'src/generated/prisma.graphql', // the Prisma DB schema
-      endpoint: process.env.PRISMA_ENDPOINT, // the endpoint of the Prisma DB service (value is set in .env)
-      secret: process.env.PRISMA_SECRET, // taken from database/prisma.yml (value is set in .env)
-      debug: true, // log all GraphQL queries & mutations
-    }),
+    db,
   }),
 })
+
+// Verify and expose token information in req.user
+server.express.post(
+  server.options.endpoint,
+  verifyAccessToken,
+  (err, req, res, next) => {
+    if (err) {
+      return res.status(401).send(err.message)
+    }
+    next()
+  }
+)
+
+// Transform req.user to real DB user
+server.express.post(server.options.endpoint, (req, res, next) =>
+  getUserFromDB(req, res, next, db)
+)
 
 server.start(
   {
