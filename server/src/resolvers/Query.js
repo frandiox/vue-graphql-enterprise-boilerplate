@@ -1,12 +1,10 @@
-const { getUserId } = require('../utils')
-
 const Query = {
   feed(parent, args, ctx, info) {
     return ctx.db.query.posts({ where: { isPublished: true } }, info)
   },
 
   drafts(parent, args, ctx, info) {
-    const id = getUserId(ctx)
+    const id = ctx.request.user.id
 
     const where = {
       isPublished: false,
@@ -23,7 +21,7 @@ const Query = {
   },
 
   me(parent, args, ctx, info) {
-    const id = getUserId(ctx)
+    const id = ctx.request.user.id
     return ctx.db.query.user({ where: { id } }, info)
   },
 }
