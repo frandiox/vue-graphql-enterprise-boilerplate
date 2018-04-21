@@ -25,7 +25,7 @@ disableAuth: true
 # you don't need to generate the JWTs manually as the library is doing that for you
 # (this is why you're passing it to the `Prisma` constructor).
 # Here, the secret is loaded as an environment variable from .env.
-secret: ${env:PRISMA_SECRET}
+# secret: ${env:PRISMA_SECRET}
 
 # OPTIONAL
 # Defines how to seed data to the database upon the initial deploy.
