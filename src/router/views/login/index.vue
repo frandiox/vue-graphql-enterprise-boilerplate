@@ -1,7 +1,7 @@
 <script>
 import Layout from '@layouts/main'
 import appConfig from '@src/app.config'
-import { authorizeSelf } from '@src/api/auth'
+import { authorizeSelf } from '@services/auth'
 
 export default {
   page: {
@@ -18,28 +18,18 @@ export default {
     }
   },
   methods: {
-    logIn(loginInfo) {
-      authorizeSelf(loginInfo.username, loginInfo.password)
-    },
-
     // Try to log the user in with the username
     // and password they provided.
-    tryToLogIn() {
-      this.tryingToLogIn = true
+    logIn() {
       // Reset the authError if it existed.
       this.authError = null
-      return this.logIn({
-        username: this.username,
-        password: this.password,
+      this.tryingToLogIn = true
+
+      // This redirects to home page
+      return authorizeSelf(this.username, this.password).catch(error => {
+        this.tryingToLogIn = false
+        this.authError = error
       })
-      //   .then(token => {
-      //     this.tryingToLogIn = false
-      //     this.$router.push({ name: 'home' })
-      //   })
-      //   .catch(error => {
-      //     this.tryingToLogIn = false
-      //     this.authError = error
-      //   })
     },
   },
 }
@@ -49,7 +39,7 @@ export default {
   <Layout>
     <form
       :class="$style.form"
-      @submit.prevent="tryToLogIn"
+      @submit.prevent="logIn"
     >
       <BaseInput
         v-model="username"

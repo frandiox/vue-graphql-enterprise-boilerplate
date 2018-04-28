@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './app'
 import router from '@router'
 import '@components/globals'
-import { tryToLogIn } from '@src/api/auth'
+import { tryToLogIn } from '@services/auth'
 
 import { apolloProvider } from '@state/vue-apollo'
 
