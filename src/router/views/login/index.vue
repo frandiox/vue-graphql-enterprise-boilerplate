@@ -1,6 +1,7 @@
 <script>
 import Layout from '@layouts/main'
 import appConfig from '@src/app.config'
+import { authorizeSelf } from '@src/api/auth'
 
 export default {
   page: {
@@ -17,16 +18,20 @@ export default {
     }
   },
   methods: {
+    logIn(loginInfo) {
+      authorizeSelf(loginInfo.username, loginInfo.password)
+    },
+
     // Try to log the user in with the username
     // and password they provided.
     tryToLogIn() {
       this.tryingToLogIn = true
       // Reset the authError if it existed.
       this.authError = null
-      // return this.logIn({
-      //   username: this.username,
-      //   password: this.password,
-      // })
+      return this.logIn({
+        username: this.username,
+        password: this.password,
+      })
       //   .then(token => {
       //     this.tryingToLogIn = false
       //     this.$router.push({ name: 'home' })
