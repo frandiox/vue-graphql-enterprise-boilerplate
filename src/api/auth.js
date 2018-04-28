@@ -118,7 +118,7 @@ const getUserInfo = accessToken => {
 
 const tryToLogIn = () => {
   if (!checkSession()) {
-    const hash = extractHash()
+    const hash = extractHash(window.location, window.history)
     if (hash.id_token && hash.access_token) {
       validateTokens(hash).then(authResult => {
         setSession(authResult)
