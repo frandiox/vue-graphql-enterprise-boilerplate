@@ -122,3 +122,6 @@ global.createComponentMocks = ({ store, router, style, mocks, stubs }) => {
 
   return returnOptions
 }
+
+// Add 'fetch' to Node for Jest
+global.fetch = require('jest-fetch-mock')

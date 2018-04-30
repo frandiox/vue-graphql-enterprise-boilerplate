@@ -64,6 +64,7 @@
     "graphql-tag": "^2.8.0",
     "hygen": "1.5.x",
     "imagemin-lint-staged": "0.3.x",
+    "jest-fetch-mock": "^1.5.0",
     "jest-transform-graphql": "^2.1.0",
     "lint-staged": "7.0.x",
     "markdownlint-cli": "0.8.x",
