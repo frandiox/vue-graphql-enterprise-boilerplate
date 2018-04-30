@@ -17,9 +17,10 @@ type Post implements Node {
 
 type User implements Node {
   id: ID!
+  auth0id: String!
+  identity: String!
   email: String!
-  password: String!
-  name: String!
+  name: String
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
 }
 
@@ -192,6 +193,10 @@ input PostSubscriptionWhereInput {
   """
   OR: [PostSubscriptionWhereInput!]
   """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [PostSubscriptionWhereInput!]
+  """
   The subscription event gets dispatched when it's listed in mutation_in
   """
   mutation_in: [MutationType!]
@@ -252,6 +257,10 @@ input PostWhereInput {
   Logical OR on all given filters.
   """
   OR: [PostWhereInput!]
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [PostWhereInput!]
   id: ID
   """
   All values that are not equal to given value.
@@ -518,9 +527,10 @@ type UserConnection {
 }
 
 input UserCreateInput {
+  auth0id: String!
+  identity: String!
   email: String!
-  password: String!
-  name: String!
+  name: String
   posts: PostCreateManyWithoutAuthorInput
 }
 
@@ -530,9 +540,10 @@ input UserCreateOneWithoutPostsInput {
 }
 
 input UserCreateWithoutPostsInput {
+  auth0id: String!
+  identity: String!
   email: String!
-  password: String!
-  name: String!
+  name: String
 }
 
 """
@@ -552,10 +563,12 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
+  auth0id_ASC
+  auth0id_DESC
+  identity_ASC
+  identity_DESC
   email_ASC
   email_DESC
-  password_ASC
-  password_DESC
   name_ASC
   name_DESC
   updatedAt_ASC
@@ -566,9 +579,10 @@ enum UserOrderByInput {
 
 type UserPreviousValues {
   id: ID!
+  auth0id: String!
+  identity: String!
   email: String!
-  password: String!
-  name: String!
+  name: String
 }
 
 type UserSubscriptionPayload {
@@ -587,6 +601,10 @@ input UserSubscriptionWhereInput {
   Logical OR on all given filters.
   """
   OR: [UserSubscriptionWhereInput!]
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [UserSubscriptionWhereInput!]
   """
   The subscription event gets dispatched when it's listed in mutation_in
   """
@@ -607,8 +625,9 @@ input UserSubscriptionWhereInput {
 }
 
 input UserUpdateInput {
+  auth0id: String
+  identity: String
   email: String
-  password: String
   name: String
   posts: PostUpdateManyWithoutAuthorInput
 }
@@ -622,8 +641,9 @@ input UserUpdateOneWithoutPostsInput {
 }
 
 input UserUpdateWithoutPostsDataInput {
+  auth0id: String
+  identity: String
   email: String
-  password: String
   name: String
 }
 
@@ -641,6 +661,10 @@ input UserWhereInput {
   Logical OR on all given filters.
   """
   OR: [UserWhereInput!]
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [UserWhereInput!]
   id: ID
   """
   All values that are not equal to given value.
@@ -694,6 +718,112 @@ input UserWhereInput {
   All values not ending with the given string.
   """
   id_not_ends_with: ID
+  auth0id: String
+  """
+  All values that are not equal to given value.
+  """
+  auth0id_not: String
+  """
+  All values that are contained in given list.
+  """
+  auth0id_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  auth0id_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  auth0id_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  auth0id_lte: String
+  """
+  All values greater than the given value.
+  """
+  auth0id_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  auth0id_gte: String
+  """
+  All values containing the given string.
+  """
+  auth0id_contains: String
+  """
+  All values not containing the given string.
+  """
+  auth0id_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  auth0id_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  auth0id_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  auth0id_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  auth0id_not_ends_with: String
+  identity: String
+  """
+  All values that are not equal to given value.
+  """
+  identity_not: String
+  """
+  All values that are contained in given list.
+  """
+  identity_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  identity_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  identity_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  identity_lte: String
+  """
+  All values greater than the given value.
+  """
+  identity_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  identity_gte: String
+  """
+  All values containing the given string.
+  """
+  identity_contains: String
+  """
+  All values not containing the given string.
+  """
+  identity_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  identity_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  identity_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  identity_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  identity_not_ends_with: String
   email: String
   """
   All values that are not equal to given value.
@@ -747,59 +877,6 @@ input UserWhereInput {
   All values not ending with the given string.
   """
   email_not_ends_with: String
-  password: String
-  """
-  All values that are not equal to given value.
-  """
-  password_not: String
-  """
-  All values that are contained in given list.
-  """
-  password_in: [String!]
-  """
-  All values that are not contained in given list.
-  """
-  password_not_in: [String!]
-  """
-  All values less than the given value.
-  """
-  password_lt: String
-  """
-  All values less than or equal the given value.
-  """
-  password_lte: String
-  """
-  All values greater than the given value.
-  """
-  password_gt: String
-  """
-  All values greater than or equal the given value.
-  """
-  password_gte: String
-  """
-  All values containing the given string.
-  """
-  password_contains: String
-  """
-  All values not containing the given string.
-  """
-  password_not_contains: String
-  """
-  All values starting with the given string.
-  """
-  password_starts_with: String
-  """
-  All values not starting with the given string.
-  """
-  password_not_starts_with: String
-  """
-  All values ending with the given string.
-  """
-  password_ends_with: String
-  """
-  All values not ending with the given string.
-  """
-  password_not_ends_with: String
   name: String
   """
   All values that are not equal to given value.
@@ -860,5 +937,6 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  auth0id: String
   email: String
 }

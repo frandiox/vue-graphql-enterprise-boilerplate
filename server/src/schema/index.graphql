@@ -1,6 +1,6 @@
-# import {} from "./directives.graphql"
-# import {} from "./inputs.graphql"
-# import {} from "./types.graphql"
+# import * from "./directives.graphql"
+# import * from "./inputs.graphql"
+# import * from "./types.graphql"
 
 type Query {
   feed: [Post!]!
