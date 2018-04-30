@@ -1,19 +1,25 @@
 const { AuthError } = require('../errors')
 
-const getUser = ({ request: { user } = {} }) => {
-  if (!user) throw new AuthError()
-  return user
+const getUser = ({ request: { user } = {} }) => user
+
+const hasRole = (roles, ctx) => {
+  const { role } = getUser(ctx) || {}
+  return role && roles.includes(role)
 }
 
 module.exports = {
   isAuthenticated(next, source, args, ctx) {
-    getUser(ctx)
-    return next()
+    if (getUser(ctx)) return next()
+    throw new AuthError('Access Token is missing or might be expired')
   },
 
   hasRole(next, source, { roles }, ctx) {
-    const { role } = getUser(ctx)
-    if (!roles.includes(role)) throw new AuthError()
-    return next()
+    if (hasRole(roles, ctx)) return next()
+    throw new AuthError('Insufficient permissions')
+  },
+
+  isAdmin(next, source, args, ctx) {
+    if (hasRole(['ADMIN'], ctx)) return next()
+    throw new AuthError('Insufficient permissions')
   },
 }
