@@ -21,7 +21,7 @@ module.exports = {
   },
 
   me(parent, args, ctx, info) {
-    const id = ctx.request.user.id
-    return ctx.db.query.user({ where: { id } }, info)
+    const { token, ...user } = ctx.request.user
+    return user
   },
 }
