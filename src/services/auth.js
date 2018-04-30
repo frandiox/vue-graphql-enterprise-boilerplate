@@ -1,5 +1,7 @@
 import auth0 from 'auth0-js'
+import { apolloClient } from '@state/vue-apollo'
 import extractHash from '@utils/extract-hash'
+import { Authenticate } from '@gql/User'
 
 const ACCESS_TOKEN = 'access_token'
 const ID_TOKEN = 'id_token'
@@ -18,6 +20,7 @@ const authConfig = {
 const webAuth = new auth0.WebAuth({
   ...authConfig,
   responseType: 'token id_token',
+  audience: `https://${authConfig.domain}/api/v2/`,
 })
 
 const isValidSession = () => {
@@ -35,9 +38,12 @@ const setSession = ({ expiresIn, accessToken, idToken }) => {
     EXPIRES_AT,
     JSON.stringify(expiresIn * 1000 + new Date().getTime())
   )
+
+  apolloClient.$onLogin(accessToken)
 }
 
 const clearSession = () => {
+  apolloClient.$onLogOut()
   // Clear access token and ID token from local storage
   return [ACCESS_TOKEN, ID_TOKEN, EXPIRES_AT].forEach(item =>
     localStorage.removeItem(item)
@@ -96,11 +102,27 @@ const getUserInfo = accessToken =>
     )
   )
 
-const tryToLogIn = () => {
+const tryToLogIn = async () => {
   if (!isValidSession()) {
     const hash = extractHash(window.location, window.history)
+
     if (hash.id_token && hash.access_token) {
-      validateTokens(hash).then(authResult => setSession(authResult))
+      try {
+        const authResult = await validateTokens(hash)
+
+        const {
+          data: { authenticate },
+        } = await apolloClient.mutate({
+          mutation: Authenticate,
+          variables: { idToken: authResult.idToken },
+        })
+
+        setSession(authResult)
+
+        console.log('Authenticated!', authenticate) // eslint-disable-line no-console
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 }
