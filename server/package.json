@@ -6,7 +6,7 @@
       "nodemon -e js,json,graphql,gql -x node -r dotenv/config src/index.js",
     "debug":
       "nodemon -e js,json,graphql,gql -x node --inspect -r dotenv/config src/index.js",
-    "playground": "graphql playground",
+    "playground": "graphql --dotenv .env playground",
     "dev": "npm-run-all --parallel start playground",
     "prisma": "prisma"
   },
