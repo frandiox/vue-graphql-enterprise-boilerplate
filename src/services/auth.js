@@ -23,11 +23,10 @@ const webAuth = new auth0.WebAuth({
   audience: `https://${authConfig.domain}/api/v2/`,
 })
 
-const isValidSession = () => {
-  return [ACCESS_TOKEN, ID_TOKEN, EXPIRES_AT].every(
+const isValidSession = () =>
+  [ACCESS_TOKEN, ID_TOKEN, EXPIRES_AT].every(
     item => localStorage.getItem(item) !== null
-  )
-}
+  ) && new Date().getTime() < JSON.parse(localStorage.getItem(EXPIRES_AT))
 
 const setSession = ({ expiresIn, accessToken, idToken }) => {
   localStorage.setItem(ACCESS_TOKEN, accessToken)
@@ -104,6 +103,8 @@ const getUserInfo = accessToken =>
 
 const tryToLogIn = async () => {
   if (!isValidSession()) {
+    clearSession()
+
     const hash = extractHash(window.location, window.history)
 
     if (hash.id_token && hash.access_token) {
