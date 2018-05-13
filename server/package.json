@@ -12,21 +12,21 @@
   },
   "dependencies": {
     "bcryptjs": "2.4.3",
-    "graphql-yoga": "1.8.5",
+    "graphql-yoga": "1.13.1",
     "jsonwebtoken": "8.2.1",
-    "prisma-binding": "1.5.17"
+    "prisma-binding": "~2.0.0"
   },
   "devDependencies": {
     "dotenv": "5.0.1",
     "express-jwt": "^5.3.1",
-    "graphql-cli": "2.15.9",
+    "graphql-cli": "~2.16.0",
     "jwks-rsa": "^1.2.1",
     "nodemon": "1.17.3",
     "npm-run-all": "^4.1.2",
-    "prisma": "1.6.0"
+    "prisma": "~1.8.0"
   },
   "engines": {
-    "node": ">=9.0.0",
+    "node": ">=8.0.0",
     "yarn": ">=1.5.0"
   }
 }
