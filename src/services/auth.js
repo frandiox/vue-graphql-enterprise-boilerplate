@@ -42,7 +42,7 @@ const setSession = ({ expiresIn, accessToken, idToken }) => {
 }
 
 const clearSession = () => {
-  apolloClient.$onLogOut()
+  apolloClient.$onLogout()
   // Clear access token and ID token from local storage
   return [ACCESS_TOKEN, ID_TOKEN, EXPIRES_AT].forEach(item =>
     localStorage.removeItem(item)
