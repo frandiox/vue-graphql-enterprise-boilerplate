@@ -18,6 +18,8 @@
     // Test `.unit.js` files on save with Jest
     "Orta.vscode-jest",
     // Lint markdown in README files
-    "DavidAnson.vscode-markdownlint"
+    "DavidAnson.vscode-markdownlint",
+    // GraphQL syntax highlighting, linting and auto-completion
+    "stpn.vscode-graphql"
   ]
 }

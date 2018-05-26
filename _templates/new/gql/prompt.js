@@ -5,9 +5,14 @@ module.exports = [
     message: 'Name:',
     validate(value) {
       if (!value.length) {
-        return 'Vuex modules must have a name.'
+        return 'GraphQL files must have a name.'
       }
       return true
     },
+  },
+  {
+    type: 'input',
+    name: 'view',
+    message: "What's the parent view? (empty for a global gql)",
   },
 ]

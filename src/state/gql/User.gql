@@ -1,0 +1,17 @@
+### Queries
+
+query GetSelf {
+  getSelf {
+    name
+    email
+  }
+}
+
+### Mutations
+
+mutation Authenticate($idToken: String!) {
+  authenticate(idToken: $idToken) {
+    name
+    email
+  }
+}

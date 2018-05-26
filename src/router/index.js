@@ -4,7 +4,6 @@ import VueRouter from 'vue-router'
 import VueMeta from 'vue-meta'
 // Adds a loading bar at the top during page loads.
 import NProgress from 'nprogress/nprogress'
-import store from '@state/store'
 import routes from './routes'
 
 Vue.use(VueRouter)
@@ -40,15 +39,16 @@ router.beforeEach((routeTo, routeFrom, next) => {
   // If auth isn't required for the route, just continue.
   if (!authRequired) return next()
 
+  next() // TODO
   // If auth is required and the user is logged in...
-  if (store.getters['auth/loggedIn']) {
-    // Validate the local user token...
-    return store.dispatch('auth/validate').then(validUser => {
-      // Then continue if the token still represents a valid user,
-      // otherwise redirect to login.
-      validUser ? next() : redirectToLogin()
-    })
-  }
+  // if (store.getters['auth/loggedIn']) {
+  //   // Validate the local user token...
+  //   return store.dispatch('auth/validate').then(validUser => {
+  //     // Then continue if the token still represents a valid user,
+  //     // otherwise redirect to login.
+  //     validUser ? next() : redirectToLogin()
+  //   })
+  // }
 
   // If auth is required and the user is NOT currently logged in,
   // redirect to login.

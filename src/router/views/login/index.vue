@@ -1,7 +1,7 @@
 <script>
 import Layout from '@layouts/main'
-import { authMethods } from '@state/helpers'
 import appConfig from '@src/app.config'
+import { authorizeSelf, signupSelf } from '@services/auth'
 
 export default {
   page: {
@@ -13,30 +13,52 @@ export default {
     return {
       username: '',
       password: '',
+      signUpUsername: '',
+      signUpPassword: '',
       authError: null,
       tryingToLogIn: false,
+      tryingToSignUp: false,
+      logInForm: true,
     }
   },
   methods: {
-    ...authMethods,
     // Try to log the user in with the username
     // and password they provided.
-    tryToLogIn() {
-      this.tryingToLogIn = true
+    logIn() {
       // Reset the authError if it existed.
       this.authError = null
-      return this.logIn({
-        username: this.username,
-        password: this.password,
+      this.tryingToLogIn = true
+
+      // This redirects to home page
+      return authorizeSelf(this.username, this.password).catch(error => {
+        this.tryingToLogIn = false
+        this.authError = error
       })
-        .then(token => {
-          this.tryingToLogIn = false
-          this.$router.push({ name: 'home' })
-        })
+    },
+    // Try to create a new account for the user
+    // with the username and password they provided.
+    signUp() {
+      // Reset the authError if it existed.
+      this.authError = null
+      this.tryingToSignUp = true
+
+      // This redirects to home page
+      return signupSelf(this.signUpUsername, this.signUpPassword)
         .catch(error => {
-          this.tryingToLogIn = false
+          this.tryingToSignUp = false
           this.authError = error
         })
+        .then(() => {
+          this.tryingToSignUp = false
+        })
+    },
+
+    showSignUpForm() {
+      this.logInForm = false
+    },
+
+    showLogInForm() {
+      this.logInForm = true
     },
   },
 }
@@ -44,39 +66,145 @@ export default {
 
 <template>
   <Layout>
-    <form
-      :class="$style.form"
-      @submit.prevent="tryToLogIn"
+    <div
+      v-if="logInForm"
+      :class="$style.loginFormContainer"
     >
-      <BaseInput
-        v-model="username"
-        name="username"
-      />
-      <BaseInput
-        v-model="password"
-        name="password"
-        type="password"
-      />
-      <BaseButton
-        :disabled="tryingToLogIn"
-        type="submit"
+      <p :class="$style.loginTitle">Login to access your account</p>
+      <form
+        :class="$style.form"
+        @submit.prevent="logIn"
       >
-        <BaseIcon
-          v-if="tryingToLogIn"
-          name="sync"
-          spin
+        <BaseInput
+          v-model="username"
+          name="username"
+          placeholder="Email"
         />
-        <span v-else>Log in</span>
-      </BaseButton>
-      <p v-if="authError">
-        There was an error logging in to your account.
-      </p>
-    </form>
+        <BaseInput
+          v-model="password"
+          name="password"
+          type="password"
+          placeholder="Password"
+        />
+        <BaseButton
+          :disabled="tryingToLogIn || tryingToSignUp"
+          :class="$style.largeButton"
+          type="submit"
+        >
+          <BaseIcon
+            v-if="tryingToLogIn || tryingToSignUp"
+            name="sync"
+            spin
+          />
+          <span v-else>Log in</span>
+        </BaseButton>
+        <p v-if="authError">
+          There was an error logging in to your account.
+        </p>
+        <div :class="$style.loginFormFooter">
+          <span :class="$style.pullLeft">
+            <a :class="$style.clickable">
+              Forgot your password?
+            </a>
+          </span>
+          <span :class="$style.pullRight">
+            <a
+              :class="$style.clickable"
+              @click="showSignUpForm"
+            >
+              Create an account
+            </a>
+          </span>
+        </div>
+      </form>
+    </div>
+    <div
+      v-if="!logInForm"
+      :class="$style.loginFormContainer"
+    >
+      <p :class="$style.loginTitle">Create a new account</p>
+      <form
+        :class="$style.form"
+        @submit.prevent="signUp"
+      >
+        <BaseInput
+          v-model="signUpUsername"
+          name="signUpUsername"
+          placeholder="Email"
+        />
+        <BaseInput
+          v-model="signUpPassword"
+          name="signUpPassword"
+          type="password"
+          placeholder="Password"
+        />
+        <BaseButton
+          :disabled="tryingToLogIn || tryingToSignUp"
+          :class="$style.largeButton"
+          type="submit"
+        >
+          <BaseIcon
+            v-if="tryingToLogIn || tryingToSignUp"
+            name="sync"
+            spin
+          />
+          <span v-else>Sign up</span>
+        </BaseButton>
+        <p v-if="authError">
+          There was an error logging in to your account.
+        </p>
+        <div :class="$style.loginFormFooter">
+          <span :class="$style.pullRight">
+            <a
+              :class="$style.clickable"
+              @click="showLogInForm">
+              Already have an account
+            </a>
+          </span>
+        </div>
+      </form>
+    </div>
   </Layout>
 </template>
 
 <style lang="scss" module>
 @import '~@design';
+
+.largeButton {
+  width: 100%;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.loginTitle {
+  padding: 20px 0;
+  font-size: 20px;
+  color: #909090;
+  text-align: center;
+}
+
+.loginFormFooter {
+  padding: 10px 0;
+  font-size: 13px;
+}
+
+.loginFormContainer {
+  box-sizing: content-box;
+  width: 50%;
+  padding: 20px 20px 50px;
+  margin: auto;
+  background: #f9f6f4;
+}
+
+.pullLeft {
+  float: left;
+}
+
+.pullRight {
+  float: right;
+}
 
 .form {
   text-align: center;
