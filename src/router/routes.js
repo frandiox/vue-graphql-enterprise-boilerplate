@@ -1,3 +1,5 @@
+import { logout } from '@services/auth'
+
 export default [
   {
     path: '/',
@@ -65,7 +67,8 @@ export default [
       authRequired: true,
     },
     beforeEnter(routeTo, routeFrom, next) {
-      next() // TODO
+      logout()
+      // next() // TODO
       // store.dispatch('auth/logOut')
       // const authRequiredOnPreviousRoute = routeFrom.matched.some(
       //   route => route.meta.authRequired

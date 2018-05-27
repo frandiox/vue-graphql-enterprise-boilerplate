@@ -1,10 +1,12 @@
 <script>
 import NavBarRoutes from './nav-bar-routes.vue'
+import { LocalGetSelf } from '@gql/User'
 
 export default {
   components: { NavBarRoutes },
   data() {
     return {
+      user: null,
       persistentNavRoutes: [
         {
           name: 'home',
@@ -14,7 +16,7 @@ export default {
       loggedInNavRoutes: [
         {
           name: 'profile',
-          // title: () => 'Logged in as ' + this.currentUser.name, // TODO
+          title: () => 'Logged in as ' + this.user.email,
         },
         {
           name: 'logout',
@@ -29,18 +31,23 @@ export default {
       ],
     }
   },
+  apollo: {
+    user: {
+      query: LocalGetSelf,
+    },
+  },
 }
 </script>
 
 <template>
   <ul :class="$style.container">
     <NavBarRoutes :routes="persistentNavRoutes"/>
-    <!-- <NavBarRoutes
-      v-if="loggedIn"
+    <NavBarRoutes
+      v-if="user"
       :routes="loggedInNavRoutes"
     />
-      v-else TODO-->
     <NavBarRoutes
+      v-else
       :routes="loggedOutNavRoutes"
     />
   </ul>
