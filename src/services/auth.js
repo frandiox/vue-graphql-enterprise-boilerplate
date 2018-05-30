@@ -158,7 +158,7 @@ const tryToLogIn = async () => {
 const logout = () => {
   clearSession()
   webAuth.logout({
-    returnTo: authConfig.redirectUri,
+    returnTo: process.env.VUE_APP_AUTH0_LOGOUT_CB_URL,
     clientID: authConfig.clientID,
   })
 
