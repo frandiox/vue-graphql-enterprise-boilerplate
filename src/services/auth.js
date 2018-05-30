@@ -148,11 +148,13 @@ const tryToLogIn = async () => {
         setSession(authResult)
 
         console.log('Authenticated!', authenticate) // eslint-disable-line no-console
+        return true
       } catch (error) {
         console.error(error)
       }
     }
   }
+  return false
 }
 
 const logout = () => {

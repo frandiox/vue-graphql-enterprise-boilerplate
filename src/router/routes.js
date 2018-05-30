@@ -78,6 +78,11 @@ export default [
     },
   },
   {
+    path: '/loading',
+    name: 'loading',
+    component: () => lazyLoadView(import('@views/loading')),
+  },
+  {
     path: '/404',
     name: '404',
     component: require('@views/404').default,
