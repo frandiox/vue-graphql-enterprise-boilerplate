@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js'
 import { apolloClient } from '@state/vue-apollo'
 import extractHash from '@utils/extract-hash'
-import { Authenticate, LocalSetSelf, LocalGetSelf } from '@gql/User'
+import { Authenticate, LocalSetSelf } from '@gql/User'
 
 const ACCESS_TOKEN = 'access_token'
 const ID_TOKEN = 'id_token'
@@ -101,26 +101,6 @@ const getUserInfo = accessToken =>
     )
   )
 
-const testFun = async () => {
-  // console.time('me query')
-
-  try {
-    const {
-      data: { me },
-    } = await apolloClient.query({
-      query: LocalGetSelf,
-    })
-
-    // console.timeEnd('me query')
-    return me
-  } catch (e) {
-    console.error(e)
-  }
-
-  // console.timeEnd('me query')
-  return null
-}
-
 const tryToLogIn = async () => {
   if (!isValidSession()) {
     clearSession()
@@ -179,5 +159,4 @@ export {
   getUserInfo,
   tryToLogIn,
   logout,
-  testFun,
 }
