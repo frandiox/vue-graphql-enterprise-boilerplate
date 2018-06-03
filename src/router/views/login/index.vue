@@ -14,6 +14,7 @@ export default {
       username: '',
       password: '',
       authError: null,
+      isSuccess: false,
       inProgress: false,
       formProperties: {},
     }
@@ -42,12 +43,14 @@ export default {
 
       // This redirects to home page
       return signupSelf(this.username, this.password)
+        .then(response => {
+          this.inProgress = false
+          this.isSuccess = true
+          this.logIn()
+        })
         .catch(error => {
           this.inProgress = false
           this.setError(error)
-        })
-        .then(() => {
-          this.inProgress = false
         })
     },
 
@@ -107,8 +110,21 @@ export default {
     >
       <p :class="$style.loginTitle">{{ formProperties.title }}</p>
       <div
+        v-if="isSuccess"
+        :class="[$style.messageContainer, $style.successContainer]"
+      >
+        <div :class="$style.textKeepNewLine">
+          <span>Sign Up Successfull! Loging in...</span>
+          <BaseIcon
+            :class="$style.pullRight"
+            name="sync"
+            spin
+          />
+        </div>
+      </div>
+      <div
         v-if="authError"
-        :class="$style.errorContainer"
+        :class="[$style.messageContainer, $style.errorContainer]"
       >
         <div :class="$style.textKeepNewLine">{{ authError }}</div>
       </div>
@@ -133,7 +149,7 @@ export default {
           type="submit"
         >
           <BaseIcon
-            v-if="inProgress"
+            v-if="inProgress && !isSuccess"
             name="sync"
             spin
           />
@@ -182,7 +198,7 @@ export default {
 .loginTitle {
   padding: 20px 0;
   font-size: 20px;
-  color: #909090;
+  color: $color-login-form-title;
   text-align: center;
 }
 
@@ -196,7 +212,7 @@ export default {
   width: 50%;
   padding: 20px 20px 50px;
   margin: auto;
-  background: #f9f6f4;
+  background: $color-login-form-container;
 }
 
 .pullLeft {
@@ -207,12 +223,19 @@ export default {
   float: right;
 }
 
-.errorContainer {
+.messageContainer {
   padding: 10px;
   margin-bottom: 20px;
-  color: white;
+  color: $color-error-text;
   text-align: left;
-  background: #f84b4b;
+}
+
+.errorContainer {
+  background: $color-error-container;
+}
+
+.successContainer {
+  background: $color-success-container;
 }
 
 .textKeepNewLine {
