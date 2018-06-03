@@ -1,6 +1,5 @@
 <script>
 import Layout from '@layouts/main'
-import { tryToLogIn } from '@services/auth'
 
 export default {
   page: {
@@ -8,10 +7,6 @@ export default {
     meta: [{ name: 'description', content: 'Loading page...' }],
   },
   components: { Layout },
-  created: async function() {
-    // Check for idtoken in hash
-    this.$router.push((await tryToLogIn()) ? '/' : '/login')
-  },
 }
 </script>
 

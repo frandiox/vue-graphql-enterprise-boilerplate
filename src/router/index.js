@@ -5,6 +5,7 @@ import VueMeta from 'vue-meta'
 // Adds a loading bar at the top during page loads.
 import NProgress from 'nprogress/nprogress'
 import routes from './routes'
+import { tryToLogIn } from '@services/auth'
 
 Vue.use(VueRouter)
 Vue.use(VueMeta, {
@@ -35,6 +36,14 @@ router.beforeEach((routeTo, routeFrom, next) => {
   // Check if auth is required on this route
   // (including nested routes).
   const authRequired = routeTo.matched.some(route => route.meta.authRequired)
+
+  // If we were sent to loading page, try to read hash and log in
+  if (routeTo.name === 'loading') {
+    tryToLogIn().then(loggedIn => {
+      next({ name: loggedIn ? 'home' : 'login' })
+    })
+    return next()
+  }
 
   // If auth isn't required for the route, just continue.
   if (!authRequired) return next()
