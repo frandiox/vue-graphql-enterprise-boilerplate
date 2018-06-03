@@ -14,7 +14,7 @@ const socialConnection = {
 const authConfig = {
   domain: process.env.VUE_APP_AUTH0_DOMAIN,
   clientID: process.env.VUE_APP_AUTH0_CLIENT_ID,
-  redirectUri: process.env.VUE_APP_DOMAIN + 'loading',
+  redirectUri: process.env.VUE_APP_DOMAIN + 'login',
 }
 
 const webAuth = new auth0.WebAuth({

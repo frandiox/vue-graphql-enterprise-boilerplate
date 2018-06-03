@@ -1,4 +1,4 @@
-import { logout } from '@services/auth'
+import { tryToLogIn, logout } from '@services/auth'
 
 export default [
   {
@@ -11,15 +11,17 @@ export default [
     name: 'login',
     component: () => lazyLoadView(import('@views/login')),
     beforeEnter(routeTo, routeFrom, next) {
-      next() // TODO
-      // If the user is already logged in
-      // if (store.getters['auth/loggedIn']) {
-      //   // Redirect to the home page instead
-      //   next({ name: 'home' })
-      // } else {
-      //   // Continue to the login page
-      //   next()
-      // }
+      // Check if user is logged in
+      tryToLogIn().then(loggedIn => {
+        // If the user is already logged in
+        if (loggedIn) {
+          // Redirect to the home page instead
+          next({ name: 'home' })
+        } else {
+          // Continue to the login page
+          next()
+        }
+      })
     },
   },
   {
