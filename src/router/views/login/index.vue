@@ -114,7 +114,7 @@ export default {
         :class="[$style.messageContainer, $style.successContainer]"
       >
         <div :class="$style.textKeepNewLine">
-          <span>Sign Up Successfull! Loging in...</span>
+          <span>Sign Up Successfull! Logging in...</span>
           <BaseIcon
             :class="$style.pullRight"
             name="sync"
