@@ -14,7 +14,7 @@ const socialConnection = {
 const authConfig = {
   domain: process.env.VUE_APP_AUTH0_DOMAIN,
   clientID: process.env.VUE_APP_AUTH0_CLIENT_ID,
-  redirectUri: process.env.VUE_APP_AUTH0_CB_URL,
+  redirectUri: process.env.VUE_APP_DOMAIN + 'loading',
 }
 
 const webAuth = new auth0.WebAuth({
@@ -140,7 +140,7 @@ const tryToLogIn = async () => {
 const logout = () => {
   clearSession()
   webAuth.logout({
-    returnTo: process.env.VUE_APP_AUTH0_LOGOUT_CB_URL,
+    returnTo: process.env.VUE_APP_DOMAIN + 'login',
     clientID: authConfig.clientID,
   })
 
