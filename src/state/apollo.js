@@ -3,6 +3,7 @@ import { split } from 'apollo-link'
 import { HttpLink } from 'apollo-link-http'
 import { createUploadLink } from 'apollo-upload-client'
 import { InMemoryCache } from 'apollo-cache-inmemory'
+import { persistCache } from 'apollo-cache-persist'
 import { SubscriptionClient, MessageTypes } from 'subscriptions-transport-ws'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
@@ -120,6 +121,12 @@ export default function createApolloClient({
   } else {
     // On the server, we don't want WebSockets and Upload links
   }
+
+  persistCache({
+    cache,
+    storage: window.localStorage,
+    debug: false,
+  })
 
   const stateLink = withClientState({
     cache,

@@ -25,6 +25,7 @@
     "@fortawesome/fontawesome-free-solid": "5.0.8",
     "@fortawesome/vue-fontawesome": "0.0.22",
     "apollo-cache-inmemory": "^1.1.12",
+    "apollo-cache-persist": "^0.1.1",
     "apollo-client": "^2.2.8",
     "apollo-link": "^1.2.1",
     "apollo-link-context": "^1.0.7",
