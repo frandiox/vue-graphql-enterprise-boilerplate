@@ -1,3 +1,5 @@
+import { tryToLogIn, logout } from '@services/auth'
+
 export default [
   {
     path: '/',
@@ -9,15 +11,17 @@ export default [
     name: 'login',
     component: () => lazyLoadView(import('@views/login')),
     beforeEnter(routeTo, routeFrom, next) {
-      next() // TODO
-      // If the user is already logged in
-      // if (store.getters['auth/loggedIn']) {
-      //   // Redirect to the home page instead
-      //   next({ name: 'home' })
-      // } else {
-      //   // Continue to the login page
-      //   next()
-      // }
+      // Check if user is logged in
+      tryToLogIn().then(loggedIn => {
+        // If the user is already logged in
+        if (loggedIn) {
+          // Redirect to the home page instead
+          next({ name: 'home' })
+        } else {
+          // Continue to the login page
+          next()
+        }
+      })
     },
   },
   {
@@ -65,7 +69,8 @@ export default [
       authRequired: true,
     },
     beforeEnter(routeTo, routeFrom, next) {
-      next() // TODO
+      logout()
+      // next() // TODO
       // store.dispatch('auth/logOut')
       // const authRequiredOnPreviousRoute = routeFrom.matched.some(
       //   route => route.meta.authRequired
@@ -73,6 +78,11 @@ export default [
       // // Navigate back to previous page, or home as a fallback
       // next(authRequiredOnPreviousRoute ? { name: 'home' } : { ...routeFrom })
     },
+  },
+  {
+    path: '/loading',
+    name: 'loading',
+    component: () => lazyLoadView(import('@views/loading')),
   },
   {
     path: '/404',

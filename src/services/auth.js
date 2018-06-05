@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js'
 import { apolloClient } from '@state/vue-apollo'
 import extractHash from '@utils/extract-hash'
-import { Authenticate } from '@gql/User'
+import { Authenticate, LocalSetSelf } from '@gql/User'
 
 const ACCESS_TOKEN = 'access_token'
 const ID_TOKEN = 'id_token'
@@ -14,7 +14,7 @@ const socialConnection = {
 const authConfig = {
   domain: process.env.VUE_APP_AUTH0_DOMAIN,
   clientID: process.env.VUE_APP_AUTH0_CLIENT_ID,
-  redirectUri: process.env.VUE_APP_AUTH0_CB_URL,
+  redirectUri: process.env.VUE_APP_DOMAIN + 'login',
 }
 
 const webAuth = new auth0.WebAuth({
@@ -118,21 +118,37 @@ const tryToLogIn = async () => {
           variables: { idToken: authResult.idToken },
         })
 
+        await apolloClient.mutate({
+          mutation: LocalSetSelf,
+          variables: {
+            user: { name: authenticate.name, email: authenticate.email },
+          },
+        })
+
         setSession(authResult)
 
         console.log('Authenticated!', authenticate) // eslint-disable-line no-console
+        return true
       } catch (error) {
         console.error(error)
       }
     }
   }
+  return false
 }
 
 const logout = () => {
   clearSession()
   webAuth.logout({
-    returnTo: authConfig.redirectUri,
+    returnTo: process.env.VUE_APP_DOMAIN + 'login',
     clientID: authConfig.clientID,
+  })
+
+  apolloClient.mutate({
+    mutation: LocalSetSelf,
+    variables: {
+      user: null,
+    },
   })
 }
 
