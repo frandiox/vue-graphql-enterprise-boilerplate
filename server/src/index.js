@@ -1,8 +1,8 @@
 const { GraphQLServer } = require('graphql-yoga')
 const { Prisma } = require('prisma-binding')
 
-const verifyAccessToken = require('./middleware/verifyAccessToken')
-const getUserFromDB = require('./middleware/getUserFromDB')
+const verifyAccessToken = require('./middleware/verify-access-token')
+const getUserFromDB = require('./middleware/get-user-from-db')
 
 const resolvers = require('./resolvers')
 const directiveResolvers = require('./directives')

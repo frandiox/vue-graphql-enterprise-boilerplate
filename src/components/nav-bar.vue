@@ -1,6 +1,6 @@
 <script>
 import NavBarRoutes from './nav-bar-routes.vue'
-import { LocalGetSelf } from '@gql/User'
+import { LocalGetSelf } from '@gql/user'
 
 export default {
   components: { NavBarRoutes },

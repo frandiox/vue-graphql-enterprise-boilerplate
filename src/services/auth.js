@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js'
 import { apolloClient } from '@state/vue-apollo'
 import extractHash from '@utils/extract-hash'
-import { Authenticate, LocalSetSelf } from '@gql/User'
+import { Authenticate, LocalSetSelf } from '@gql/user'
 
 const ACCESS_TOKEN = 'access_token'
 const ID_TOKEN = 'id_token'
