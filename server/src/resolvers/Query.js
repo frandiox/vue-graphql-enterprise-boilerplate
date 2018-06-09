@@ -20,7 +20,7 @@ module.exports = {
     return ctx.db.query.post({ where: { id } }, info)
   },
 
-  me(parent, args, ctx, info) {
+  getSelf(parent, args, ctx, info) {
     const { token, ...user } = ctx.request.user
     return user
   },

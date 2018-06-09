@@ -6,7 +6,7 @@ type Query {
   feed: [Post!]!
   drafts: [Post!]! @isAuthenticated
   post(id: ID!): Post
-  me: User @isAuthenticated
+  getSelf: User @isAuthenticated
 }
 
 type Mutation {
