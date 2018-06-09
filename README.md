@@ -21,7 +21,7 @@ This template is based on the [`vue-enterprise-boilerplate` project](https://git
 
 ```sh
 # 1. Clone the repository.
-git clone https://github.com/frandiox/vue-enterprise-boilerplate.git my-new-project --depth 1
+git clone https://github.com/frandiox/vue-enterprise-boilerplate.git my-new-project
 
 # 2. Enter your newly-cloned folder
 cd my-new-project
