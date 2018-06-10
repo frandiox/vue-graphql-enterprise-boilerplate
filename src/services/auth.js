@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js'
-import { apolloClient } from '@state/vue-apollo'
 import extractHash from '@utils/extract-hash'
 import { Authenticate, LocalSetSelf } from '@gql/user'
+import { apolloClient, apolloOnLogin, apolloOnLogout } from '@state/index'
 
 const ACCESS_TOKEN = 'access_token'
 const ID_TOKEN = 'id_token'
@@ -38,11 +38,11 @@ const setSession = ({ expiresIn, accessToken, idToken }) => {
     JSON.stringify(expiresIn * 1000 + new Date().getTime())
   )
 
-  apolloClient.$onLogin(accessToken)
+  apolloOnLogin(accessToken)
 }
 
 const clearSession = () => {
-  apolloClient.$onLogout()
+  apolloOnLogout()
   // Clear access token and ID token from local storage
   return [ACCESS_TOKEN, ID_TOKEN, EXPIRES_AT].forEach(item =>
     localStorage.removeItem(item)
@@ -129,8 +129,8 @@ const tryToLogIn = async () => {
 
         console.log('Authenticated!', authenticate) // eslint-disable-line no-console
         return true
-      } catch (error) {
-        console.error(error)
+      } catch (err) {
+        console.error(err)
       }
     }
   }

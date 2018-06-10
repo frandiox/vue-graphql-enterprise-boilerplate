@@ -30,9 +30,9 @@ export default {
       this.inProgress = true
 
       // This redirects to home page
-      return authorizeSelf(this.username, this.password).catch(error => {
+      return authorizeSelf(this.username, this.password).catch(err => {
         this.inProgress = false
-        this.setError(error)
+        this.setError(err)
       })
     },
     // Try to create a new account for the user
@@ -48,9 +48,9 @@ export default {
           this.isSuccess = true
           this.logIn()
         })
-        .catch(error => {
+        .catch(err => {
           this.inProgress = false
-          this.setError(error)
+          this.setError(err)
         })
     },
 
@@ -185,7 +185,7 @@ export default {
 </template>
 
 <style lang="scss" module>
-@import '~@design';
+@import '@design';
 
 .largeButton {
   width: 100%;

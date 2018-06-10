@@ -10,7 +10,7 @@ to: "<%
     (h.inflection.dasherize(name).toLowerCase().slice(0, 5) === 'base-' ? '_' : '') +
     h.inflection.dasherize(name)
   const importName = h.inflection.camelize(fileName.replace(/-/g, '_'))
-%>import <%= importName %> from './<%= folder ? 'index' : fileName %>'
+%>import <%= importName %> from '<%= folder ? '.' : `./${fileName}` %>'
 
 describe('@components/<%= fileName %>', () => {
   it('exports a valid component', () => {
