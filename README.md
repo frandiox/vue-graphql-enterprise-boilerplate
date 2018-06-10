@@ -19,7 +19,7 @@ This template is based on the [`vue-enterprise-boilerplate` project](https://git
 
 ## Getting started
 
-```sh
+```bash
 # 1. Clone the repository.
 git clone https://github.com/frandiox/vue-enterprise-boilerplate.git my-new-project
 
