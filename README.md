@@ -2,13 +2,9 @@
 
 [![CircleCI](https://circleci.com/gh/chrisvfritz/vue-enterprise-boilerplate/tree/master.svg?style=svg)](https://circleci.com/gh/chrisvfritz/vue-enterprise-boilerplate/tree/master)
 
-> This is an ever-evolving, very opinionated architecture and dev environment for new Vue SPA projects using [Vue CLI 3](https://github.com/vuejs/vue-cli). Questions, feedback, and for now, even bikeshedding are welcome. 😄 If you'd like to increase the time I can spend on this project, as well as other Vue resources, **please consider becoming a [sponsor on Patreon](https://www.patreon.com/chrisvuefritz)**. :pray:
-
-**:warning: This project uses Vue CLI 3, which is currently in beta so may not yet be appropriate for production projects.**
-
 ## Intro
 
-This template is based on the [`vue-enterprise-boilerplate` project](https://github.com/chrisvfritz/vue-enterprise-boilerplate) made by [Chris Fritz](https://github.com/chrisvfritz). This repo includes some extra opinionated features such as components inside folders and GraphQL integration with Apollo.
+This template is based on the [`vue-enterprise-boilerplate` project](https://github.com/chrisvfritz/vue-enterprise-boilerplate) made by [Chris Fritz](https://github.com/chrisvfritz). This repo includes some extra opinionated features such as components inside folders and GraphQL integration with [Apollo](https://www.apollographql.com/), [Auth0](https://auth0.com/) and [Prisma](https://www.prisma.io/).
 
 ## Features
 
@@ -16,6 +12,7 @@ This template is based on the [`vue-enterprise-boilerplate` project](https://git
 - [**Guaranteed consistency**](docs/linting.md): Opinionated linting for Vue, JavaScript/JSON, SCSS, and Markdown, integrated into Visual Studio Code and run against staged files on pre-commit.
 - [**First-class tests**](docs/tests.md): Practice test-driven development with both unit and end-to-end tests. Unit tests with Jest live as first-class citizens alongside your source files, while Cypress provides reliable end-to-end tests in an intuitive GUI for development.
 - [**Speedy development**](docs/development.md): Between [configurable generators](docs/development.md#generators), [handy aliases](docs/development.md#aliases), and [global base components](docs/development.md#base-components), your productivity will skyrocket.
+- [**GraphQL ready**](docs/backend.md): Integrated with GraphQL and all its features. Some external services are used to speed up development, such as Auth0 and Prisma Cloud.
 
 ## Getting started
 
@@ -75,7 +72,3 @@ Here's when you might prefer building a project off the boilerplate instead:
 - You're working in a large team, so need tooling to help everyone avoid common mistakes, write in a consistent style, and avoid bikeshedding in PRs.
 
 Finally, it's not an either-or situation. This boilerplate demonstrates many useful patterns for building robust applications that can also be applied to Nuxt apps. That means you could build a project with Nuxt, while still using this boilerplate as a study guide.
-
-**Can you build a Nuxt version of this boilerplate?**
-
-I might! I'll be focusing on this Vue CLI version for now, but once I've made most of the improvements on my roadmap and as time allows, I _would_ like to start work on a Nuxt version. The Nuxt team has even generously offered to help!
