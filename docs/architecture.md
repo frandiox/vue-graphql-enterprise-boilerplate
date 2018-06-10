@@ -3,6 +3,7 @@
 - [`_templates`](#templates)
 - [`.circleci`](#circleci)
 - [`.vscode`](#vscode)
+- [`.vuepress`](#vuepress)
 - [`docs`](#docs)
 - [`public`](#public)
   - [`index.html`](#indexhtml)
@@ -17,6 +18,7 @@
   - [`app.vue`](#appvue)
   - [`main.js`](#mainjs)
 - [`tests`](#tests)
+- [`server`](#server)
 
 ## `_templates`
 
@@ -30,9 +32,13 @@ Configuration for continuous integration with [Circle CI](https://circleci.com/)
 
 Settings and extensions specific to this project, for Visual Studio Code. See [the editors doc](editors.md#visual-studio-code) for more.
 
+## `.vuepress`
+
+Configuration files for Vuepress, the tool that builds our local documentation. See [the official docs](https://vuepress.vuejs.org/) for more.
+
 ## `docs`
 
-You found me! :wink:
+Collection of markdown files containing documentation.
 
 ## `public`
 
@@ -44,7 +50,7 @@ This one file actually _does_ get processed by our build system, allowing us to 
 
 ## `src`
 
-Where we keep all our source files.
+Where we keep all our source files for the frontend.
 
 ### `assets`
 
@@ -56,15 +62,15 @@ Where all the common components in our app will live, including our [global base
 
 ### `design`
 
-Where we keep our [design variables and tooling](tech.md#design-variables-and-tooling).
+Where we keep our [design variables and tooling](techfront.md#design-variables-and-tooling).
 
 ### `router`
 
-Where the router, routes, and any routing-related components live. See [the routing doc](routing.md) for more.
+Where the router, routes, and any routing-related components (views & layouts) live. See [the routing doc](routing.md) for more.
 
 ### `state`
 
-Where all our global state management lives. See [the state management doc](state.md) for more.
+Where all our global state management lives (local and remote), together with the "actions" that can modify it (GQL queries). See [the state management doc](state.md) for more.
 
 ### `utils`
 
@@ -85,3 +91,7 @@ The entry point to our app, were we create our Vue instance and mount it to the 
 ## `tests`
 
 Where all our tests go. See [the tests doc](tests.md) for more.
+
+## `server`
+
+Where all our backend server files are located. Have a look at [the backend docs](backend.md) to learn more about it.

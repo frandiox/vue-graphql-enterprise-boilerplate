@@ -6,7 +6,7 @@
 
 ## Overview
 
-This project uses [Vue Router](tech.md#vue-router), which we initialize in `src/router/index.js`, with routes defined in `src/router/routes.js`. Inside the `src/router` folder, there are also two sub-folders, both containing route-specific components: `layouts` and `views`.
+This project uses [Vue Router](techfront.md#vue-router), which we initialize in `src/router/index.js`, with routes defined in `src/router/routes.js`. Inside the `src/router` folder, there are also two sub-folders, both containing route-specific components: `layouts` and `views`.
 
 Views, layouts and sub-components can be optionally located inside folders by using `index.vue` file name. Both `./components/my-menu.vue` and `./components/my-menu/index.vue` are valid paths for `import MyMenu from './components/my-menu'`. Since a view could contain non-shared components, queries, etc. in the future, it is recommended placing it in folders from the start.
 

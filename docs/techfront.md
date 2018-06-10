@@ -1,4 +1,4 @@
-# Languages and technologies
+# Languages and technologies (frontend)
 
 - [JavaScript](#javascript)
   - [Polyfills](#polyfills)

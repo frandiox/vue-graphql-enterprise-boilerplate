@@ -21,13 +21,15 @@ Then update the following files to suit your application:
 - `src/app.config.js` (provides metadata about your app)
 - `.circleci/config.yml` (assuming you want to automatically [deploy to production](production.md) with continuous integration)
 
-Optionally, add your environment variables (such as `VUE_APP_GRAPHQL_ENDPOINT`) to a `.env` file and they will be included in `process.env` by Webpack. More info in [Vue CLI docs](https://github.com/vuejs/vue-cli/blob/dev/docs/env.md)
+Optionally, add your environment variables to a `.env`, `.env.local` or `.env.[mode]` file and they will be included in `process.env` by Webpack (they must be prefixed wihth `VUE_APP_`). More info in [Vue CLI docs](https://github.com/vuejs/vue-cli/blob/dev/docs/env.md)
 
 ## Installation
 
+This project uses [Yarn workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) in order to link the dependencies together and optimize the installation.
+
 ```bash
-# Install dependencies from package.json
-yarn install
+# Install dependencies from package.json and server/package.json
+yarn
 ```
 
 ## Dev server
@@ -35,8 +37,14 @@ yarn install
 > Note: If you're on Linux and see an `ENOSPC` error when running the commands below, you must [increase the number of available file watchers](https://stackoverflow.com/questions/22475849/node-js-error-enospc#answer-32600959).
 
 ```bash
-# Launch the dev server
+# Launch a full dev server (front and back ends)
 yarn dev
+
+# Launch dev server for frontend
+yarn dev:front
+
+# Launch dev server for backend
+yarn dev:back
 
 # Launch the dev server and automatically open it in
 # your default browser when ready
@@ -44,20 +52,24 @@ yarn dev --open
 
 # Launch the dev server with the Cypress client for
 # test-driven development in a friendly interface
-yarn dev:e2e
+yarn e2e:dev
+
+# Run all unit tests.
+# Add '--coverage' for coverage or '-u' to update snapshots
+yarn unit [-u] [--coverage]
+
+# Launch database + app GraphQL playground
+yarn playground
+
+# Acceess Prisma CLI
+yarn prisma [command]
+
+# Check scripts in package.json for more commands
 ```
 
 ### Developing with the production API
 
-By default, dev and tests filter requests through [the mock API](#the-mock-api) in `tests/mock-api`. To test directly against a local/live API instead, run dev and test commands with the `API_BASE_URL` environment variable set. For example:
-
-```bash
-# To develop against a local backend server
-API_BASE_URL=http://localhost:3000 yarn dev
-
-# To test and develop against a production server
-API_BASE_URL=https://example.io yarn dev:e2e
-```
+WIP
 
 ## Generators
 
@@ -93,4 +105,4 @@ To simplify referencing local modules and refactoring, you can set aliases to be
 
 ### Base components
 
-[Base components](https://vuejs.org/v2/style-guide/#Base-component-names-strongly-recommended) (a.k.a. presentational, dumb, or pure components) that apply app-specific styling and conventions should all begin with the `_base-` prefix. Since these components are typically used in place of raw HTML element (and thus used as frequently), they're automatically globally registered for convenience. This means you don't have to import and locally register them to use them in templates.
+[Base components](https://vuejs.org/v2/style-guide/#Base-component-names-strongly-recommended) (a.k.a. presentational, dumb, or pure components) that apply app-specific styling and conventions should all begin with the `_base-` prefix (`base [name]` when using generator). Since these components are typically used in place of raw HTML element (and thus used as frequently), they're automatically globally registered for convenience. This means you don't have to import and locally register them to use them in templates.
