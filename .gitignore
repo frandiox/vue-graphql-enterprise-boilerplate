@@ -27,3 +27,6 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+# Temporal or test files
+/**/_*

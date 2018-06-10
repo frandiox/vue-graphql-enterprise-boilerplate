@@ -21,15 +21,17 @@ module.exports = {
   coverageDirectory: '<rootDir>/tests/unit/coverage',
   collectCoverageFrom: [
     'src/**/*.{js,vue}',
+    'server/**/*.js',
     '!**/node_modules/**',
     '!src/main.js',
     '!src/app.vue',
     '!src/router/index.js',
     '!src/router/routes.js',
-    '!src/state/store.js',
-    '!src/state/helpers.js',
-    '!src/state/modules/index.js',
+    '!src/state/vue-apollo.js',
     '!src/components/globals/index.js',
+    '!server/src/index.js',
+    '!server/src/resolvers/**',
+    '!server/src/**/_*.js',
   ],
   // https://facebook.github.io/jest/docs/en/configuration.html#testurl-string
   // Set the `testURL` to a provided base URL if one exists, or the mock API base URL
