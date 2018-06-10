@@ -129,8 +129,8 @@ const tryToLogIn = async () => {
 
         console.log('Authenticated!', authenticate) // eslint-disable-line no-console
         return true
-      } catch (error) {
-        console.error(error)
+      } catch (err) {
+        console.error(err)
       }
     }
   }

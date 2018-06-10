@@ -1,4 +1,4 @@
-import Home from './index'
+import Home from '.'
 
 describe('@views/home', () => {
   it('is a valid view', () => {

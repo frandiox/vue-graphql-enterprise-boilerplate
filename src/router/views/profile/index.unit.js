@@ -1,4 +1,4 @@
-import Profile from './index'
+import Profile from '.'
 
 describe('@views/profile', () => {
   it('is a valid view', () => {

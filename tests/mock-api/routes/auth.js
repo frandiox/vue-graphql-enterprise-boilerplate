@@ -7,8 +7,8 @@ module.exports = app => {
       .then(user => {
         response.json(user)
       })
-      .catch(error => {
-        response.status(401).json({ message: error.message })
+      .catch(err => {
+        response.status(401).json({ message: err.message })
       })
   })
 
