@@ -38,7 +38,7 @@ describe('@views/login', () => {
 })
 
 // function mountLogin() {
-//   return mountShallowView(Login, {
+//   return shallowMountView(Login, {
 //     ...createComponentMocks({
 //       store: {
 //         auth: {
