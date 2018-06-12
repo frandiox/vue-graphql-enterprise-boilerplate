@@ -93,6 +93,18 @@ const authorizeSocial = connectionName => {
   })
 }
 
+const passwordReset = email => {
+  return new Promise((resolve, reject) => {
+    webAuth.changePassword(
+      {
+        email,
+        connection: 'Username-Password-Authentication',
+      },
+      (err, result) => (err ? reject(err) : resolve(result))
+    )
+  })
+}
+
 const getUserInfo = accessToken =>
   new Promise((resolve, reject) =>
     webAuth.client.userInfo(
@@ -156,6 +168,7 @@ export {
   signupSelf,
   authorizeSelf,
   authorizeSocial,
+  passwordReset,
   getUserInfo,
   tryToLogIn,
   logout,
