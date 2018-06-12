@@ -1,6 +1,6 @@
 import auth0 from 'auth0-js'
 import extractHash from '@utils/extract-hash'
-import { Authenticate, LocalSetSelf } from '@gql/user'
+import { Authenticate, GetSelf, LocalSetSelf, LocalGetSelf } from '@gql/user'
 import { apolloClient, apolloOnLogin, apolloOnLogout } from '@state/index'
 
 const ACCESS_TOKEN = 'access_token'
@@ -93,14 +93,6 @@ const authorizeSocial = connectionName => {
   })
 }
 
-const getUserInfo = accessToken =>
-  new Promise((resolve, reject) =>
-    webAuth.client.userInfo(
-      accessToken,
-      (err, result) => (err ? reject(err) : resolve(result))
-    )
-  )
-
 const tryToLogIn = async () => {
   if (!isValidSession()) {
     clearSession()
@@ -112,51 +104,78 @@ const tryToLogIn = async () => {
         const authResult = await validateTokens(hash)
 
         const {
-          data: { authenticate },
+          data: { authenticate: user },
         } = await apolloClient.mutate({
           mutation: Authenticate,
           variables: { idToken: authResult.idToken },
         })
 
-        await apolloClient.mutate({
-          mutation: LocalSetSelf,
-          variables: {
-            user: { name: authenticate.name, email: authenticate.email },
-          },
-        })
-
+        await setCurrentUser(user)
         setSession(authResult)
 
-        console.log('Authenticated!', authenticate) // eslint-disable-line no-console
+        console.log('Authenticated!', user, authResult) // eslint-disable-line no-console
         return true
       } catch (err) {
         console.error(err)
       }
     }
   }
+
   return false
 }
 
 const logout = () => {
   clearSession()
+  setCurrentUser(null)
+
   webAuth.logout({
     returnTo: process.env.VUE_APP_DOMAIN + 'login',
     clientID: authConfig.clientID,
   })
+}
 
-  apolloClient.mutate({
+const setCurrentUser = user => {
+  return apolloClient.mutate({
     mutation: LocalSetSelf,
-    variables: {
-      user: null,
-    },
+    variables: { user },
   })
+}
+
+const getCurrentUser = async () => {
+  let user = null
+
+  if (isValidSession()) {
+    // Get local version
+    let {
+      data: { user: localUser },
+    } = await apolloClient.query({ query: LocalGetSelf })
+
+    user = localUser
+
+    if (!user) {
+      // Get remote version
+      const {
+        data: { getSelf: remoteUser },
+      } = await apolloClient.query({
+        query: GetSelf,
+      })
+
+      user = remoteUser
+
+      // Store user locally
+      await setCurrentUser(user)
+    }
+  }
+
+  return user
 }
 
 export {
   signupSelf,
   authorizeSelf,
   authorizeSocial,
-  getUserInfo,
+  getCurrentUser,
+  setCurrentUser,
   tryToLogIn,
   logout,
 }
