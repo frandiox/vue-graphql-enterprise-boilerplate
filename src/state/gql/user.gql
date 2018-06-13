@@ -7,6 +7,22 @@ query GetSelf {
   }
 }
 
+query GetUser($id: ID!) {
+  getUser(id: $id) {
+    id
+    name
+    email
+  }
+}
+
+query GetUserContent($id: ID!) {
+  getUserContent(id: $id) {
+    id
+    title
+    text
+  }
+}
+
 query LocalGetSelf {
   user @client {
     name

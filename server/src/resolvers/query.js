@@ -24,4 +24,19 @@ export default {
     const { token, ...user } = ctx.req.user || {}
     return user.id ? user : null
   },
+
+  getUser(parent, { id }, ctx, info) {
+    return ctx.db.query.user({ where: { id } }, info)
+  },
+
+  getUserContent(parent, { id }, ctx, info) {
+    const where = {
+      isPublished: true,
+      author: {
+        id,
+      },
+    }
+
+    return ctx.db.query.posts({ where }, info)
+  },
 }

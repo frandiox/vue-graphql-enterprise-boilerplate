@@ -7,6 +7,8 @@ type Query {
   drafts: [Post!]! @isAuthenticated
   post(id: ID!): Post
   getSelf: User
+  getUser(id: ID!): User
+  getUserContent(id: ID!): [Post]
 }
 
 type Mutation {
