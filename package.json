@@ -6,7 +6,7 @@
     "dev": "npm-run-all --parallel dev:back \"dev:front {@}\" --",
     "dev:front": "vue-cli-service serve",
     "dev:back": "cd server && yarn start",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --modern",
     "build:ci": "cross-env ANALYZE=true yarn build",
     "test": "yarn unit && yarn e2e",
     "test:ci": "yarn lint && yarn unit --coverage --ci && yarn e2e",
