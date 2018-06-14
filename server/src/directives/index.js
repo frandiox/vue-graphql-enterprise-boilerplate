@@ -1,7 +1,11 @@
 import { AuthenticationError, ForbiddenError } from '../errors'
 import { SchemaDirectiveVisitor } from 'apollo-server-express'
+const { calculateQueryDepth } = require('../utils')
 
 const getUser = ({ req = {}, request = {} }) => req.user || request.user || null
+
+const getQueryStr = ({ req: { body: { query } = '' } }) => query
+
 const hasRole = (roles, ctx) => {
   const { role = '' } = getUser(ctx) || {}
   return role && roles.includes(role)
@@ -34,6 +38,12 @@ export const directiveResolvers = {
       throw new ForbiddenError('Insufficient permissions')
     }
     return next()
+  },
+
+  maxDepth(next, source, args, ctx) {
+    const query = getQueryStr(ctx)
+    if (calculateQueryDepth(query) <= args.depth) return next()
+    throw new BadRequestError('Your query is too long!')
   },
 }
 
