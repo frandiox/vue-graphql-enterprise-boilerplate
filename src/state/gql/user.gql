@@ -2,6 +2,7 @@
 
 query GetSelf {
   getSelf {
+    id
     name
     email
   }
@@ -25,6 +26,7 @@ query GetUserContent($id: ID!) {
 
 query LocalGetSelf {
   user @client {
+    id
     name
     email
   }
