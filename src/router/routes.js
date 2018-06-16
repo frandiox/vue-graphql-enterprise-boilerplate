@@ -1,4 +1,6 @@
 import { tryToLogIn, logout } from '@services/auth'
+import { GetUser } from '@gql/user'
+import { apolloClient } from '@state/index'
 
 export default [
   {
@@ -25,36 +27,37 @@ export default [
     meta: {
       authRequired: true,
     },
-    // props: route => ({ user: store.state.auth.currentUser }), // TODO
+    props: route => ({ _user: route.params.user }),
   },
   {
-    path: '/profile/:username',
-    name: 'username-profile',
+    path: '/profile/:id',
+    name: 'id-profile',
     component: () => lazyLoadView(import('@views/profile')),
     meta: {
       authRequired: true,
     },
     beforeEnter(routeTo, routeFrom, next) {
-      next() // TODO
-      // store
-      //   // Try to fetch the user's information by their username
-      //   .dispatch('users/fetchUser', { username: routeTo.params.username })
-      //   .then(user => {
-      //     // Add the user to the route params, so that it can
-      //     // be provided as a prop for the view component below.
-      //     routeTo.params.user = user
-      //     // Continue to the route.
-      //     next()
-      //   })
-      //   .catch(() => {
-      //     // If a user with the provided username could not be
-      //     // found, redirect to the 404 page.
-      //     next({ name: '404', params: { resource: 'User' } })
-      //   })
+      // Try to fetch the user's information by their id
+      apolloClient
+        .query({
+          query: GetUser,
+          variables: { id: routeTo.params.id },
+        })
+        .then(({ data: { getUser: user } }) => {
+          if (!user) {
+            // If a user with the provided id could not be
+            // found, redirect to the 404 page.
+            next({ name: '404', params: { resource: 'User' } })
+          } else {
+            // Otherwise, proceed
+            routeTo.params.user = user
+            next()
+          }
+        })
     },
     // Set the user from the route params, once it's set in the
     // beforeEnter route guard.
-    props: route => ({ user: route.params.user }),
+    props: route => ({ _user: route.params.user }),
   },
   {
     path: '/logout',

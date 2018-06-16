@@ -43,7 +43,8 @@ router.beforeEach(async (routeTo, routeFrom, next) => {
 
   await checkSession()
 
-  const user = await getCurrentUser()
+  const user = (await getCurrentUser()) || {}
+  routeTo.params.user = user
 
   // Check if auth is required on this route
   // (including nested routes).
