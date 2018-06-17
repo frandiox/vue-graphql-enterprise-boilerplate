@@ -13,7 +13,7 @@ export default {
     return {
       username: '',
       password: '',
-      reset_email: '',
+      resetEmail: '',
       authError: null,
       isSuccess: false,
       inProgress: false,
@@ -29,50 +29,50 @@ export default {
   methods: {
     // Try to log the user in with the username
     // and password they provided.
-    logIn() {
+    async logIn() {
       this.clearErrors()
       this.showForgetPassword = false
       this.inProgress = true
 
-      // This redirects to home page
-      return authorizeSelf(this.username, this.password).catch(err => {
-        this.inProgress = false
+      try {
+        // This redirects to home page
+        await authorizeSelf(this.username, this.password)
+      } catch (err) {
         this.setError(err)
-      })
+      }
+
+      this.inProgress = false
     },
     // Try to create a new account for the user
     // with the username and password they provided.
-    signUp() {
+    async signUp() {
       this.clearErrors()
       this.inProgress = true
 
       // This redirects to home page
-      return signupSelf(this.username, this.password)
-        .then(response => {
-          this.inProgress = false
-          this.isSuccess = true
-          this.logIn()
-        })
-        .catch(err => {
-          this.inProgress = false
-          this.setError(err)
-        })
+      try {
+        await signupSelf(this.username, this.password)
+        this.isSuccess = true
+        this.logIn()
+      } catch (err) {
+        this.setError(err)
+      }
+
+      this.inProgress = false
     },
 
-    resetPassword() {
+    async resetPassword() {
       this.clearErrors()
       this.inProgressForgetPassword = true
 
       // This redirects to home page
-      return passwordReset(this.reset_email)
-        .then(response => {
-          this.inProgressForgetPassword = false
-          this.isSuccessForgetPassword = true
-        })
-        .catch(error => {
-          this.inProgressForgetPassword = false
-          this.setError(error)
-        })
+      try {
+        await passwordReset(this.resetEmail)
+        this.isSuccessForgetPassword = true
+      } catch (err) {
+        this.setError(err)
+      }
+      this.inProgressForgetPassword = false
     },
 
     showSignUpForm() {
@@ -117,7 +117,7 @@ export default {
     clearContent() {
       this.username = ''
       this.password = ''
-      this.reset_email = ''
+      this.resetEmail = ''
       this.showForgetPassword = false
       this.isSuccessForgetPassword = false
     },
@@ -257,7 +257,7 @@ export default {
         @submit.prevent="resetPassword"
       >
         <BaseInput
-          v-model="reset_email"
+          v-model="resetEmail"
           name="resetEmail"
           placeholder="Email"
           type="email"
