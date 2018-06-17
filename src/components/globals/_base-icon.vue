@@ -23,6 +23,7 @@ export default {
         // Add new icons to this list as you need them
         sync: require('@fortawesome/fontawesome-free-solid/faSync'),
         user: require('@fortawesome/fontawesome-free-solid/faUser'),
+        plane: require('@fortawesome/fontawesome-free-solid/faPaperPlane'),
       }[this.name]
     },
     // Gets a CSS module class, e.g. iconCustomLogo

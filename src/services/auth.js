@@ -93,6 +93,18 @@ const authorizeSocial = connectionName => {
   })
 }
 
+const passwordReset = email => {
+  return new Promise((resolve, reject) => {
+    webAuth.changePassword(
+      {
+        email,
+        connection: 'Username-Password-Authentication',
+      },
+      (err, result) => (err ? reject(err) : resolve(result))
+    )
+  })
+}
+
 const tryToLogIn = async () => {
   if (!isValidSession()) {
     clearSession()
@@ -174,6 +186,7 @@ export {
   signupSelf,
   authorizeSelf,
   authorizeSocial,
+  passwordReset,
   getCurrentUser,
   setCurrentUser,
   tryToLogIn,
