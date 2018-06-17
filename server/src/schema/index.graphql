@@ -9,6 +9,7 @@ type Query {
   getSelf: User @isAuthenticated
   getUser(id: ID!): User @maxDepth(depth: 1)
   getUserContent(id: ID!): [Post] @maxDepth(depth: 1)
+  getRecentPosts: [Post] @maxDepth(depth: 2)
 }
 
 type Mutation {

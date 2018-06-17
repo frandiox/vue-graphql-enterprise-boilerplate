@@ -39,4 +39,11 @@ export default {
 
     return ctx.db.query.posts({ where }, info)
   },
+
+  getRecentPosts(parent, args, ctx, info) {
+    return ctx.db.query.posts(
+      { first: 10, orderBy: 'updatedAt_DESC', where: { isPublished: true } },
+      info
+    )
+  },
 }
