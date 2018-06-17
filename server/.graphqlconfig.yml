@@ -1,6 +1,6 @@
 projects:
   app:
-    schemaPath: "src/schema.graphql"
+    schemaPath: "src/schema/index.graphql"
     extensions:
       endpoints:
         default: "http://localhost:${env:PORT}"

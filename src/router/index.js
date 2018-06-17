@@ -5,6 +5,7 @@ import VueMeta from 'vue-meta'
 // Adds a loading bar at the top during page loads.
 import NProgress from 'nprogress/nprogress'
 import routes from './routes'
+import { getCurrentUser } from '@services/auth'
 
 Vue.use(VueRouter)
 Vue.use(VueMeta, {
@@ -31,7 +32,9 @@ const router = new VueRouter({
 })
 
 // Before each route evaluates...
-router.beforeEach((routeTo, routeFrom, next) => {
+router.beforeEach(async (routeTo, routeFrom, next) => {
+  const user = await getCurrentUser()
+
   // Check if auth is required on this route
   // (including nested routes).
   const authRequired = routeTo.matched.some(route => route.meta.authRequired)
@@ -39,24 +42,11 @@ router.beforeEach((routeTo, routeFrom, next) => {
   // If auth isn't required for the route, just continue.
   if (!authRequired) return next()
 
-  next() // TODO
-  // If auth is required and the user is logged in...
-  // if (store.getters['auth/loggedIn']) {
-  //   // Validate the local user token...
-  //   return store.dispatch('auth/validate').then(validUser => {
-  //     // Then continue if the token still represents a valid user,
-  //     // otherwise redirect to login.
-  //     validUser ? next() : redirectToLogin()
-  //   })
-  // }
-
-  // If auth is required and the user is NOT currently logged in,
-  // redirect to login.
-  redirectToLogin()
-
-  function redirectToLogin() {
+  if (user.role === 'TODO') {
     next({ name: 'login' })
   }
+
+  next()
 })
 
 // After navigation is confirmed, but before resolving...

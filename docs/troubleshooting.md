@@ -2,14 +2,14 @@
 
 These are some troubleshooting tips for more common issues people might run into while developing, including more information on what might be happening and how to fix the problem.
 
-* [Errors running scripts (e.g. `yarn dev`)](#errors-running-scripts-eg-yarn-dev)
-* [Visual Studio (VS) Code formatting issues](#visual-studio-vs-code-formatting-issues)
+- [Errors running scripts (e.g. `yarn dev`)](#errors-running-scripts-eg-yarn-dev)
+- [Visual Studio (VS) Code formatting issues](#visual-studio-vs-code-formatting-issues)
 
 ## Errors running scripts (e.g. `yarn dev`)
 
 Make sure you've followed the instructions for [Setup and development](development.md). If you already have, try deleting the `node_modules` folder and installing fresh:
 
-```sh
+```bash
 # 1. Delete all previously-installed dependencies.
 rm -rf node_modules
 
@@ -19,7 +19,7 @@ yarn install
 
 If that doesn't work, it's possible that a newer version of a dependency is creating a problem. If this is the problem, you can work around it by installing dependencies from the `yarn.lock` file of a previously working branch or commit.
 
-```sh
+```bash
 # 1. Delete all previously-installed dependencies.
 rm -rf node_modules
 
@@ -41,4 +41,4 @@ If you're using VS Code and notice that some files are being formatted incorrect
 
 Extensions with known issues include:
 
-* [Visual Studio Code Format](https://marketplace.visualstudio.com/items?itemName=ryannaddy.vscode-format#review-details)
+- [Visual Studio Code Format](https://marketplace.visualstudio.com/items?itemName=ryannaddy.vscode-format#review-details)

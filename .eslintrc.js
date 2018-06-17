@@ -11,7 +11,12 @@ module.exports = {
     // https://github.com/prettier/eslint-config-prettier
     'prettier',
     'prettier/standard',
+    // https://github.com/jest-community/eslint-plugin-jest
+    'plugin:jest/recommended',
+    // https://github.com/sindresorhus/eslint-plugin-unicorn
+    'plugin:unicorn/recommended',
   ],
+  plugins: ['graphql', 'unicorn'],
   rules: {
     // Only allow debugger in development
     'no-debugger': process.env.PRE_COMMIT ? 'error' : 'off',
@@ -19,6 +24,12 @@ module.exports = {
     'no-console': process.env.PRE_COMMIT
       ? ['error', { allow: ['warn', 'error'] }]
       : 'off',
+    'unicorn/catch-error-name': [
+      'error',
+      {
+        name: 'err',
+      },
+    ],
   },
   overrides: [
     {
@@ -41,8 +52,8 @@ module.exports = {
       env: { jest: true },
       globals: {
         mount: false,
-        mountShallow: false,
-        mountShallowView: false,
+        shallowMount: false,
+        shallowMountView: false,
         createComponentMocks: false,
         createModuleStore: false,
       },

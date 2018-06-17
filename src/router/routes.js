@@ -10,18 +10,12 @@ export default [
     path: '/login',
     name: 'login',
     component: () => lazyLoadView(import('@views/login')),
-    beforeEnter(routeTo, routeFrom, next) {
-      // Check if user is logged in
-      tryToLogIn().then(loggedIn => {
-        // If the user is already logged in
-        if (loggedIn) {
-          // Redirect to the home page instead
-          next({ name: 'home' })
-        } else {
-          // Continue to the login page
-          next()
-        }
-      })
+    beforeEnter: async (routeTo, routeFrom, next) => {
+      const loggedIn = await tryToLogIn()
+
+      // Redirect to home page if the user is
+      // logged in or continue otherwise
+      loggedIn ? next({ name: 'home' }) : next()
     },
   },
   {
