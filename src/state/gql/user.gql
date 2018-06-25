@@ -21,6 +21,7 @@ query GetUserContent($id: ID!) {
     id
     title
     text
+    updatedAt
   }
 }
 
