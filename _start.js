@@ -19,8 +19,8 @@ const compareUrl = `https://github.com/frandiox/vue-enterprise-boilerplate/compa
 const startNote = `**You diverged from the boilerplate on ${divergeDate}. See [what's been added](${compareUrl}) since then.**`
 
 const newReadmeContent = fs
-  .readFileSync(path.join(__dirname, 'README.md'))
+  .readFileSync(path.join(__dirname, 'docs/README.md'))
   .toString()
   .replace(ciBadge, startNote)
 
-fs.writeFileSync(path.join(__dirname, 'README.md'), newReadmeContent)
+fs.writeFileSync(path.join(__dirname, 'docs/README.md'), newReadmeContent)
