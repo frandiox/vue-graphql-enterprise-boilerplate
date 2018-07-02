@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "npm-run-all --parallel dev:back dev:front",
+    "dev": "npm-run-all --parallel dev:back \"dev:front {@}\" --",
     "dev:front": "vue-cli-service serve",
     "dev:back": "cd server && yarn start",
     "build": "vue-cli-service build",
