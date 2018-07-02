@@ -21,7 +21,7 @@ Then update the following files to suit your application:
 - `src/app.config.js` (provides metadata about your app)
 - `.circleci/config.yml` (assuming you want to automatically [deploy to production](production.md) with continuous integration)
 
-Optionally, add your environment variables to a `.env`, `.env.local` or `.env.[mode]` file and they will be included in `process.env` by Webpack (they must be prefixed wihth `VUE_APP_`). More info in [Vue CLI docs](https://github.com/vuejs/vue-cli/blob/dev/docs/env.md)
+Optionally, add your environment variables to a `.env`, `.env.local` or `.env.[mode]` file and they will be included in `process.env` by Webpack (they must be prefixed wihth `VUE_APP_`). More info in [Vue CLI docs](https://github.com/vuejs/vue-cli/blob/dev/docs/guide/mode-and-env.md)
 
 ## Installation
 
