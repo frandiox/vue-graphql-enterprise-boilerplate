@@ -24,6 +24,9 @@ const server = new GraphQLServer({
     ...req,
     db,
   }),
+  resolverValidationOptions: {
+    requireResolversForResolveType: false,
+  },
 })
 
 // Verify and expose token information in req.user
