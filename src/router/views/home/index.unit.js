@@ -1,4 +1,4 @@
-import Home from './index'
+import Home from '.'
 
 describe('@views/home', () => {
   it('is a valid view', () => {
@@ -6,7 +6,7 @@ describe('@views/home', () => {
   })
 
   it('renders an element', () => {
-    const { element } = mountShallowView(Home)
+    const { element } = shallowMountView(Home)
     expect(element.textContent).toContain('Home Page')
   })
 })

@@ -3,7 +3,7 @@
 describe('@components/nav-bar', () => {
   it(`displays the user's name in the profile link`, () => {
     // TODO
-    // const { vm } = mountShallow(
+    // const { vm } = shallowMount(
     //   NavBar,
     //   createComponentMocks({
     //     store: {
