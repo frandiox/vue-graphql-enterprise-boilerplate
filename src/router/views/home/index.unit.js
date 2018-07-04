@@ -8,5 +8,8 @@ describe('@views/home', () => {
   it('renders an element', () => {
     const { element } = shallowMountView(Home)
     expect(element.textContent).toContain('Home Page')
+
+    const img = element.querySelector('img')
+    expect(img.src).toContain('@assets/images/logo.png')
   })
 })
