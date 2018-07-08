@@ -10,8 +10,6 @@
 - [End-to-end tests with Cypress](#end-to-end-tests-with-cypress)
   - [Running end-to-end tests](#running-end-to-end-tests)
   - [Introduction to Cypress](#introduction-to-cypress)
-- [The mock API](#the-mock-api)
-  - [Testing/developing against a real server](#testingdeveloping-against-a-real-server)
 
 ## Running all tests
 
@@ -58,7 +56,7 @@ Jest offers many tools for mocks, including:
 
 - [For a function](https://facebook.github.io/jest/docs/en/mock-functions.html), use `jest.fn()`.
 - [For a source file](https://facebook.github.io/jest/docs/en/manual-mocks.html#mocking-user-modules), add the mock to a `__mocks__` directory adjacent to the file.
-- [For a dependency in `node_modules`](https://facebook.github.io/jest/docs/en/manual-mocks.html#mocking-node-modules), add the mock to `tests/unit/__mocks__`. You can see an example of this with the `axios` mock, which intercepts requests with relative URLs to either [our mock API](#the-mock-api) or a local/live API if the `API_BASE_URL` environment variable is set.
+- [For a dependency in `node_modules`](https://facebook.github.io/jest/docs/en/manual-mocks.html#mocking-node-modules), add the mock to `tests/unit/__mocks__`. You can see an example of this with the `axios` mock, which intercepts requests with relative URLs to a local/live API if the `API_BASE_URL` environment variable is set.
 
 ## End-to-end tests with Cypress
 
@@ -86,28 +84,3 @@ And much more! I recommend checking out our Cypress tests in `tests/e2e/specs`, 
 - [Best Practices](https://docs.cypress.io/guides/references/best-practices.html)
 
 Beyond that, also know that you can access our app in Cypress on the `window`.
-
-## The mock API
-
-Working against the production API can be useful sometimes, but it also has some disadvantages:
-
-- Networks requests are slow, which slows down both development and testing.
-- Development and testing become dependent on a stable network connection.
-- Hitting the production API often means modifying the production database, which you typically don't want to do during automated tests.
-- To work on a frontend feature, the backend for it must already be complete.
-
-The mock API is an [Express](https://expressjs.com/) server in `tests/mock-api` you can extend to - you guessed it - mock what the real API would do, solving all the problems listed above. This solution is also backend-agnostic, making it ideal for a wide variety of projects.
-
-### Testing/developing against a real server
-
-In some situations, you might prefer to test against a local server while developing, or maybe just during continuous integration. To do so, you can run any development or test command with the `API_BASE_URL` environment variable. For example:
-
-```bash
-API_BASE_URL=http://localhost:3000 yarn test
-```
-
-Or similarly, with a live server:
-
-```bash
-API_BASE_URL=https://staging.example.io yarn test
-```
