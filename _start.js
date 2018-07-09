@@ -13,7 +13,7 @@ const headSha = fs
   .trim()
 
 const ciBadge =
-  '[![CircleCI](https://circleci.com/gh/chrisvfritz/vue-enterprise-boilerplate/tree/master.svg?style=svg)](https://circleci.com/gh/chrisvfritz/vue-enterprise-boilerplate/tree/master)'
+  '[![CircleCI](https://circleci.com/gh/frandiox/vue-graphql-enterprise-boilerplate/tree/master.svg?style=svg)](https://circleci.com/gh/frandiox/vue-graphql-enterprise-boilerplate/tree/master)'
 const divergeDate = new Date().toString().slice(4, 15)
 const compareUrl = `https://github.com/frandiox/vue-enterprise-boilerplate/compare/${headSha}...master`
 const startNote = `**You diverged from the boilerplate on ${divergeDate}. See [what's been added](${compareUrl}) since then.**`
