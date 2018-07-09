@@ -17,6 +17,17 @@ install_run: &install_run
   name: Install dependencies with Yarn, purely from the lockfile
   command: yarn install --frozen-lockfile
 
+set_node_version: &set_node_version
+  name: Install node@8.11.3 (need right version for `yarn`)
+  command: |
+    set +e
+    touch $BASH_ENV
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
+    echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+    echo 'nvm install v8.11.3' >> $BASH_ENV
+    echo 'nvm alias default v8.11.3' >> $BASH_ENV
+
 install_save_cache: &install_save_cache
   name: Cache installed dependencies
   paths:
@@ -32,6 +43,7 @@ jobs:
 
       # Install dependencies
       - restore_cache: *install_restore_cache
+      - run: *set_node_version
       - run: *install_run
       - save_cache: *install_save_cache
 
@@ -55,6 +67,7 @@ jobs:
 
       # Install dependencies
       - restore_cache: *install_restore_cache
+      - run: *set_node_version
       - run: *install_run
       - save_cache: *install_save_cache
 
