@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "0.0.0",
   "scripts": {
-    "start": "nodemon -e js,json,graphql,gql -x node -r multienv-loader/load src/index.js",
+    "start": "node -r multienv-loader/load src/index.js",
+    "dev": "nodemon -e js,json,graphql,gql -x node -r multienv-loader/load src/index.js",
     "debug": "nodemon -e js,json,graphql,gql -x node -r multienv-loader/load --inspect src/index.js",
     "playground": "graphql --dotenv .env playground",
-    "dev": "npm-run-all --parallel start playground",
     "prisma": "prisma"
   },
   "dependencies": {
