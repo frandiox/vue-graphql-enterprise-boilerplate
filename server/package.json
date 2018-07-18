@@ -2,8 +2,8 @@
   "name": "backend",
   "version": "0.0.0",
   "scripts": {
-    "start": "nodemon -e js,json,graphql,gql -x node src/index.js",
-    "debug": "nodemon -e js,json,graphql,gql -x node --inspect src/index.js",
+    "start": "nodemon -e js,json,graphql,gql -x node -r multienv-loader/load src/index.js",
+    "debug": "nodemon -e js,json,graphql,gql -x node -r multienv-loader/load --inspect src/index.js",
     "playground": "graphql --dotenv .env playground",
     "dev": "npm-run-all --parallel start playground",
     "prisma": "prisma"
@@ -11,7 +11,7 @@
   "dependencies": {
     "graphql-yoga": "^1.14.12",
     "jsonwebtoken": "^8.3.0",
-    "multienv-loader": "^1.0.0",
+    "multienv-loader": "^1.1.0",
     "prisma-binding": "^2.1.1"
   },
   "devDependencies": {

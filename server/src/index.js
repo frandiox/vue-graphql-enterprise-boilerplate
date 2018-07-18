@@ -1,5 +1,3 @@
-require('multienv-loader').load()
-
 const { GraphQLServer } = require('graphql-yoga')
 const { Prisma } = require('prisma-binding')
 

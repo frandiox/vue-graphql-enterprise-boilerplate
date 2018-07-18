@@ -9896,9 +9896,9 @@ multicast-dns@^6.0.1:
     dns-packet "^1.3.1"
     thunky "^1.0.2"
 
-multienv-loader@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/multienv-loader/-/multienv-loader-1.0.0.tgz#9fc782dfdd56a25a8e736205f83347065e49fc22"
+multienv-loader@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/multienv-loader/-/multienv-loader-1.1.0.tgz#ce1bef52aca8dc3fcfe786dda3174180d2abae6f"
 
 multimatch@^2.1.0:
   version "2.1.0"
