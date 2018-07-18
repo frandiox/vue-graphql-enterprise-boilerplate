@@ -2,6 +2,7 @@ module.exports = {
   root: false,
   parserOptions: {
     sourceType: 'script',
+    ecmaVersion: '2018',
   },
   extends: [
     // https://github.com/mysticatea/eslint-plugin-node
@@ -10,20 +11,4 @@ module.exports = {
   rules: {
     'node/no-unpublished-require': 'off',
   },
-  overrides: [
-    {
-      // For any SSR vue component
-      files: ['**/*.vue'],
-      rules: {
-        'node/no-unsupported-features': 'off',
-      },
-      parserOptions: {
-        parser: 'babel-eslint',
-        sourceType: 'module',
-      },
-      env: {
-        browser: true,
-      },
-    },
-  ],
 }
