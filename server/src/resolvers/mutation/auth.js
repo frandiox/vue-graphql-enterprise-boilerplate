@@ -1,6 +1,6 @@
-const jwksClient = require('jwks-rsa')
-const jwt = require('jsonwebtoken')
-const { AuthError } = require('../../errors')
+import jwksClient from 'jwks-rsa'
+import jwt from 'jsonwebtoken'
+import { AuthError } from '../../errors'
 
 const jwks = jwksClient({
   cache: true,
@@ -37,7 +37,7 @@ function verifyAndDecodeIdToken(idToken) {
   })
 }
 
-module.exports = {
+export default {
   async authenticate(parent, { idToken }, ctx, info) {
     let userToken = null
 

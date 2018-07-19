@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   feedSubscription: {
     subscribe: (parent, args, ctx, info) => {
       return ctx.db.subscription.post({}, info)

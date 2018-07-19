@@ -2,13 +2,14 @@
   "name": "backend",
   "version": "0.0.0",
   "scripts": {
-    "start": "node -r multienv-loader/load src/index.js",
-    "dev": "nodemon -e js,json,graphql,gql -x node -r multienv-loader/load src/index.js",
-    "debug": "nodemon -e js,json,graphql,gql -x node -r multienv-loader/load --inspect src/index.js",
+    "start": "node -r multienv-loader/load -r esm src/index.js",
+    "dev": "nodemon -e js,json,graphql,gql -x node -r multienv-loader/load -r esm src/index.js",
+    "debug": "nodemon -e js,json,graphql,gql -x node -r multienv-loader/load -r esm --inspect src/index.js",
     "playground": "graphql --dotenv .env playground",
     "prisma": "prisma"
   },
   "dependencies": {
+    "esm": "^3.0.71",
     "graphql-yoga": "^1.14.12",
     "jsonwebtoken": "^8.3.0",
     "multienv-loader": "^1.1.0",

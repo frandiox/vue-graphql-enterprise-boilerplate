@@ -1,11 +1,11 @@
-const jwksClient = require('jwks-rsa')
-const jwt = require('express-jwt')
+import jwksClient from 'jwks-rsa'
+import jwt from 'express-jwt'
 
 // Authentication middleware. When used,
 // if the access token exists, it will be
 // verified against the Auth0 JSON Web Key Set
 
-module.exports = jwt({
+export default jwt({
   // Dynamically provide a signing key
   // based on the kid in the header and
   // the signing keys provided by the JWKS endpoint.

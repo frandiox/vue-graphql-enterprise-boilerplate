@@ -1,4 +1,4 @@
-const { AuthError } = require('../errors')
+import { AuthError } from '../errors'
 
 const getUser = ({ request: { user } = {} }) => user
 
@@ -7,7 +7,7 @@ const hasRole = (roles, ctx) => {
   return role && roles.includes(role)
 }
 
-module.exports = {
+export default {
   isAuthenticated(next, source, args, ctx) {
     if (getUser(ctx)) return next()
     throw new AuthError('Access Token is missing or might be expired')

@@ -1,5 +1,2 @@
-module.exports = {
-  Query: require('./query'),
-  Mutation: require('./mutation'),
-  // Subscription: require('./subscription'),
-}
+export { default as Query } from './query'
+export { default as Mutation } from './mutation'
