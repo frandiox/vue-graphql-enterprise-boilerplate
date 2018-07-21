@@ -12,6 +12,7 @@ module.exports = {
     '^.+\\.js$': 'babel-jest',
     '\\.(gql|graphql)$': 'jest-transform-graphql',
   },
+  transformIgnorePatterns: ['/node_modules/(?!vue-cli-plugin-apollo).+\\.js$'],
   moduleNameMapper: require('./aliases.config').jest,
   snapshotSerializers: ['jest-serializer-vue'],
   coverageDirectory: '<rootDir>/tests/unit/coverage',
