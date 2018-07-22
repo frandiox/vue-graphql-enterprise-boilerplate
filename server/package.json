@@ -9,7 +9,7 @@
     "prisma": "prisma"
   },
   "dependencies": {
-    "esm": "^3.0.71",
+    "esm": "^3.0.72",
     "graphql-yoga": "^1.14.12",
     "jsonwebtoken": "^8.3.0",
     "multienv-loader": "^1.1.0",
