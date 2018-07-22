@@ -4,19 +4,14 @@ class DefaultError extends Error {
   }
 }
 
-class AuthError extends DefaultError {
+export class AuthError extends DefaultError {
   constructor(...messages) {
     super('Not authorized', ...messages)
   }
 }
 
-class BadRequestError extends DefaultError {
+export class BadRequestError extends DefaultError {
   constructor(...messages) {
     super('Bad request', ...messages)
   }
-}
-
-module.exports = {
-  AuthError,
-  BadRequestError,
 }

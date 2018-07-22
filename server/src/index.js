@@ -1,11 +1,11 @@
-const { GraphQLServer } = require('graphql-yoga')
-const { Prisma } = require('prisma-binding')
+import { GraphQLServer } from 'graphql-yoga'
+import { Prisma } from 'prisma-binding'
 
-const verifyAccessToken = require('./middleware/verify-access-token')
-const getUserFromDB = require('./middleware/get-user-from-db')
+import verifyAccessToken from './middleware/verify-access-token'
+import getUserFromDB from './middleware/get-user-from-db'
 
-const resolvers = require('./resolvers')
-const directiveResolvers = require('./directives')
+import directiveResolvers from './directives'
+import * as resolvers from './resolvers'
 
 const db = new Prisma({
   typeDefs: 'src/generated/prisma.graphql', // the Prisma DB schema

@@ -1,4 +1,4 @@
-module.exports = async (req, res, next, db) => {
+export default async function(req, res, next, db) {
   if (req.user) {
     const user = await db.query.user({
       where: { auth0id: req.user.sub.split(`|`)[1] },

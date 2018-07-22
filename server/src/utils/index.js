@@ -1,17 +1,15 @@
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
 
 // Require all the modules in the specified directory
-const mergeDirectoryModules = dirpath =>
+export const mergeDirectoryModules = dirpath =>
   fs
     .readdirSync(dirpath, 'utf8')
     .filter(filename => !/^[_|index.]/.test(filename))
     .reduce(
       (acc, filename) => ({
         ...acc,
-        ...require(path.resolve(dirpath, filename)),
+        ...require(path.resolve(dirpath, filename)).default,
       }),
       {}
     )
-
-module.exports = { mergeDirectoryModules }

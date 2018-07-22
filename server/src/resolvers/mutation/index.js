@@ -1,2 +1,2 @@
-const { mergeDirectoryModules } = require('../../utils')
-module.exports = mergeDirectoryModules(__dirname)
+import { mergeDirectoryModules } from '../../utils'
+export default mergeDirectoryModules(__dirname)

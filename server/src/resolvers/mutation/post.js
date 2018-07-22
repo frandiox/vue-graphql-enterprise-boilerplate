@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   async createDraft(parent, { title, text }, ctx, info) {
     const userId = ctx.request.user.id
     return ctx.db.mutation.createPost(
