@@ -50,7 +50,7 @@ export default {
           )
         }
         // Check for insecure URL in href.
-        if (!this.allowInsecure && !/^https/.test(this.href)) {
+        if (!this.allowInsecure && !this.href.startsWith('https')) {
           return console.warn(
             `Insecure <BaseLink> href: ${
               this.href

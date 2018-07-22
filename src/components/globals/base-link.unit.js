@@ -1,4 +1,4 @@
-import BaseLink from './_base-link'
+import BaseLink from './base-link'
 
 const mountBaseLink = (options = {}) => {
   return mount(BaseLink, {
@@ -17,7 +17,7 @@ const mountBaseLink = (options = {}) => {
   })
 }
 
-describe('@components/_base-link', () => {
+describe('@components/base-link', () => {
   const originalConsoleWarn = global.console.warn
   let warning
   beforeEach(() => {
@@ -72,19 +72,6 @@ describe('@components/_base-link', () => {
     expect(element.href).toEqual(externalUrl)
     expect(element.target).toEqual('_blank')
     expect(element.textContent).toEqual('hello')
-  })
-
-  it('renders a router-link when passed a `name` prop', () => {
-    const routeName = 'home'
-    const { element, vm } = mountBaseLink({
-      propsData: {
-        name: routeName,
-      },
-    })
-    expect(console.warn).not.toHaveBeenCalled()
-    expect(element.dataset.routerLink).toEqual('true')
-    expect(element.textContent).toEqual('hello')
-    expect(vm.routerLinkTo).toEqual({ name: routeName, params: {} })
   })
 
   it('renders a router-link when passed a `name` prop', () => {

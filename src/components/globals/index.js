@@ -24,8 +24,6 @@ requireComponent.keys().forEach(fileName => {
   const componentName = upperFirst(
     camelCase(
       fileName
-        // Remove the "./_" from the beginning
-        .replace(/^\.\/_/, '')
         // Remove the file extension from the end
         .replace(/\.\w+$/, '')
     )

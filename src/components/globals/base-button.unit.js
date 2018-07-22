@@ -1,6 +1,6 @@
-import BaseButton from './_base-button'
+import BaseButton from './base-button'
 
-describe('@components/_base-button', () => {
+describe('@components/base-button', () => {
   it('renders its content', () => {
     const slotContent = '<span>foo</span>'
     const { element } = shallowMount(BaseButton, {
