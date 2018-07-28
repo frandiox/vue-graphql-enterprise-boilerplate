@@ -1,8 +1,8 @@
-// import Login from './index' // FIXME New vue-cli-plugin-apollo bug?
+import Login from '.'
 
 describe('@views/login', () => {
   it('is a valid view', () => {
-    // expect(Login).toBeAViewComponent()
+    expect(Login).toBeAViewComponent()
   })
 
   // TODO
