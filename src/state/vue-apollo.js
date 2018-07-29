@@ -79,12 +79,6 @@ export function createProvider(options = {}) {
 export async function onLogin(apolloClient, token) {
   localStorage.setItem(AUTH_TOKEN, token)
   if (apolloClient.wsClient) restartWebsockets(apolloClient.wsClient)
-  try {
-    await apolloClient.resetStore()
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.log('%cError on cache reset (login)', 'color: orange;', err.message)
-  }
 }
 
 // Manually call this when user log out

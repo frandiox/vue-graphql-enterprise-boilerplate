@@ -14,40 +14,45 @@ const socialConnection = {
 const authConfig = {
   domain: process.env.VUE_APP_AUTH0_DOMAIN,
   clientID: process.env.VUE_APP_AUTH0_CLIENT_ID,
-  redirectUri: process.env.VUE_APP_DOMAIN + 'login',
+  audience: process.env.VUE_APP_AUTH0_AUDIENCE,
+  redirectUri: `${window.location.origin}/login`,
+  responseType: 'token id_token',
+  scope: 'openid profile',
 }
 
-const webAuth = new auth0.WebAuth({
-  ...authConfig,
-  responseType: 'token id_token',
-  audience: `https://${authConfig.domain}/api/v2/`,
-})
+const webAuth = new auth0.WebAuth(authConfig)
 
-const isValidSession = () =>
-  [ACCESS_TOKEN, ID_TOKEN, EXPIRES_AT].every(
-    item => localStorage.getItem(item) !== null
-  ) && new Date().getTime() < JSON.parse(localStorage.getItem(EXPIRES_AT))
+let singleSignOn
+let renewAuthTimeout
 
 const setSession = ({ expiresIn, accessToken, idToken }) => {
   localStorage.setItem(ACCESS_TOKEN, accessToken)
   localStorage.setItem(ID_TOKEN, idToken)
-
   // Set the time that the access token will expire at
   localStorage.setItem(
     EXPIRES_AT,
-    JSON.stringify(expiresIn * 1000 + new Date().getTime())
+    JSON.stringify(expiresIn * 1000 + Date.now())
   )
 
   apolloOnLogin(accessToken)
 }
 
 const clearSession = () => {
-  apolloOnLogout()
   // Clear access token and ID token from local storage
-  return [ACCESS_TOKEN, ID_TOKEN, EXPIRES_AT].forEach(item =>
+  ;[ACCESS_TOKEN, ID_TOKEN, EXPIRES_AT].forEach(item =>
     localStorage.removeItem(item)
   )
+
+  apolloOnLogout()
+  singleSignOn = false
+
+  clearTimeout(renewAuthTimeout)
 }
+
+const isValidSession = () =>
+  [ACCESS_TOKEN, ID_TOKEN, EXPIRES_AT].every(
+    item => localStorage.getItem(item) !== null
+  ) && new Date().getTime() < JSON.parse(localStorage.getItem(EXPIRES_AT))
 
 const validateTokens = (hash = {}) => {
   return new Promise((resolve, reject) => {
@@ -57,6 +62,27 @@ const validateTokens = (hash = {}) => {
       hash,
       (err, result) => (err ? reject(err) : resolve(result))
     )
+  })
+}
+
+function scheduleRenewAuth() {
+  singleSignOn = true
+  const expiresIn = localStorage.getItem(EXPIRES_AT) - Date.now()
+  clearTimeout(renewAuthTimeout)
+
+  // Schedule token renewal 1 minute before expiration
+  renewAuthTimeout = setTimeout(renewAuth, expiresIn - 60000)
+}
+
+function renewAuth() {
+  const { audience, scope } = authConfig
+  return new Promise((resolve, reject) => {
+    webAuth.checkSession({ audience, scope }, (err, authResult) => {
+      if (err) return reject(err)
+      setSession(authResult)
+      scheduleRenewAuth()
+      resolve(authResult)
+    })
   })
 }
 
@@ -106,30 +132,32 @@ const passwordReset = email => {
 }
 
 const tryToLogIn = async () => {
-  if (!isValidSession()) {
-    clearSession()
+  if (isValidSession()) return true
 
-    const hash = extractHash(window.location, window.history)
+  clearSession()
 
-    if (hash.id_token && hash.access_token) {
-      try {
-        const authResult = await validateTokens(hash)
+  const hash = extractHash(window.location, window.history)
 
-        const {
-          data: { authenticate: user },
-        } = await apolloClient.mutate({
-          mutation: Authenticate,
-          variables: { idToken: authResult.idToken },
-        })
+  if (hash.id_token && hash.access_token) {
+    try {
+      const authResult = await validateTokens(hash)
+      console.log('Trying to login...', authResult) // eslint-disable-line no-console
 
-        await setCurrentUser(user)
-        setSession(authResult)
+      const {
+        data: { authenticate: user },
+      } = await apolloClient.mutate({
+        mutation: Authenticate,
+        variables: { idToken: authResult.idToken },
+      })
 
-        console.log('Authenticated!', user, authResult) // eslint-disable-line no-console
-        return true
-      } catch (err) {
-        console.error(err)
-      }
+      await setCurrentUser(user)
+      setSession(authResult)
+      scheduleRenewAuth()
+
+      console.log('Authenticated!', user) // eslint-disable-line no-console
+      return true
+    } catch (err) {
+      console.error(err)
     }
   }
 
@@ -140,9 +168,11 @@ const logout = () => {
   clearSession()
   setCurrentUser(null)
 
+  const { clientID } = authConfig
+
   webAuth.logout({
-    returnTo: process.env.VUE_APP_DOMAIN + 'login',
-    clientID: authConfig.clientID,
+    clientID,
+    returnTo: `${window.location.origin}/login`,
   })
 }
 
@@ -151,6 +181,22 @@ const setCurrentUser = user => {
     mutation: LocalSetSelf,
     variables: { user },
   })
+}
+
+const checkSession = async () => {
+  if (isValidSession()) {
+    // If this is the first time and session is valid
+    singleSignOn === undefined && scheduleRenewAuth()
+  } else if (singleSignOn !== false) {
+    // If this is the first time or is already logged in
+    // but session is not valid
+    try {
+      await renewAuth()
+    } catch (err) {
+      err.error !== 'login_required' && console.error(err)
+      clearSession()
+    }
+  }
 }
 
 const getCurrentUser = async () => {
@@ -188,6 +234,7 @@ export {
   authorizeSocial,
   passwordReset,
   getCurrentUser,
+  checkSession,
   setCurrentUser,
   tryToLogIn,
   logout,
