@@ -247,7 +247,7 @@ export async function checkSession() {
   if (isValidSession()) {
     // If this is the first time and session is valid
     singleSignOn === undefined && scheduleRenewAuth()
-  } else if (singleSignOn !== false) {
+  } else if (singleSignOn !== false && !window.Cypress) {
     // If this is the first time or is already logged in
     // but session is not valid
     try {
