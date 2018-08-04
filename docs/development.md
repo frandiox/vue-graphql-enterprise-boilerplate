@@ -99,10 +99,10 @@ Update existing or create new generators in the `_templates` folder, with help f
 
 ## Aliases
 
-To simplify referencing local modules and refactoring, you can set aliases to be shared between dev and unit tests in `aliases.config.js`. As a convention, this project uses an `@` prefix to denote aliases.
+To simplify referencing local modules and refactoring, you can set aliases to be shared between dev and unit tests in `jsconfig.json`. As a convention, this project uses an `@` prefix to denote aliases.
 
 ## Globals
 
 ### Base components
 
-[Base components](https://vuejs.org/v2/style-guide/#Base-component-names-strongly-recommended) (a.k.a. presentational, dumb, or pure components) that apply app-specific styling and conventions should all begin with the `_base-` prefix (`base [name]` when using generator). Since these components are typically used in place of raw HTML element (and thus used as frequently), they're automatically globally registered for convenience. This means you don't have to import and locally register them to use them in templates.
+[Base components](https://vuejs.org/v2/style-guide/#Base-component-names-strongly-recommended) (a.k.a. presentational, dumb, or pure components) that apply app-specific styling and conventions should all begin with the `base-` prefix (`base [name]` when using generator). Since these components are typically used in place of raw HTML element (and thus used as frequently), they're automatically globally registered for convenience. This means you don't have to import and locally register them to use them in templates.

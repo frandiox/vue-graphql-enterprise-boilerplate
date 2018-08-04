@@ -30,3 +30,5 @@ yarn-error.log*
 
 # Temporal or test files
 /**/_*
+!/**/design/_*
+!/**/public/_*

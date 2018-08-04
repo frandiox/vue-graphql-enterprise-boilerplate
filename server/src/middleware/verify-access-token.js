@@ -21,6 +21,6 @@ export default jwt({
 
   // Validate audience, issuer and expiration
   issuer: `https://${process.env.AUTH0_DOMAIN}/`,
-  audience: `https://${process.env.AUTH0_DOMAIN}/api/v2/`,
+  audience: process.env.AUTH0_AUDIENCE,
   ignoreExpiration: false,
 })

@@ -1,5 +1,19 @@
+const path = require('path')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const appConfig = require('./src/app.config')
+
+// @ts-ignore
+const { paths } = require('./jsconfig.json').compilerOptions
+const alias = Object.keys(paths).reduce(
+  (acc, key) => ({
+    ...acc,
+    [key.replace('/*', '')]: path.join(
+      __dirname,
+      paths[key][0].replace('/*', '')
+    ),
+  }),
+  {}
+)
 
 module.exports = {
   configureWebpack: {
@@ -8,8 +22,8 @@ module.exports = {
     name: appConfig.title,
     // Set up all the aliases we use in our app.
     resolve: {
+      alias,
       extensions: ['/index.vue', '.gql', '.graphql'],
-      alias: require('./aliases.config').webpack,
     },
     plugins: [
       // Optionally produce a bundle analysis

@@ -5,7 +5,7 @@ import VueMeta from 'vue-meta'
 // Adds a loading bar at the top during page loads.
 import NProgress from 'nprogress/nprogress'
 import routes from './routes'
-import { getCurrentUser } from '@services/auth'
+import { getCurrentUser, checkSession } from '@services/auth'
 
 Vue.use(VueRouter)
 Vue.use(VueMeta, {
@@ -33,6 +33,9 @@ const router = new VueRouter({
 
 // Before each route evaluates...
 router.beforeEach(async (routeTo, routeFrom, next) => {
+  if (routeTo.name === 'login') return next()
+
+  await checkSession()
   const user = await getCurrentUser()
 
   // Check if auth is required on this route
@@ -42,7 +45,7 @@ router.beforeEach(async (routeTo, routeFrom, next) => {
   // If auth isn't required for the route, just continue.
   if (!authRequired) return next()
 
-  if (user.role === 'TODO') {
+  if (!user || user.role === 'TODO') {
     next({ name: 'login' })
   }
 

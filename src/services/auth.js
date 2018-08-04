@@ -1,7 +1,9 @@
 import auth0 from 'auth0-js'
 import extractHash from '@utils/extract-hash'
 import { Authenticate, GetSelf, LocalSetSelf, LocalGetSelf } from '@gql/user'
-import { apolloClient, apolloOnLogin, apolloOnLogout } from '@state/index'
+import { apolloClient, apolloOnLogin, apolloOnLogout } from '@state'
+
+/* PRIVATE */
 
 const ACCESS_TOKEN = 'access_token'
 const ID_TOKEN = 'id_token'
@@ -14,42 +16,62 @@ const socialConnection = {
 const authConfig = {
   domain: process.env.VUE_APP_AUTH0_DOMAIN,
   clientID: process.env.VUE_APP_AUTH0_CLIENT_ID,
-  redirectUri: process.env.VUE_APP_DOMAIN + 'login',
+  audience: process.env.VUE_APP_AUTH0_AUDIENCE,
+  redirectUri: `${window.location.origin}/login`,
+  responseType: 'token id_token',
+  scope: 'openid profile',
 }
 
-const webAuth = new auth0.WebAuth({
-  ...authConfig,
-  responseType: 'token id_token',
-  audience: `https://${authConfig.domain}/api/v2/`,
-})
+const webAuth = new auth0.WebAuth(authConfig)
 
-const isValidSession = () =>
-  [ACCESS_TOKEN, ID_TOKEN, EXPIRES_AT].every(
-    item => localStorage.getItem(item) !== null
-  ) && new Date().getTime() < JSON.parse(localStorage.getItem(EXPIRES_AT))
+let singleSignOn
+let renewAuthTimeout
 
-const setSession = ({ expiresIn, accessToken, idToken }) => {
+/**
+ * @description Save authentication data in localStorage
+ */
+function setSession({ expiresIn, accessToken, idToken }) {
   localStorage.setItem(ACCESS_TOKEN, accessToken)
   localStorage.setItem(ID_TOKEN, idToken)
-
   // Set the time that the access token will expire at
   localStorage.setItem(
     EXPIRES_AT,
-    JSON.stringify(expiresIn * 1000 + new Date().getTime())
+    JSON.stringify(expiresIn * 1000 + Date.now())
   )
 
   apolloOnLogin(accessToken)
 }
 
-const clearSession = () => {
-  apolloOnLogout()
+/**
+ * @description Remove authentication data from localStorage
+ */
+function clearSession() {
   // Clear access token and ID token from local storage
-  return [ACCESS_TOKEN, ID_TOKEN, EXPIRES_AT].forEach(item =>
+  ;[ACCESS_TOKEN, ID_TOKEN, EXPIRES_AT].forEach(item =>
     localStorage.removeItem(item)
+  )
+
+  apolloOnLogout()
+  singleSignOn = false
+
+  clearTimeout(renewAuthTimeout)
+}
+
+/**
+ * @description Check if authentication data exists and is valid
+ */
+function isValidSession() {
+  return (
+    [ACCESS_TOKEN, ID_TOKEN, EXPIRES_AT].every(
+      item => localStorage.getItem(item) !== null
+    ) && new Date().getTime() < JSON.parse(localStorage.getItem(EXPIRES_AT))
   )
 }
 
-const validateTokens = (hash = {}) => {
+/**
+ * @description Check if auth0 response (url hash) is correct
+ */
+function validateAuthResponse(hash = {}) {
   return new Promise((resolve, reject) => {
     // @ts-ignore
     webAuth.validateAuthenticationResponse(
@@ -60,8 +82,42 @@ const validateTokens = (hash = {}) => {
   })
 }
 
-// Public
-const signupSelf = (email, password) => {
+/**
+ * @description Schedule authentication data renewal right before expiration
+ */
+function scheduleRenewAuth() {
+  singleSignOn = true
+  const expiresIn = Number(localStorage.getItem(EXPIRES_AT)) - Date.now()
+  clearTimeout(renewAuthTimeout)
+
+  // Schedule token renewal 1 minute before expiration
+  renewAuthTimeout = setTimeout(renewAuth, expiresIn - 60000)
+}
+
+/**
+ * @description Refresh authentication data based on Auth0's Single Sign On (SSO)
+ */
+function renewAuth() {
+  const { audience, scope } = authConfig
+  return new Promise((resolve, reject) => {
+    webAuth.checkSession({ audience, scope }, (err, authResult) => {
+      if (err) return reject(err)
+      setSession(authResult)
+      scheduleRenewAuth()
+      resolve(authResult)
+    })
+  })
+}
+
+/* PUBLIC */
+
+/**
+ * @description Signup current user with the provided credentials
+ * @param {String} email User's email
+ * @param {String} password User's password
+ * @returns {Promise<Object>} Auth result or error object
+ */
+export function signupSelf(email, password) {
   return new Promise((resolve, reject) => {
     webAuth.signup(
       {
@@ -74,7 +130,13 @@ const signupSelf = (email, password) => {
   })
 }
 
-const authorizeSelf = (username, password) => {
+/**
+ * @description Send login attempt to Auth0 with the provided credentials
+ * @param {String} username User's username (normally email)
+ * @param {String} password User's password
+ * @returns {Promise<Object>} Auth result or error object
+ */
+export function authorizeSelf(username, password) {
   return new Promise((resolve, reject) => {
     webAuth.login(
       {
@@ -87,13 +149,22 @@ const authorizeSelf = (username, password) => {
   })
 }
 
-const authorizeSocial = connectionName => {
+/**
+ * @description Attempt to login with the provided social network
+ * @param {String} connectionName Name of the social network connection (e.g. "google")
+ */
+export function authorizeSocial(connectionName) {
   webAuth.authorize({
     connection: socialConnection[connectionName],
   })
 }
 
-const passwordReset = email => {
+/**
+ * @description Reset user's password
+ * @param {String} email User's email for password reset
+ * @returns {Promise<Object>} Password change result or error object
+ */
+export function passwordReset(email) {
   return new Promise((resolve, reject) => {
     webAuth.changePassword(
       {
@@ -105,59 +176,98 @@ const passwordReset = email => {
   })
 }
 
-const tryToLogIn = async () => {
-  if (!isValidSession()) {
-    clearSession()
+/**
+ * @description Try to login the current user based on hash response from Auth0
+ * @returns {Promise<Boolean>} Wether the session is logged in
+ */
+export async function tryToLogIn() {
+  if (isValidSession()) return true
 
-    const hash = extractHash(window.location, window.history)
+  clearSession()
 
-    if (hash.id_token && hash.access_token) {
-      try {
-        const authResult = await validateTokens(hash)
+  const hash = extractHash(window.location, window.history)
 
-        const {
-          data: { authenticate: user },
-        } = await apolloClient.mutate({
-          mutation: Authenticate,
-          variables: { idToken: authResult.idToken },
-        })
+  if (hash.id_token && hash.access_token) {
+    try {
+      const authResult = await validateAuthResponse(hash)
+      console.log('Trying to login...', authResult) // eslint-disable-line no-console
 
-        await setCurrentUser(user)
-        setSession(authResult)
+      const {
+        data: { authenticate: user },
+      } = await apolloClient.mutate({
+        mutation: Authenticate,
+        variables: { idToken: authResult.idToken },
+      })
 
-        console.log('Authenticated!', user, authResult) // eslint-disable-line no-console
-        return true
-      } catch (err) {
-        console.error(err)
-      }
+      await setCurrentUser(user)
+      setSession(authResult)
+      scheduleRenewAuth()
+
+      console.log('Authenticated!', user) // eslint-disable-line no-console
+      return true
+    } catch (err) {
+      console.error(err)
     }
   }
 
   return false
 }
 
-const logout = () => {
+/**
+ * @description Remove local session data and Auth0's Single Sign On session
+ */
+export function logout() {
   clearSession()
   setCurrentUser(null)
 
+  const { clientID } = authConfig
+
   webAuth.logout({
-    returnTo: process.env.VUE_APP_DOMAIN + 'login',
-    clientID: authConfig.clientID,
+    clientID,
+    returnTo: `${window.location.origin}/login`,
   })
 }
 
-const setCurrentUser = user => {
+/**
+ * @description Store user information locally
+ * @param {Object} user User object
+ * @returns {Promise<Object>} Local mutation result
+ */
+export function setCurrentUser(user) {
   return apolloClient.mutate({
     mutation: LocalSetSelf,
     variables: { user },
   })
 }
 
-const getCurrentUser = async () => {
+/**
+ * @description Ensure current session validity and renewal if Single Sign On is valid
+ */
+export async function checkSession() {
+  if (isValidSession()) {
+    // If this is the first time and session is valid
+    singleSignOn === undefined && scheduleRenewAuth()
+  } else if (singleSignOn !== false && !window.Cypress) {
+    // If this is the first time or is already logged in
+    // but session is not valid
+    try {
+      await renewAuth()
+    } catch (err) {
+      err.error !== 'login_required' && console.error(err)
+      clearSession()
+    }
+  }
+}
+
+/**
+ * @description Ensure the current user information is stored locally
+ * @returns {Promise<Object>} Current user's information or null
+ */
+export async function getCurrentUser() {
   let user = null
 
   if (isValidSession()) {
-    // Get local version
+    // Get local version if exists
     let {
       data: { user: localUser },
     } = await apolloClient.query({ query: LocalGetSelf })
@@ -180,15 +290,4 @@ const getCurrentUser = async () => {
   }
 
   return user
-}
-
-export {
-  signupSelf,
-  authorizeSelf,
-  authorizeSocial,
-  passwordReset,
-  getCurrentUser,
-  setCurrentUser,
-  tryToLogIn,
-  logout,
 }
