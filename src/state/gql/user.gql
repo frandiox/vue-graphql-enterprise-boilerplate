@@ -56,6 +56,17 @@ mutation Authenticate($idToken: String!) {
   }
 }
 
+mutation UpdatePost($id: ID!, $title: String!, $text: String!) {
+  updatePost(id: $id, title: $title, text: $text) {
+    title
+    text
+    updatedAt
+    author {
+      id
+    }
+  }
+}
+
 mutation LocalSetSelf($user: User!) {
   setSelf(user: $user) @client
 }

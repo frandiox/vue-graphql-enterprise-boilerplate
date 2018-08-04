@@ -16,6 +16,7 @@ type Mutation {
   authenticate(idToken: String!): User!
   createDraft(title: String!, text: String!): Post! @isAuthenticated
   publish(id: ID!): Post! @isAuthenticated
+  updatePost(id: ID!, title: String!, text: String!): Post! @maxDepth(depth: 2)
   deletePost(id: ID!): Post! @isAuthenticated
 }
 
