@@ -1,0 +1,6 @@
+{
+  "baseUrl": ".",
+  "module": "es6",
+  "checkJs": true,
+  "include": ["./src/**/*"]
+}

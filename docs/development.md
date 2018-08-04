@@ -99,7 +99,7 @@ Update existing or create new generators in the `_templates` folder, with help f
 
 ## Aliases
 
-To simplify referencing local modules and refactoring, you can set aliases to be shared between dev and unit tests in `aliases.config.js`. As a convention, this project uses an `@` prefix to denote aliases.
+To simplify referencing local modules and refactoring, you can set aliases to be shared between dev and unit tests in `jsconfig.json`. As a convention, this project uses an `@` prefix to denote aliases.
 
 ## Globals
 

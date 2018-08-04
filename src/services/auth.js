@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js'
 import extractHash from '@utils/extract-hash'
 import { Authenticate, GetSelf, LocalSetSelf, LocalGetSelf } from '@gql/user'
-import { apolloClient, apolloOnLogin, apolloOnLogout } from '@state/index'
+import { apolloClient, apolloOnLogin, apolloOnLogout } from '@state'
 
 /* PRIVATE */
 

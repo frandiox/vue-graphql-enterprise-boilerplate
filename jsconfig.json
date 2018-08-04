@@ -1,0 +1,24 @@
+{
+  "baseUrl": ".",
+  "module": "es6",
+  "checkJs": true,
+  "include": ["./src/**/*"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"],
+      "@router": ["src/router/index.js"],
+      "@router/*": ["src/router/*"],
+      "@views/*": ["src/router/views/*"],
+      "@layouts/*": ["src/router/layouts/*"],
+      "@components/*": ["src/components/*"],
+      "@assets/*": ["src/assets/*"],
+      "@services/*": ["src/services/*"],
+      "@utils/*": ["src/utils/*"],
+      "@state": ["src/state/index.js"],
+      "@state/*": ["src/state/*"],
+      "@gql/*": ["src/state/gql/*"],
+      "@design": ["src/design/index.scss"]
+    }
+  }
+}
