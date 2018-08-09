@@ -6,3 +6,6 @@ projects:
       - 'src/**/*.graphql'
     endpoints:
       default: "http://localhost:${env:PORT}"
+    extensions:
+      customDirectives:
+        - directive @client on FIELD
