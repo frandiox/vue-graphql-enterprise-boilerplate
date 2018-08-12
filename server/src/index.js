@@ -5,12 +5,12 @@ import verifyAccessToken from './middleware/verify-access-token'
 import getUserFromDB from './middleware/get-user-from-db'
 
 import createApolloServer from './apollo-server'
-import { schemaDirectives } from './directives'
 import * as resolvers from './resolvers'
+import { schemaDirectives } from './directives'
 
 import db from './db'
 
-const { GRAPHQL_ENDPOINT, PORT, NODE_ENV } = process.env
+const { GRAPHQL_ENDPOINT, GRAPHQL_SUBSCRIPTIONS, PORT, NODE_ENV } = process.env
 
 const app = express()
 
@@ -25,6 +25,8 @@ app.post(
 )
 
 const server = createApolloServer(app, {
+  graphqlEndpoint: GRAPHQL_ENDPOINT,
+  subscriptionsEndpoint: GRAPHQL_SUBSCRIPTIONS,
   typeDefs: importSchema('src/schema/index.graphql'),
   resolvers,
   schemaDirectives,

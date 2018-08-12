@@ -2,35 +2,49 @@ import http from 'http'
 import { ApolloServer } from 'apollo-server-express'
 import { PubSub } from 'graphql-subscriptions'
 
-export default function(
+/**
+ *
+ * @description Creates an Apollo Server. Setup based on `vue-cli-plugin-apollo`.
+ * @param {Object} app Express application
+ * @param {Object} options Apollo options
+ * @returns {Object} HTTP Server
+ */
+export default function createApolloServer(
   app,
   {
-    graphqlEndpoint = process.env.GRAPHQL_ENDPOINT,
-    subscriptionsEndpoint = process.env.GRAPHQL_SUBSCRIPTIONS,
-    mode = process.env.NODE_ENV,
-    integratedEngine = false,
-    enableEngine = false,
-    engineKey = '',
-    cors = '*',
-    timeout = 120000,
-    mocks = {},
-    enableMocks = false,
+    // Main options
+    graphqlEndpoint = '',
     typeDefs = {},
     resolvers = {},
     schemaDirectives = {},
-    pubsub = new PubSub(),
     context = () => ({}),
+    // Subscriptions
+    subscriptionsEndpoint = '',
+    pubsub = new PubSub(),
+    // Mocks
+    enableMocks = false,
+    mocks = {},
+    // Apollo Engine
+    integratedEngine = false,
+    enableEngine = false,
+    engineKey = '',
+    // HTTP options
+    cors = '*',
+    timeout = 120000,
+    // Extra options for Apollo Server
+    apolloServerOptions = {},
   }
 ) {
   // Apollo server options
-  let apolloServerOptions = {
+  const options = {
+    ...apolloServerOptions,
     typeDefs,
     resolvers,
     schemaDirectives,
     tracing: true,
     cacheControl: true,
     engine: !integratedEngine,
-    // Resolvers context from POST
+    // Resolvers context in POST requests
     context: async ({ req, connection }) => {
       let contextData
       try {
@@ -46,7 +60,7 @@ export default function(
       contextData = { ...contextData, pubsub }
       return contextData
     },
-    // Resolvers context from WebSocket
+    // Resolvers context in WebSocket requests
     subscriptions: {
       path: subscriptionsEndpoint,
       onConnect: async (connection, websocket) => {
@@ -68,28 +82,28 @@ export default function(
 
   // Automatic mocking
   if (enableMocks) {
-    apolloServerOptions.mocks = mocks
+    options.mocks = mocks
 
-    if (mode === 'production') {
-      console.warn(`Automatic mocking is enabled in production`)
+    if (process.env.NODE_ENV === 'production') {
+      console.warn(`⚠️  Automatic mocking is enabled in production`)
     } else {
-      console.log(`✔️  Automatic mocking is enabled`)
+      console.info(`✔️  Automatic mocking is enabled`)
     }
   }
 
   // Apollo Engine
   if (enableEngine && integratedEngine) {
     if (engineKey) {
-      apolloServerOptions.engine = {
+      options.engine = {
         apiKey: engineKey,
       }
     }
   } else {
-    apolloServerOptions.engine = false
+    options.engine = false
   }
 
   // Apollo Server
-  const server = new ApolloServer(apolloServerOptions)
+  const server = new ApolloServer(options)
 
   // Express middleware
   server.applyMiddleware({
