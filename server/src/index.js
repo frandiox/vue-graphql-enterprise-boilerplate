@@ -1,55 +1,41 @@
-import { GraphQLServer } from 'graphql-yoga'
-import { Prisma } from 'prisma-binding'
+import express from 'express'
+import { importSchema } from 'graphql-import'
 
 import verifyAccessToken from './middleware/verify-access-token'
 import getUserFromDB from './middleware/get-user-from-db'
 
-import directiveResolvers from './directives'
+import createApolloServer from './apollo-server'
+import { schemaDirectives } from './directives'
 import * as resolvers from './resolvers'
 
-const db = new Prisma({
-  typeDefs: 'src/generated/prisma.graphql', // the Prisma DB schema
-  endpoint: process.env.PRISMA_ENDPOINT, // the endpoint of the Prisma DB service (value is set in .env)
-  secret: process.env.PRISMA_SECRET, // taken from database/prisma.yml (value is set in .env)
-  debug: process.env.NODE_ENV === 'development', // log all GraphQL queries & mutations
-})
+import db from './db'
 
-const server = new GraphQLServer({
-  typeDefs: 'src/schema/index.graphql',
+const { GRAPHQL_ENDPOINT, PORT, NODE_ENV } = process.env
+
+const app = express()
+
+app.post(
+  GRAPHQL_ENDPOINT,
+  // Verify and expose token information in req.user
+  verifyAccessToken,
+  // Handle auth error from previous middleware
+  (err, req, res, next) => (err ? res.status(401).send(err.message) : next()),
+  // Transform req.user to real DB user
+  (req, res, next) => getUserFromDB(req, res, next, db)
+)
+
+const server = createApolloServer(app, {
+  typeDefs: importSchema('src/schema/index.graphql'),
   resolvers,
-  directiveResolvers,
+  schemaDirectives,
   context: req => ({
     ...req,
     db,
   }),
-  resolverValidationOptions: {
-    requireResolversForResolveType: false,
-  },
 })
 
-// Verify and expose token information in req.user
-server.express.post(
-  server.options.endpoint,
-  verifyAccessToken,
-  (err, req, res, next) => {
-    if (err) {
-      return res.status(401).send(err.message)
-    }
-    next()
-  }
-)
-
-// Transform req.user to real DB user
-server.express.post(server.options.endpoint, (req, res, next) =>
-  getUserFromDB(req, res, next, db)
-)
-
-server.start(
-  {
-    port: process.env.PORT || 4000,
-    endpoint: process.env.GRAPHQL_ENDPOINT || '/',
-    subscriptions: process.env.GRAPHQL_SUBSCRIPTIONS || '/',
-    playground: process.env.GRAPHQL_PLAYGROUND || '/',
-  },
-  ({ port }) => console.log(`Server is running on http://localhost:${port}`) // eslint-disable-line no-console
-)
+server.listen({ port: PORT }, () => {
+  console.log(
+    `\n🚀 GraphQL Server is running on http://localhost:${PORT}${GRAPHQL_ENDPOINT} in "${NODE_ENV}" mode\n`
+  )
+})

@@ -9,6 +9,7 @@ module.exports = {
     'plugin:node/recommended',
   ],
   rules: {
+    'no-console': 'off',
     'node/no-unpublished-require': 'off',
     'node/no-unpublished-import': 'off',
     'node/no-extraneous-import': 'error',

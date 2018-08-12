@@ -4,7 +4,7 @@ export default {
   },
 
   drafts(parent, args, ctx, info) {
-    const id = ctx.request.user.id
+    const id = ctx.req.user.id
 
     const where = {
       isPublished: false,
@@ -21,7 +21,7 @@ export default {
   },
 
   getSelf(parent, args, ctx, info) {
-    const { token, ...user } = ctx.request.user
+    const { token, ...user } = ctx.req.user
     return user
   },
 }

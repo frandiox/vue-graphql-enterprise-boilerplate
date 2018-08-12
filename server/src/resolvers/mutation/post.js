@@ -1,6 +1,6 @@
 export default {
   async createDraft(parent, { title, text }, ctx, info) {
-    const userId = ctx.request.user.id
+    const userId = ctx.req.user.id
     return ctx.db.mutation.createPost(
       {
         data: {
@@ -17,7 +17,7 @@ export default {
   },
 
   async publish(parent, { id }, ctx, info) {
-    const userId = ctx.request.user.id
+    const userId = ctx.req.user.id
     const postExists = await ctx.db.exists.Post({
       id,
       author: { id: userId },
@@ -36,7 +36,7 @@ export default {
   },
 
   async deletePost(parent, { id }, ctx, info) {
-    const userId = ctx.request.user.id
+    const userId = ctx.req.user.id
     const postExists = await ctx.db.exists.Post({
       id,
       author: { id: userId },
