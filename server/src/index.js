@@ -7,6 +7,7 @@ import getUserFromDB from './middleware/get-user-from-db'
 import createApolloServer from './apollo-server'
 import * as resolvers from './resolvers'
 import { schemaDirectives } from './directives'
+import { formatError } from './errors'
 
 import db from './db'
 
@@ -27,6 +28,7 @@ app.post(
 const server = createApolloServer(app, {
   graphqlEndpoint: GRAPHQL_ENDPOINT,
   subscriptionsEndpoint: GRAPHQL_SUBSCRIPTIONS,
+  apolloServerOptions: { formatError },
   typeDefs: importSchema('src/schema/index.graphql'),
   resolvers,
   schemaDirectives,

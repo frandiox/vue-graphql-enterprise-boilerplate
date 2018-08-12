@@ -1,28 +1,39 @@
-import { AuthError } from '../errors'
+import { AuthenticationError, ForbiddenError } from '../errors'
 import { SchemaDirectiveVisitor } from 'apollo-server-express'
 
 const getUser = ({ req: { user } = {} }) => user
-
 const hasRole = (roles, ctx) => {
   const { role } = getUser(ctx) || {}
   return role && roles.includes(role)
 }
 
+const assertAuth = ctx => {
+  if (!getUser(ctx)) {
+    throw new AuthenticationError('Access token is missing or expired')
+  }
+}
+
 // Directive resolvers (apollo v1 syntax)
 export const directiveResolvers = {
   isAuthenticated(next, source, args, ctx) {
-    if (getUser(ctx)) return next()
-    throw new AuthError('Access Token is missing or might be expired')
+    assertAuth(ctx)
+    return next()
   },
 
   hasRole(next, source, { roles }, ctx) {
-    if (hasRole(roles, ctx)) return next()
-    throw new AuthError('Insufficient permissions')
+    assertAuth(ctx)
+    if (!hasRole(roles, ctx)) {
+      throw new ForbiddenError('Insufficient permissions')
+    }
+    return next()
   },
 
   isAdmin(next, source, args, ctx) {
-    if (hasRole(['ADMIN'], ctx)) return next()
-    throw new AuthError('Insufficient permissions')
+    assertAuth(ctx)
+    if (!hasRole(['ADMIN'], ctx)) {
+      throw new ForbiddenError('Insufficient permissions')
+    }
+    return next()
   },
 }
 
