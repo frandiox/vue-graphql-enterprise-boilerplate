@@ -9,7 +9,7 @@
 
 ## Node.js
 
-In order to keep it simple, we are not using Babel for the backend since Node.js already supports most of the ES features (soon it will even support ES Modules).
+In order to keep it simple, we are not using Babel for the backend since Node.js already supports most of the ES features. We add [`esm`](https://github.com/standard-things/esm) package to support ES Modules as well.
 
 ### GraphQL
 
@@ -17,13 +17,13 @@ In order to keep it simple, we are not using Babel for the backend since Node.js
 
 ### Apollo Server
 
-Since GraphQL is just a specification, we will need an actual GraphQL implementation for Node.js. [Apollo](https://www.apollographql.com/) will be the chosen one due to the many features it provides. For simplicity, however, we add [`graphql-yoga`](https://github.com/prismagraphql/graphql-yoga) to easily configure our Apollo server with Express.js (and add a bunch of extra features such as [GraphQL Playground](https://github.com/prismagraphql/graphql-playground)!).
+Since GraphQL is just a specification, we will need an actual GraphQL implementation for Node.js. [Apollo](https://www.apollographql.com/) will be the chosen one due to the many features it provides. ~~For simplicity, however, we add [`graphql-yoga`](https://github.com/prismagraphql/graphql-yoga) to easily configure our Apollo server with Express.js (and add a bunch of extra features such as [GraphQL Playground](https://github.com/prismagraphql/graphql-playground)!)~~ Apollo v2 already provides most of the utilities of `graphql-yoga`!.
 
 ### Auth0
 
 Authentication is always a very important but incredibly tedious feature to implement. We will rely on [Auth0](https://auth0.com/) service for providing basic authentication. It offers a very generous free tier and is easy enough to get started quickly.
 
-Have a look at [Authorization section](auth.md) for more information.
+Have a look at [authentication section](auth.md) for more information.
 
 ## Database
 

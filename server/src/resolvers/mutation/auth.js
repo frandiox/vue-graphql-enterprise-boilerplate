@@ -1,6 +1,6 @@
 import jwksClient from 'jwks-rsa'
 import jwt from 'jsonwebtoken'
-import { AuthError } from '../../errors'
+import { AuthenticationError } from '../../errors'
 
 const jwks = jwksClient({
   cache: true,
@@ -14,13 +14,13 @@ function verifyAndDecodeIdToken(idToken) {
     const { header, payload } = jwt.decode(idToken, { complete: true })
 
     if (!header || !header.kid || !payload) {
-      return reject(new AuthError('Invalid Token'))
+      return reject(new AuthenticationError('Invalid Token'))
     }
 
     jwks.getSigningKey(header.kid, (err, key) => {
       if (err) {
         return reject(
-          new AuthError('Could not get signing key: ' + err.message)
+          new AuthenticationError('Could not get signing key: ' + err.message)
         )
       }
 
@@ -30,7 +30,9 @@ function verifyAndDecodeIdToken(idToken) {
         { algorithms: ['RS256'] },
         (err, decoded) =>
           err
-            ? reject(new AuthError('JWT verify error: ' + err.message))
+            ? reject(
+                new AuthenticationError('JWT verify error: ' + err.message)
+              )
             : resolve(decoded)
       )
     })

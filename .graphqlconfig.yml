@@ -1,0 +1,11 @@
+projects:
+  app:
+    schemaPath: server/src/schema/index.graphql
+    includes:
+      - 'src/**/*.gql'
+      - 'src/**/*.graphql'
+    endpoints:
+      default: "http://localhost:${env:PORT}"
+    extensions:
+      customDirectives:
+        - directive @client on FIELD

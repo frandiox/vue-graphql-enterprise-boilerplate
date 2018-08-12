@@ -20,6 +20,6 @@
     // Lint markdown in README files
     "DavidAnson.vscode-markdownlint",
     // GraphQL syntax highlighting, linting and auto-completion
-    "stpn.vscode-graphql"
+    "prisma.vscode-graphql"
   ]
 }
