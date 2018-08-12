@@ -6,15 +6,16 @@
 
 > A GraphQL ready, very opinionated Vue SPA template for Vue CLI 3
 
-[This project](https://github.com/frandiox/vue-graphql-enterprise-boilerplate) is based on the [`vue-enterprise-boilerplate` template](https://github.com/chrisvfritz/vue-enterprise-boilerplate) made by [Chris Fritz](https://github.com/chrisvfritz). This repo includes some extra opinionated features such as components inside folders and GraphQL integration with [Apollo](https://www.apollographql.com/), [Auth0](https://auth0.com/) and [Prisma](https://www.prisma.io/).
+[This project](https://github.com/frandiox/vue-graphql-enterprise-boilerplate) is based on the [`vue-enterprise-boilerplate` template](https://github.com/chrisvfritz/vue-enterprise-boilerplate) made by [Chris Fritz](https://github.com/chrisvfritz) and [Guillaume Chau](https://github.com/Akryum)'s Vue + Apollo projects. It includes some extra opinionated features such as components inside folders and GraphQL integration with [Apollo](https://www.apollographql.com/), [Auth0](https://auth0.com/) and [Prisma](https://www.prisma.io/).
 
 ## Features
 
-- [**Thorough documentation**](#documentation): Written with the same care as Vue's core docs to quickly train new team members and consolidate knowledge.
-- [**Guaranteed consistency**](linting.md): Opinionated linting for Vue, JavaScript/JSON, SCSS, and Markdown, integrated into Visual Studio Code and run against staged files on pre-commit.
-- [**First-class tests**](tests.md): Practice test-driven development with both unit and end-to-end tests. Unit tests with Jest live as first-class citizens alongside your source files, while Cypress provides reliable end-to-end tests in an intuitive GUI for development.
-- [**Speedy development**](development.md): Between [configurable generators](development.md#generators), [handy aliases](development.md#aliases), and [global base components](development.md#base-components), your productivity will skyrocket.
-- [**GraphQL ready**](backend.md): Integrated with GraphQL and all its features. Some external services are used to speed up development, such as Auth0 and Prisma Cloud.
+- [**Thorough documentation**](https://vue-graphql.netlify.com/): Written with the same care as Vue's core docs to quickly train new team members and consolidate knowledge.
+- [**Guaranteed consistency**](http://vue-graphql.netlify.com/linting.html): Opinionated linting for Vue, JavaScript/JSON, SCSS, and Markdown, integrated into Visual Studio Code and run against staged files on pre-commit.
+- [**First-class tests**](http://vue-graphql.netlify.com/tests.html): Practice test-driven development with both unit and end-to-end tests. Unit tests with Jest live as first-class citizens alongside your source files, while Cypress provides reliable end-to-end tests in an intuitive GUI for development.
+- [**Speedy development**](http://vue-graphql.netlify.com/tests.html): Between [configurable generators](http://vue-graphql.netlify.com/tests.html#generators), [handy aliases](http://vue-graphql.netlify.com/tests.html#aliases), and [global base components](http://vue-graphql.netlify.com/tests.html#base-components), your productivity will skyrocket.
+- [**Included authentication & authorization patterns**](http://vue-graphql.netlify.com/auth.html): [Auth0](https://auth0.com/) for authentication and schema directives for authorization against user roles.
+- [**GraphQL ready (even for the DB)**](http://vue-graphql.netlify.com/backend.html): Integrated with GraphQL and all its features from the client to the database: [`apollo-link-state`](https://www.apollographql.com/docs/link/links/state.html) as the local store; [`apollo-client`](https://www.apollographql.com/client) and [`apollo-server` (v2)](https://www.apollographql.com/server) for client-server communication; and [Prisma](https://www.prisma.io/) as a GraphQL layer on top of your DB.
 
 ## Getting started
 
@@ -36,22 +37,11 @@ rm _start.js
 # 5. Read the documentation linked below for "Setup and development".
 ```
 
+After that, make sure you update `.env` file with your corresponding keys from Auth0 and Prisma.
+
 ## Documentation
 
-Read the [docs here](https://vue-graphql.netlify.com/). Otherwise, this project includes a `docs` folder with more details on:
-
-1.  [Setup and development](development.md)
-1.  [Architecture](architecture.md)
-1.  [Languages and technologies (frontend)](techfront.md)
-1.  [Routing, layouts, and views](routing.md)
-1.  [Languages and technologies (backend)](techback.md)
-1.  [Backend architecture](backend.md)
-1.  [State management](state.md)
-1.  [Tests and mocking the API](tests.md)
-1.  [Linting and formatting](linting.md)
-1.  [Editor integration](editors.md)
-1.  [Building and deploying to production](production.md)
-1.  [Troubleshooting](troubleshooting.md)
+Read the [docs here](https://vue-graphql.netlify.com/) or check the `docs` folder.
 
 ## FAQ
 
