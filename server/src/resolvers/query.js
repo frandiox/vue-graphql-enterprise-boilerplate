@@ -31,7 +31,9 @@ export default {
 
   getUserContent(parent, { id }, ctx, info) {
     const where = {
-      isPublished: true,
+      ...((!ctx.request.user || ctx.request.user.id !== id) && {
+        isPublished: true,
+      }),
       author: {
         id,
       },
