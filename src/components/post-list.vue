@@ -30,7 +30,7 @@ export default {
         :show-author="showAuthor"
         :editable="editable"
         :class="$style.postContainer"
-        @save-draft="$emit('save-draft', index, $event)"
+        @save-post="$emit('save-post', index, $event)"
         @publish-draft="$emit('publish-draft', index, $event)"
       />
     </div>
