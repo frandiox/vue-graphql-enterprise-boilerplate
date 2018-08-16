@@ -57,6 +57,19 @@ mutation Authenticate($idToken: String!) {
   }
 }
 
+mutation CreateDraft($title: String!, $text: String!) {
+  createDraft(title: $title, text: $text) {
+    id
+    title
+    text
+    isPublished
+    updatedAt
+    author {
+      id
+    }
+  }
+}
+
 mutation UpdatePost($id: ID!, $title: String!, $text: String!) {
   updatePost(id: $id, title: $title, text: $text) {
     title
