@@ -70,6 +70,18 @@ mutation CreateDraft($title: String!, $text: String!) {
   }
 }
 
+mutation PublishPost($id: ID!) {
+  publish(id: $id) {
+    id
+    title
+    text
+    updatedAt
+    author {
+      id
+    }
+  }
+}
+
 mutation UpdatePost($id: ID!, $title: String!, $text: String!) {
   updatePost(id: $id, title: $title, text: $text) {
     id
