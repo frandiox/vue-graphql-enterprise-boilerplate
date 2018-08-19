@@ -13,10 +13,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    inProgress: {
-      type: Boolean,
-      default: false,
-    },
   },
   data() {
     return {
@@ -72,8 +68,8 @@ export default {
           v-model="postText"
           :class="$style.editArea" />
         <BaseButton
-          v-if="inProgress"
-          :disabled="inProgress"
+          v-if="post.editing"
+          :disabled="post.editing"
           :class="$style.actionButton"
         >
           <BaseIcon
