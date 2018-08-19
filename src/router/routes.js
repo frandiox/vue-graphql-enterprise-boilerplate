@@ -27,7 +27,7 @@ export default [
     meta: {
       authRequired: true,
     },
-    props: route => ({ _user: route.params.user }),
+    props: route => ({ _user: route.params.user, readOnly: false }),
   },
   {
     path: '/profile/:id',
@@ -50,14 +50,17 @@ export default [
             next({ name: '404', params: { resource: 'User' } })
           } else {
             // Otherwise, proceed
-            routeTo.params.user = user
+            routeTo.params.userProfile = user
             next()
           }
         })
     },
     // Set the user from the route params, once it's set in the
     // beforeEnter route guard.
-    props: route => ({ _user: route.params.user }),
+    props: route => ({
+      _user: route.params.userProfile,
+      readOnly: route.params.id !== route.params.user.id,
+    }),
   },
   {
     path: '/logout',
