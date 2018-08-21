@@ -43,7 +43,8 @@ export const directiveResolvers = {
   maxDepth(next, source, args, ctx) {
     const query = getQueryStr(ctx)
     if (calculateQueryDepth(query) <= args.depth) return next()
-    throw new BadRequestError('Your query is too long!')
+    // TODO: ths shouldn't be a ForbiddenError
+    throw new ForbiddenError('Your query is too long!')
   },
 }
 
