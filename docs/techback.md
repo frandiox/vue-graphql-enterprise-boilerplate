@@ -1,4 +1,4 @@
-# Languages and technologies (backend)
+# Languages and Technologies (backend)
 
 - [Node.js](#nodejs)
   - [GraphQL](#graphql)
