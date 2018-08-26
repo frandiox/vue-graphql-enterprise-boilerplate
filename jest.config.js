@@ -2,7 +2,7 @@ const _ = require('lodash')
 
 // @ts-ignore
 const { paths } = require('./jsconfig.json').compilerOptions
-const moduleNameMapper = Object.keys(paths).reduce(
+const aliasesMapper = Object.keys(paths).reduce(
   (acc, key) => ({
     ...acc,
     ['^' + key.replace('/*', '/(.*)') + '$']:
@@ -12,7 +12,6 @@ const moduleNameMapper = Object.keys(paths).reduce(
 )
 
 module.exports = {
-  moduleNameMapper, // Aliases
   setupFiles: ['<rootDir>/tests/unit/setup'],
   globalSetup: '<rootDir>/tests/unit/global-setup',
   globalTeardown: '<rootDir>/tests/unit/global-teardown',
@@ -25,6 +24,12 @@ module.exports = {
     '\\.(gql|graphql)$': 'jest-transform-graphql',
   },
   transformIgnorePatterns: ['/node_modules/(?!vue-cli-plugin-apollo).+\\.js$'],
+  moduleNameMapper: {
+    ...aliasesMapper,
+    // Transform any static assets to empty strings
+    '\\.(jpe?g|png|gif|webp|svg|mp4|webm|ogg|mp3|wav|flac|aac|woff2?|eot|ttf|otf)$':
+      '<rootDir>/tests/unit/fixtures/empty-string.js',
+  },
   snapshotSerializers: ['jest-serializer-vue'],
   coverageDirectory: '<rootDir>/tests/unit/coverage',
   collectCoverageFrom: [
