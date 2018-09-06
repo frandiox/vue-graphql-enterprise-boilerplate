@@ -33,6 +33,12 @@ const router = new VueRouter({
 
 // Before each route evaluates...
 router.beforeEach(async (routeTo, routeFrom, next) => {
+  // If this isn't an initial page load...
+  if (routeFrom.name) {
+    // Start the route progress bar.
+    NProgress.start()
+  }
+
   if (['login', 'logout'].includes(routeTo.name)) return next()
 
   await checkSession()
@@ -50,16 +56,6 @@ router.beforeEach(async (routeTo, routeFrom, next) => {
     next({ name: 'login' })
   }
 
-  next()
-})
-
-// After navigation is confirmed, but before resolving...
-router.beforeResolve((routeTo, routeFrom, next) => {
-  // If this isn't an initial page load...
-  if (routeFrom.name) {
-    // Start the route progress bar.
-    NProgress.start()
-  }
   next()
 })
 
