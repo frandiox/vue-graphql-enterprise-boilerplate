@@ -16,15 +16,13 @@ const { GRAPHQL_ENDPOINT, GRAPHQL_SUBSCRIPTIONS, PORT, NODE_ENV } = process.env
 
 const app = express()
 
-app.post(
-  GRAPHQL_ENDPOINT,
-  // Verify and expose token information in req.user
-  verifyAccessToken,
-  // Handle auth error from previous middleware
-  (err, req, res, next) => (err ? res.status(401).send(err.message) : next()),
-  // Transform req.user to real DB user
-  (req, res, next) => getUserFromDB(req, res, next, db)
-)
+// Middlewares for HTTP and WS connections
+const connectionMiddlewares = [
+  verifyAccessToken, // Verify and expose token information in req.user
+  getUserFromDB, // Transform req.user to real DB user
+]
+
+app.post(GRAPHQL_ENDPOINT, ...connectionMiddlewares)
 
 const server = createApolloServer(app, {
   graphqlEndpoint: GRAPHQL_ENDPOINT,
