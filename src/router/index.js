@@ -33,9 +33,10 @@ const router = new VueRouter({
 
 // Before each route evaluates...
 router.beforeEach(async (routeTo, routeFrom, next) => {
-  if (routeTo.name === 'login') return next()
+  if (['login', 'logout'].includes(routeTo.name)) return next()
 
   await checkSession()
+
   const user = await getCurrentUser()
 
   // Check if auth is required on this route
