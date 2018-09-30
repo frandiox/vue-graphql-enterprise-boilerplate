@@ -1,9 +1,9 @@
 import { AuthenticationError, ForbiddenError } from '../errors'
 import { SchemaDirectiveVisitor } from 'apollo-server-express'
 
-const getUser = ({ req: { user } = {} }) => user
+const getUser = ({ req = {}, request = {} }) => req.user || request.user || null
 const hasRole = (roles, ctx) => {
-  const { role } = getUser(ctx) || {}
+  const { role = '' } = getUser(ctx) || {}
   return role && roles.includes(role)
 }
 
