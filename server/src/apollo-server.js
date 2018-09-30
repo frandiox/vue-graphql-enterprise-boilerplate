@@ -23,6 +23,7 @@ export default function createApolloServer(
     context = () => ({}),
     // Subscriptions
     subscriptionsEndpoint = '',
+    wsMiddlewares = [],
     // Mocks
     mocks,
     // Apollo Engine
@@ -57,7 +58,7 @@ export default function createApolloServer(
       let contextData
       try {
         if (connection) {
-          contextData = await context({ connection })
+          contextData = { ...connection.context }
         } else {
           contextData = await context({ req, request: req })
         }
@@ -65,22 +66,42 @@ export default function createApolloServer(
         console.error(err)
         throw err
       }
+
       return contextData
     },
     // Resolvers context in WebSocket requests
     subscriptions: {
       path: subscriptionsEndpoint,
       onConnect: async (connection, websocket) => {
+        const { authorization } = connection
+
         let contextData = {}
         try {
+          // Simulate `req` object for auth
+          const req = { headers: { authorization } }
+
+          // Call all middlewares in order and modify `req`
+          await new Promise((resolve, reject) =>
+            wsMiddlewares.reduceRight(
+              (acc, m) => err => (err ? reject(err) : m(req, null, acc)),
+              err => (err ? reject(err) : resolve())
+            )()
+          )
+
           contextData = await context({
             connection,
             websocket,
+            request: req,
+            req,
           })
         } catch (err) {
-          console.error(err)
+          if (err.status !== 401) {
+            console.error(err)
+          }
+
           throw err
         }
+
         return contextData
       },
     },

@@ -27,6 +27,7 @@ app.post(GRAPHQL_ENDPOINT, ...connectionMiddlewares)
 const server = createApolloServer(app, {
   graphqlEndpoint: GRAPHQL_ENDPOINT,
   subscriptionsEndpoint: GRAPHQL_SUBSCRIPTIONS,
+  wsMiddlewares: connectionMiddlewares,
   apolloServerOptions: { formatError },
   typeDefs: importSchema('src/schema/index.graphql'),
   resolvers,
