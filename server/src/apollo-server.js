@@ -1,6 +1,6 @@
 import http from 'http'
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-express'
-import { PubSub } from 'graphql-subscriptions'
+import { applyMiddleware as applyGraphQLMiddleware } from 'graphql-middleware'
 
 /**
  *
@@ -18,19 +18,17 @@ export default function createApolloServer(
     resolvers = {},
     schemaDirectives = {},
     directiveResolvers = {},
+    graphqlMiddlewares = [],
+    dataSources = () => ({}),
     context = () => ({}),
     // Subscriptions
     subscriptionsEndpoint = '',
-    pubsub = new PubSub(),
     // Mocks
-    enableMocks = false,
-    mocks = {},
+    mocks,
     // Apollo Engine
-    integratedEngine = false,
-    enableEngine = false,
     engineKey = '',
     // HTTP options
-    cors = '*',
+    cors = true,
     timeout = 120000,
     // Extra options for Apollo Server
     apolloServerOptions = {},
@@ -49,10 +47,11 @@ export default function createApolloServer(
   // Apollo server options
   const options = {
     ...apolloServerOptions,
-    schema,
+    schema: applyGraphQLMiddleware(schema, ...graphqlMiddlewares),
     tracing: true,
     cacheControl: true,
-    engine: !integratedEngine,
+    engine: engineKey ? { apiKey: engineKey } : false,
+    dataSources,
     // Resolvers context in POST requests
     context: async ({ req, connection }) => {
       let contextData
@@ -66,7 +65,6 @@ export default function createApolloServer(
         console.error(err)
         throw err
       }
-      contextData = { ...contextData, pubsub }
       return contextData
     },
     // Resolvers context in WebSocket requests
@@ -79,7 +77,6 @@ export default function createApolloServer(
             connection,
             websocket,
           })
-          contextData = { ...contextData, pubsub }
         } catch (err) {
           console.error(err)
           throw err
@@ -90,7 +87,7 @@ export default function createApolloServer(
   }
 
   // Automatic mocking
-  if (enableMocks) {
+  if (mocks) {
     options.mocks = mocks
 
     if (process.env.NODE_ENV === 'production') {
@@ -98,17 +95,6 @@ export default function createApolloServer(
     } else {
       console.info(`✔️  Automatic mocking is enabled`)
     }
-  }
-
-  // Apollo Engine
-  if (enableEngine && integratedEngine) {
-    if (engineKey) {
-      options.engine = {
-        apiKey: engineKey,
-      }
-    }
-  } else {
-    options.engine = false
   }
 
   // Apollo Server

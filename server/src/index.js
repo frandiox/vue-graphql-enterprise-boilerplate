@@ -10,6 +10,7 @@ import { schemaDirectives } from './directives'
 import { formatError } from './errors'
 
 import db from './db'
+import pubsub from './pubsub'
 
 const { GRAPHQL_ENDPOINT, GRAPHQL_SUBSCRIPTIONS, PORT, NODE_ENV } = process.env
 
@@ -32,9 +33,10 @@ const server = createApolloServer(app, {
   typeDefs: importSchema('src/schema/index.graphql'),
   resolvers,
   schemaDirectives,
-  context: req => ({
-    ...req,
+  context: params => ({
+    ...params,
     db,
+    pubsub,
   }),
 })
 
