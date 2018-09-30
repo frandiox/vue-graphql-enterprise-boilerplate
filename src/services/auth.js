@@ -19,7 +19,7 @@ const authConfig = {
   audience: process.env.VUE_APP_AUTH0_AUDIENCE,
   redirectUri: `${window.location.origin}/login`,
   responseType: 'token id_token',
-  scope: 'openid profile',
+  scope: 'openid profile email',
 }
 
 const webAuth = new auth0.WebAuth(authConfig)
