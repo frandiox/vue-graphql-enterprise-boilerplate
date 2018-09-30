@@ -1,5 +1,5 @@
-# source: https://eu1.prisma.sh/owlsome-reality/test-management/dev
-# timestamp: Sun May 13 2018 15:50:16 GMT+0900 (JST)
+# source: https://eu1.prisma.sh/frandiox/vue-graphql-enterprise-boilerplate/dev
+# timestamp: Sun Sep 30 2018 13:34:02 GMT+0200 (Central European Summer Time)
 
 type AggregatePost {
   count: Int!
@@ -71,7 +71,7 @@ type Post implements Node {
   isPublished: Boolean!
   title: String!
   text: String!
-  author(where: UserWhereInput): User!
+  author: User!
 }
 
 """A connection to a list of items."""
@@ -178,7 +178,7 @@ input PostUpdateInput {
   isPublished: Boolean
   title: String
   text: String
-  author: UserUpdateOneWithoutPostsInput
+  author: UserUpdateOneRequiredWithoutPostsInput
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -531,10 +531,9 @@ input UserUpdateInput {
   posts: PostUpdateManyWithoutAuthorInput
 }
 
-input UserUpdateOneWithoutPostsInput {
+input UserUpdateOneRequiredWithoutPostsInput {
   create: UserCreateWithoutPostsInput
   connect: UserWhereUniqueInput
-  delete: Boolean
   update: UserUpdateWithoutPostsDataInput
   upsert: UserUpsertWithoutPostsInput
 }
