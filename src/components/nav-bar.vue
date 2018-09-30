@@ -41,7 +41,7 @@ export default {
 
 <template>
   <ul :class="$style.container">
-    <NavBarRoutes :routes="persistentNavRoutes"/>
+    <NavBarRoutes :routes="persistentNavRoutes" />
     <NavBarRoutes
       v-if="user"
       :routes="loggedInNavRoutes"
