@@ -22,6 +22,9 @@
     "Orta.vscode-jest",
     // Lint markdown in README files
     "DavidAnson.vscode-markdownlint",
+    // Define snippets specific to the project
+    // https://github.com/rebornix/vscode-project-snippet
+    "rebornix.project-snippets",
     // GraphQL syntax highlighting, linting and auto-completion
     "prisma.vscode-graphql"
   ]
