@@ -9,7 +9,7 @@ import { apolloProvider } from '@state'
 Vue.config.productionTip = process.env.NODE_ENV === 'production'
 
 const app = new Vue({
-  provide: apolloProvider.provide(),
+  apolloProvider,
   router,
   render: h => h(App),
 }).$mount('#app')
