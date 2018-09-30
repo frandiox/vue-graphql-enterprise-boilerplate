@@ -2,7 +2,6 @@ import { createProvider, onLogin, onLogout } from '@state/vue-apollo'
 import { defaults, resolvers } from '@state/local'
 
 export const apolloProvider = createProvider({
-  wsEndpoint: null, // disable
   clientState: { defaults, resolvers },
 })
 
