@@ -25,10 +25,10 @@ module.exports = {
   },
   transformIgnorePatterns: ['/node_modules/(?!vue-cli-plugin-apollo).+\\.js$'],
   moduleNameMapper: {
-    ...aliasesMapper,
     // Transform any static assets to empty strings
     '\\.(jpe?g|png|gif|webp|svg|mp4|webm|ogg|mp3|wav|flac|aac|woff2?|eot|ttf|otf)$':
       '<rootDir>/tests/unit/fixtures/empty-string.js',
+    ...aliasesMapper,
   },
   snapshotSerializers: ['jest-serializer-vue'],
   coverageDirectory: '<rootDir>/tests/unit/coverage',
