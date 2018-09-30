@@ -1,5 +1,5 @@
 import http from 'http'
-import { ApolloServer } from 'apollo-server-express'
+import { ApolloServer, makeExecutableSchema } from 'apollo-server-express'
 import { PubSub } from 'graphql-subscriptions'
 
 /**
@@ -17,6 +17,7 @@ export default function createApolloServer(
     typeDefs = {},
     resolvers = {},
     schemaDirectives = {},
+    directiveResolvers = {},
     context = () => ({}),
     // Subscriptions
     subscriptionsEndpoint = '',
@@ -35,12 +36,20 @@ export default function createApolloServer(
     apolloServerOptions = {},
   }
 ) {
-  // Apollo server options
-  const options = {
-    ...apolloServerOptions,
+  const schema = makeExecutableSchema({
     typeDefs,
     resolvers,
     schemaDirectives,
+    directiveResolvers,
+    resolverValidationOptions: {
+      requireResolversForResolveType: false,
+    },
+  })
+
+  // Apollo server options
+  const options = {
+    ...apolloServerOptions,
+    schema,
     tracing: true,
     cacheControl: true,
     engine: !integratedEngine,
