@@ -24,6 +24,31 @@ module.exports = {
     'no-console': process.env.PRE_COMMIT
       ? ['error', { allow: ['warn', 'error'] }]
       : 'off',
+
+    'vue/html-indent': ['error', 2],
+    'vue/require-default-prop': 'error',
+    'vue/attributes-order': 'error',
+    'vue/html-quotes': ['error', 'double'],
+    'vue/order-in-components': 'error',
+    'vue/component-name-in-template-casing': [
+      'error',
+      'PascalCase',
+      {
+        ignores: ['router-view', 'router-link'],
+      },
+    ],
+    'vue/html-closing-bracket-newline': [
+      'error',
+      {
+        singleline: 'never',
+        multiline: 'always',
+      },
+    ],
+    'vue/multiline-html-element-content-newline': 'error',
+    'vue/singleline-html-element-content-newline': 'error',
+    'vue/no-spaces-around-equal-signs-in-attribute': 'error',
+    'vue/script-indent': ['error', 2, { baseIndent: 0 }],
+
     'unicorn/catch-error-name': [
       'error',
       {

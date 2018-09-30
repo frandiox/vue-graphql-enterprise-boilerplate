@@ -138,7 +138,9 @@ export default {
     <div
       :class="$style.loginFormContainer"
     >
-      <p :class="$style.loginTitle">{{ formProperties.title }}</p>
+      <p :class="$style.loginTitle">
+        {{ formProperties.title }}
+      </p>
       <div
         v-if="isSuccess"
         :class="[$style.messageContainer, $style.successContainer]"
@@ -156,7 +158,9 @@ export default {
         v-if="authError && !showForgetPassword"
         :class="[$style.messageContainer, $style.errorContainer]"
       >
-        <div :class="$style.textKeepNewLine">{{ authError }}</div>
+        <div :class="$style.textKeepNewLine">
+          {{ authError }}
+        </div>
       </div>
       <form
         :class="$style.form"
@@ -183,7 +187,9 @@ export default {
             name="sync"
             spin
           />
-          <span v-else>{{ formProperties.buttonText }}</span>
+          <span v-else>
+            {{ formProperties.buttonText }}
+          </span>
         </BaseButton>
         <div :class="$style.loginFormFooter">
           <span
@@ -249,7 +255,9 @@ export default {
         v-if="authError && showForgetPassword"
         :class="[$style.messageContainer, $style.errorContainer]"
       >
-        <div :class="$style.textKeepNewLine">{{ authError }}</div>
+        <div :class="$style.textKeepNewLine">
+          {{ authError }}
+        </div>
       </div>
       <form
         v-if="!isSuccessForgetPassword"
