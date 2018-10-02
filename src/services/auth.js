@@ -282,10 +282,12 @@ export async function getCurrentUser() {
         query: GetSelf,
       })
 
-      user = remoteUser
+      if (remoteUser) {
+        user = remoteUser
 
-      // Store user locally
-      await setCurrentUser(user)
+        // Store user locally
+        await setCurrentUser(user)
+      }
     }
   }
 

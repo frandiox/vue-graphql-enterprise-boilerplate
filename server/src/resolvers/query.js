@@ -21,7 +21,7 @@ export default {
   },
 
   getSelf(parent, args, ctx, info) {
-    const { token, ...user } = ctx.req.user
-    return user
+    const { token, ...user } = ctx.req.user || {}
+    return user.id ? user : null
   },
 }
