@@ -16,7 +16,6 @@ const assertAuth = ctx => {
 // Directive resolvers (apollo v1 syntax)
 export const directiveResolvers = {
   isAuthenticated(next, source, args, ctx) {
-    console.log('lol')
     assertAuth(ctx)
     return next()
   },

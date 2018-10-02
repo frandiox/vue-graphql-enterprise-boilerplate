@@ -1,4 +1,5 @@
 import { ApolloError } from 'apollo-server-express'
+import { logger } from '../services/logger'
 
 export {
   ApolloError,
@@ -12,6 +13,7 @@ export {
 export function formatError(error) {
   // This can be used to send errors to third
   // party services like Sentry or Stackdriver
+  logger.error(error)
 
   return error
 }

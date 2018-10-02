@@ -11,6 +11,7 @@ import { formatError } from './errors'
 
 import db from './db'
 import pubsub from './pubsub'
+import { logger } from './services/logger'
 
 const { GRAPHQL_ENDPOINT, GRAPHQL_SUBSCRIPTIONS, PORT, NODE_ENV } = process.env
 
@@ -40,7 +41,7 @@ const server = createApolloServer(app, {
 })
 
 server.listen({ port: PORT }, () => {
-  console.log(
-    `\n🚀 GraphQL Server is running on http://localhost:${PORT}${GRAPHQL_ENDPOINT} in "${NODE_ENV}" mode\n`
+  logger.info(
+    `🚀 GraphQL Server is running on http://localhost:${PORT}${GRAPHQL_ENDPOINT} in "${NODE_ENV}" mode\n`
   )
 })

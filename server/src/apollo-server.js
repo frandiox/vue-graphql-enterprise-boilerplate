@@ -1,6 +1,7 @@
 import http from 'http'
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-express'
 import { applyMiddleware as applyGraphQLMiddleware } from 'graphql-middleware'
+import { logger } from './services/logger'
 
 /**
  *
@@ -63,7 +64,7 @@ export default function createApolloServer(
           contextData = await context({ req, request: req })
         }
       } catch (err) {
-        console.error(err)
+        logger.error(err)
         throw err
       }
 
@@ -96,7 +97,7 @@ export default function createApolloServer(
           })
         } catch (err) {
           if (err.status !== 401) {
-            console.error(err)
+            logger.error(err)
           }
 
           throw err
@@ -112,9 +113,9 @@ export default function createApolloServer(
     options.mocks = mocks
 
     if (process.env.NODE_ENV === 'production') {
-      console.warn(`⚠️  Automatic mocking is enabled in production`)
+      logger.warn(`⚠️  Automatic mocking is enabled in production`)
     } else {
-      console.info(`✔️  Automatic mocking is enabled`)
+      logger.info(`✔️  Automatic mocking is enabled`)
     }
   }
 
