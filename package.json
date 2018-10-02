@@ -54,7 +54,6 @@
     "eslint-plugin-unicorn": "^6.0.0",
     "eslint-plugin-vue": "5.0.0-beta.3",
     "express": "^4.16.0",
-    "graphql-tag": "^2.9.0",
     "hygen": "^1.6.0",
     "imagemin-lint-staged": "^0.3.0",
     "jest-fetch-mock": "^1.6.0",
