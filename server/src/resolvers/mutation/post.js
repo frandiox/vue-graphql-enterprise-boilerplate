@@ -36,7 +36,7 @@ export default {
   },
 
   async updatePost(parent, { id, title, text }, ctx, info) {
-    const userId = ctx.request.user.id
+    const userId = ctx.req.user.id
     const postExists = await ctx.db.exists.Post({
       id,
       author: { id: userId },
