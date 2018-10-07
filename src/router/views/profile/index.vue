@@ -139,7 +139,7 @@ export default {
       <h2>Posts</h2>
       <PostList
         :posts="posts"
-        :editable="!readOnly || 1===1"
+        :editable="!readOnly"
         @save-post="editPost(...arguments, false)"
       />
     </div>
@@ -152,7 +152,7 @@ export default {
         @publish-draft="publishDraft"
       />
     </div>
-    <div v-if="!readOnly || 1===1">
+    <div v-if="!readOnly">
       <h2>Write a new post</h2>
       <div :class="$style.postFormContainer">
         <form
