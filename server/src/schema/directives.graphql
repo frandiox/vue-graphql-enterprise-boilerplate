@@ -4,4 +4,4 @@ directive @isAuthenticated on FIELD_DEFINITION
 
 directive @hasRole(roles: [Role]) on FIELD_DEFINITION
 
-directive @maxDepth(depth: Int) on QUERY | MUTATION
+directive @maxDepth(depth: Int) on FIELD_DEFINITION
