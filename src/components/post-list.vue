@@ -24,7 +24,8 @@ export default {
   <div>
     <div
       v-for="(post, index) in posts"
-      :key="post.title">
+      :key="post.title"
+    >
       <PostContainer
         :post="post"
         :show-author="showAuthor"

@@ -40,11 +40,13 @@ export default {
       <input
         v-model="postTitle"
         :class="[$style.postTitle, $style.indent]"
-        :disabled="editable == false">
+        :disabled="editable == false"
+      >
       <div :class="$style.indent">
         <div
           v-if="showAuthor"
-          :class="$style.authorText">
+          :class="$style.authorText"
+        >
           By
           <BaseLink
             :params="{id:post.author.id}"
@@ -62,11 +64,13 @@ export default {
     </div>
     <div
       v-if="editable"
-      :class="$style.center">
+      :class="$style.center"
+    >
       <form>
         <textarea
           v-model="postText"
-          :class="$style.editArea" />
+          :class="$style.editArea"
+        />
         <BaseButton
           v-if="post.editing"
           :disabled="post.editing"
@@ -96,7 +100,8 @@ export default {
     </div>
     <div
       v-else
-      :class="[$style.textContainer, $style.indent]">
+      :class="[$style.textContainer, $style.indent]"
+    >
       <span>{{ post.text }}</span>
     </div>
   </div>
