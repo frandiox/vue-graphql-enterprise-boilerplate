@@ -18,7 +18,7 @@ export default {
   },
   components: { Layout, PostList },
   props: {
-    _user: {
+    propUser: {
       type: Object,
       required: true,
     },
@@ -53,7 +53,7 @@ export default {
     },
   },
   mounted() {
-    this.user = this._user
+    this.user = this.propUser
   },
   methods: {
     submitPost() {
