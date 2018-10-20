@@ -10,17 +10,21 @@ const jwks = jwksClient({
 })
 
 function verifyAndDecodeIdToken(idToken) {
+  const invalidTokenMessage = 'Invalid id token.'
+
   return new Promise((resolve, reject) => {
-    const { header, payload } = jwt.decode(idToken, { complete: true })
+    const { header, payload } = jwt.decode(idToken, { complete: true }) || {}
 
     if (!header || !header.kid || !payload) {
-      return reject(new AuthenticationError('Invalid Token'))
+      return reject(new AuthenticationError(invalidTokenMessage))
     }
 
     jwks.getSigningKey(header.kid, (err, key) => {
       if (err) {
         return reject(
-          new AuthenticationError('Could not get signing key: ' + err.message)
+          new AuthenticationError(
+            `${invalidTokenMessage} Could not get signing key: ${err.message}`
+          )
         )
       }
 
@@ -31,7 +35,11 @@ function verifyAndDecodeIdToken(idToken) {
         (err, decoded) =>
           err
             ? reject(
-                new AuthenticationError('JWT verify error: ' + err.message)
+                new AuthenticationError(
+                  `${invalidTokenMessage} JWT verification error: ${
+                    err.message
+                  }`
+                )
               )
             : resolve(decoded)
       )
@@ -41,13 +49,7 @@ function verifyAndDecodeIdToken(idToken) {
 
 export default {
   async authenticate(parent, { idToken }, ctx, info) {
-    let userToken = null
-
-    try {
-      userToken = await verifyAndDecodeIdToken(idToken)
-    } catch (err) {
-      throw new Error(err.message)
-    }
+    const userToken = await verifyAndDecodeIdToken(idToken)
 
     const [identity, auth0id] = userToken.sub.split('|')
 
