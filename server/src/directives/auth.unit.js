@@ -1,8 +1,8 @@
-import { directiveResolvers as directives } from '.'
+import { authDirectives } from './auth'
 import { AuthenticationError, ForbiddenError } from '../errors'
 
 describe('isAuthenticated directive', () => {
-  const { isAuthenticated } = directives
+  const { isAuthenticated } = authDirectives
 
   it('throws error if the user is not authenticated', () => {
     const next = jest.fn()
@@ -22,7 +22,7 @@ describe('isAuthenticated directive', () => {
 })
 
 describe('hasRole directive', () => {
-  const { hasRole } = directives
+  const { hasRole } = authDirectives
 
   it("throws error if the user's role does not match", () => {
     const next = jest.fn()
@@ -45,7 +45,7 @@ describe('hasRole directive', () => {
 })
 
 describe('isAdmin directive', () => {
-  const { isAdmin } = directives
+  const { isAdmin } = authDirectives
 
   it('throws error if the user is not admin', () => {
     const next = jest.fn()
