@@ -18,20 +18,14 @@ query GetUser($id: ID!) {
 
 query GetUserContent($id: ID!) {
   userContent(id: $id) {
-    id
-    title
-    text
+    ...postFields
     isPublished
-    updatedAt
   }
 }
 
 query GetRecentPosts {
   recentPosts {
-    id
-    title
-    text
-    updatedAt
+    ...postFields
     author {
       id
       name
@@ -59,41 +53,34 @@ mutation Authenticate($idToken: String!) {
 
 mutation CreateDraft($title: String!, $text: String!) {
   createDraft(title: $title, text: $text) {
-    id
-    title
-    text
+    ...postFields
     isPublished
-    updatedAt
-    author {
-      id
-    }
   }
 }
 
 mutation PublishPost($id: ID!) {
   publish(id: $id) {
-    id
-    title
-    text
-    updatedAt
-    author {
-      id
-    }
+    ...postFields
+    isPublished
   }
 }
 
 mutation UpdatePost($id: ID!, $title: String!, $text: String!) {
   updatePost(id: $id, title: $title, text: $text) {
-    id
-    title
-    text
-    updatedAt
-    author {
-      id
-    }
+    ...postFields
   }
 }
 
 mutation LocalSetSelf($user: User!) {
   setSelf(user: $user) @client
+}
+
+### Fragments
+
+fragment postFields on Post {
+  id
+  title
+  text
+  updatedAt
+  createdAt
 }

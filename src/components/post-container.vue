@@ -84,14 +84,14 @@ export default {
         <div v-else>
           <BaseButton
             :class="$style.actionButton"
-            @click.prevent="$emit('save-post', {'title':postTitle, 'text': postText})"
+            @click.prevent="$emit('save-post', { id: post.id, 'title': postTitle, 'text': postText })"
           >
             <span>Save</span>
           </BaseButton>
           <BaseButton
             v-if="isDraft"
             :class="$style.actionButton"
-            @click.prevent="$emit('publish-draft', {'title':postTitle, 'text': postText})"
+            @click.prevent="$emit('publish-draft', post.id)"
           >
             <span>Publish</span>
           </BaseButton>
