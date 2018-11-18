@@ -24,7 +24,7 @@ export default {
   <div>
     <PostContainer
       v-for="post in posts"
-      :key="post.title"
+      :key="post.id"
       :post="post"
       :show-author="showAuthor"
       :editable="editable"
