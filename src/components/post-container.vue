@@ -1,4 +1,6 @@
 <script>
+import formatDate from '@utils/format-date'
+
 export default {
   props: {
     post: {
@@ -19,6 +21,11 @@ export default {
       title: this.post.title,
       text: this.post.text,
     }
+  },
+  methods: {
+    formatDate(date) {
+      return formatDate(date, 'MMM Do, YYYY - hh:mm a')
+    },
   },
 }
 </script>
@@ -46,7 +53,7 @@ export default {
           -
         </div>
         <div :class="$style.authorText">
-          Last updated on {{ (new Date(Date.parse(post.updatedAt))).toLocaleString() }}
+          Last updated on {{ formatDate(post.updatedAt) }}
         </div>
       </div>
     </div>
@@ -91,7 +98,7 @@ export default {
       v-else
       :class="[$style.textContainer, $style.indent]"
     >
-      <span>{{ post.text }}</span>
+      <p>{{ post.text }}</p>
     </div>
   </div>
 </template>
@@ -117,11 +124,10 @@ export default {
 // Post header
 
 .postHeader {
+  padding: 0.5em 0;
   text-align: left;
-  background: linear-gradient(25deg, white, gray);
+  background: #eee;
   border: $size-input-border solid $color-input-border;
-  border-top-left-radius: $border-radius;
-  border-top-right-radius: $border-radius;
 }
 
 .postTitle {
@@ -145,8 +151,6 @@ export default {
   margin: auto;
   text-align: left;
   border: $size-input-border solid $color-input-border;
-  border-bottom-right-radius: $border-radius;
-  border-bottom-left-radius: $border-radius;
 }
 
 .editArea {
@@ -159,6 +163,5 @@ export default {
   vertical-align: top;
   resize: vertical;
   border: $size-input-border solid $color-input-border;
-  border-radius: $border-radius;
 }
 </style>
