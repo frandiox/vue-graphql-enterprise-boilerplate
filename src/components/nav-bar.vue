@@ -15,7 +15,7 @@ export default {
       ],
       loggedInNavRoutes: [
         {
-          name: 'profile',
+          name: 'my-profile',
           title: () => 'Logged in as ' + this.user.email,
         },
         {
@@ -32,9 +32,7 @@ export default {
     }
   },
   apollo: {
-    user: {
-      query: LocalGetSelf,
-    },
+    user: LocalGetSelf,
   },
 }
 </script>

@@ -6,32 +6,31 @@ import { GetUserContent, CreateDraft, PublishPost, UpdatePost } from '@gql/user'
 export default {
   page() {
     return {
-      title: this.user.name,
+      title: this.profileOwner.name,
       meta: [
         {
           name: 'description',
-          content: `The user profile for ${this.user.name}.`,
+          content: `The user profile for ${this.profileOwner.name}.`,
         },
       ],
     }
   },
   components: { Layout, PostList },
   props: {
-    propUser: {
+    user: {
+      type: Object,
+      default: null,
+    },
+    profileOwner: {
       type: Object,
       required: true,
-    },
-    readOnly: {
-      type: Boolean,
-      default: true,
     },
   },
   data() {
     return {
-      user: { id: '' },
       newTitle: '',
       newText: '',
-      inProcess: false,
+      isLoading: false,
       userContent: [],
     }
   },
@@ -42,23 +41,23 @@ export default {
     drafts() {
       return this.userContent.filter(post => !post.isPublished)
     },
+    isOwner() {
+      return this.user && this.user.id === this.profileOwner.id
+    },
   },
   apollo: {
     userContent: {
       query: GetUserContent,
       variables() {
         return {
-          id: this && this.user && this.user.id ? this.user.id : '',
+          id: this.profileOwner.id,
         }
       },
     },
   },
-  mounted() {
-    this.user = this.propUser
-  },
   methods: {
     async submitPost() {
-      this.inProcess = true
+      this.isLoading = true
       const variables = { title: this.newTitle, text: this.newText }
       const now = new Date().toISOString()
       const optimisticId = `new-post-${new Date().getTime()}`
@@ -71,7 +70,7 @@ export default {
             cache.writeQuery({
               query: GetUserContent,
               variables: {
-                id: this && this.user && this.user.id ? this.user.id : '',
+                id: this.profileOwner.id,
               },
               data: {
                 userContent: [
@@ -99,7 +98,7 @@ export default {
 
       this.newTitle = ''
       this.newText = ''
-      this.inProcess = false
+      this.isLoading = false
     },
     async editPost(newPostData) {
       try {
@@ -142,12 +141,12 @@ export default {
   <Layout>
     <h1>
       <BaseIcon name="user" />
-      {{ user.name }}
+      {{ profileOwner.name }}
       Profile
     </h1>
-    <pre>{{ user }}</pre>
+    <pre>{{ profileOwner }}</pre>
 
-    <div v-if="!readOnly">
+    <div v-if="isOwner">
       <h2>Write a new post</h2>
       <div :class="$style.postFormContainer">
         <form
@@ -155,8 +154,8 @@ export default {
           @submit.prevent="submitPost"
         >
           <BaseButton
-            v-if="inProcess"
-            :disabled="inProcess"
+            v-if="isLoading"
+            :disabled="isLoading"
             :class="$style.actionButton"
           >
             <BaseIcon
@@ -189,7 +188,7 @@ export default {
       <h2>Posts</h2>
       <PostList
         :posts="posts"
-        :editable="!readOnly"
+        :editable="isOwner"
         @save-post="editPost"
       />
     </div>
@@ -198,7 +197,7 @@ export default {
       <h2>Drafts</h2>
       <PostList
         :posts="drafts"
-        :editable="!readOnly || 1===1"
+        :editable="isOwner"
         @save-post="editPost"
         @publish-draft="publishDraft"
       />

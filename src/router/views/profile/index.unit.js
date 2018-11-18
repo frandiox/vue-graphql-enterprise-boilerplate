@@ -2,7 +2,7 @@ import Profile from '.'
 
 describe('@views/profile', () => {
   it('is a valid view', () => {
-    expect(Profile).toBeAViewComponentUsing({ user: { name: '' } })
+    expect(Profile).toBeAViewComponentUsing({ profileOwner: { name: '' } })
   })
 
   /*  it(`includes the provided user's name`, () => {

@@ -22,61 +22,56 @@ export default [
   },
   {
     path: '/profile',
-    name: 'profile',
+    name: 'my-profile',
     component: () => lazyLoadView(import('@views/profile')),
     meta: {
       authRequired: true,
     },
-    props: route => ({ propUser: route.params.user, readOnly: false }),
+    props: route => ({
+      user: route.params.user,
+      profileOwner: route.params.user,
+    }),
   },
   {
     path: '/profile/:id',
-    name: 'id-profile',
+    name: 'user-profile',
     component: () => lazyLoadView(import('@views/profile')),
-    meta: {
-      authRequired: true,
-    },
-    beforeEnter(routeTo, routeFrom, next) {
-      // Try to fetch the user's information by their id
-      apolloClient
-        .query({
-          query: GetUser,
-          variables: { id: routeTo.params.id },
-        })
-        .then(({ data: { user } }) => {
-          if (!user) {
-            // If a user with the provided id could not be
-            // found, redirect to the 404 page.
-            next({ name: '404', params: { resource: 'User' } })
-          } else {
-            // Otherwise, proceed
-            routeTo.params.userProfile = user
-            next()
-          }
-        })
-    },
     // Set the user from the route params, once it's set in the
     // beforeEnter route guard.
     props: route => ({
-      propUser: route.params.userProfile,
-      readOnly: route.params.id !== route.params.user.id,
+      profileOwner: route.params.profileOwner,
+      ...route.params,
     }),
+    async beforeEnter(routeTo, routeFrom, next) {
+      // Try to fetch the user's information by their id
+      try {
+        const {
+          data: { user },
+        } = await apolloClient.query({
+          query: GetUser,
+          variables: { id: routeTo.params.id },
+        })
+
+        if (!user) {
+          // If a user with the provided id could not be
+          // found, redirect to the 404 page.
+          next({ name: '404', params: { resource: 'User' } })
+        } else {
+          // Otherwise, proceed
+          routeTo.params.profileOwner = user
+          next()
+        }
+      } catch (err) {
+        console.error(err)
+        next('/')
+      }
+    },
   },
   {
     path: '/logout',
     name: 'logout',
-    meta: {
-      authRequired: true,
-    },
     beforeEnter(routeTo, routeFrom, next) {
       logout()
-      // next() // TODO
-      // store.dispatch('auth/logOut')
-      // const authRequiredOnPreviousRoute = routeFrom.matched.some(
-      //   route => route.meta.authRequired
-      // )
-      // // Navigate back to previous page, or home as a fallback
-      // next(authRequiredOnPreviousRoute ? { name: 'home' } : { ...routeFrom })
     },
   },
   {

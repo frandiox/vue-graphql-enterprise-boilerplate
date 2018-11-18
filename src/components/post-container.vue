@@ -38,11 +38,10 @@ export default {
         >
           By
           <BaseLink
-            :params="{id:post.author.id}"
-            name="id-profile"
-            exact-active-class="{$style.active}"
+            :params="{ id:post.author.id }"
+            name="user-profile"
           >
-            <a>{{ post.author.name }}</a>
+            <a>{{ post.author.name || 'Anonymous' }}</a>
           </BaseLink>
           -
         </div>
