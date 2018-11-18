@@ -16,20 +16,9 @@ export default {
   },
   data() {
     return {
-      postTitle: '',
-      postText: '',
-      isDraft: false,
+      title: this.post.title,
+      text: this.post.text,
     }
-  },
-  watch: {
-    post: {
-      immediate: true,
-      handler(newPost) {
-        this.postTitle = newPost.title
-        this.postText = newPost.text
-        this.isDraft = !newPost.isPublished
-      },
-    },
   },
 }
 </script>
@@ -38,7 +27,7 @@ export default {
   <div>
     <div :class="$style.postHeader">
       <input
-        v-model="postTitle"
+        v-model="title"
         :class="[$style.postTitle, $style.indent]"
         :disabled="editable == false"
       >
@@ -68,7 +57,7 @@ export default {
     >
       <form>
         <textarea
-          v-model="postText"
+          v-model="text"
           :class="$style.editArea"
         />
         <BaseButton
@@ -84,12 +73,13 @@ export default {
         <div v-else>
           <BaseButton
             :class="$style.actionButton"
-            @click.prevent="$emit('save-post', { id: post.id, 'title': postTitle, 'text': postText })"
+            :disabled="text === post.text && title === post.title"
+            @click.prevent="$emit('save-post', { id: post.id, title, text })"
           >
             <span>Save</span>
           </BaseButton>
           <BaseButton
-            v-if="isDraft"
+            v-if="!post.isPublished"
             :class="$style.actionButton"
             @click.prevent="$emit('publish-draft', post.id)"
           >
