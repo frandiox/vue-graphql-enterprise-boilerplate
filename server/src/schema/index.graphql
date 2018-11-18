@@ -6,10 +6,10 @@ type Query {
   feed: [Post!]!
   drafts: [Post!]! @isAuthenticated
   post(id: ID!): Post
-  getSelf: User @isAuthenticated
-  getUser(id: ID!): User @maxDepth(depth: 1)
-  getUserContent(id: ID!): [Post] @maxDepth(depth: 1)
-  getRecentPosts: [Post] @maxDepth(depth: 2)
+  self: User @isAuthenticated
+  user(id: ID!): User @maxDepth(depth: 1)
+  userContent(id: ID!): [Post] @maxDepth(depth: 1)
+  recentPosts: [Post] @maxDepth(depth: 2)
 }
 
 type Mutation {

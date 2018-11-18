@@ -22,19 +22,15 @@ export default {
 
 <template>
   <div>
-    <div
-      v-for="(post, index) in posts"
+    <PostContainer
+      v-for="post in posts"
       :key="post.title"
-    >
-      <PostContainer
-        :post="post"
-        :show-author="showAuthor"
-        :editable="editable"
-        :class="$style.postContainer"
-        @save-post="$emit('save-post', index, $event)"
-        @publish-draft="$emit('publish-draft', index, $event)"
-      />
-    </div>
+      :post="post"
+      :show-author="showAuthor"
+      :editable="editable"
+      :class="$style.postContainer"
+      v-on="$listeners"
+    />
   </div>
 </template>
 

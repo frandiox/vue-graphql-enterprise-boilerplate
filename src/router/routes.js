@@ -43,7 +43,7 @@ export default [
           query: GetUser,
           variables: { id: routeTo.params.id },
         })
-        .then(({ data: { getUser: user } }) => {
+        .then(({ data: { user } }) => {
           if (!user) {
             // If a user with the provided id could not be
             // found, redirect to the 404 page.

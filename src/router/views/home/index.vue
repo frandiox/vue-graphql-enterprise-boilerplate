@@ -16,11 +16,8 @@ export default {
     }
   },
   apollo: {
-    getRecentPosts: {
+    recentPosts: {
       query: GetRecentPosts,
-      result({ data }) {
-        this.recentPosts = data.getRecentPosts
-      },
     },
   },
 }
@@ -37,7 +34,7 @@ export default {
     <h2>Recent Posts</h2>
     <PostList
       :posts="recentPosts"
-      :show-author="true"
+      show-author
     />
   </Layout>
 </template>

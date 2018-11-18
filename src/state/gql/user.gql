@@ -1,7 +1,7 @@
 ### Queries
 
 query GetSelf {
-  getSelf {
+  self {
     id
     name
     email
@@ -9,7 +9,7 @@ query GetSelf {
 }
 
 query GetUser($id: ID!) {
-  getUser(id: $id) {
+  user(id: $id) {
     id
     name
     email
@@ -17,7 +17,7 @@ query GetUser($id: ID!) {
 }
 
 query GetUserContent($id: ID!) {
-  getUserContent(id: $id) {
+  userContent(id: $id) {
     id
     title
     text
@@ -27,7 +27,7 @@ query GetUserContent($id: ID!) {
 }
 
 query GetRecentPosts {
-  getRecentPosts {
+  recentPosts {
     id
     title
     text

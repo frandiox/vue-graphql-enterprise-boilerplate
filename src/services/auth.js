@@ -277,7 +277,7 @@ export async function getCurrentUser() {
     if (!user) {
       // Get remote version
       const {
-        data: { getSelf: remoteUser },
+        data: { self: remoteUser },
       } = await apolloClient.query({
         query: GetSelf,
       })
