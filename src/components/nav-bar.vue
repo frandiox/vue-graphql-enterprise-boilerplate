@@ -15,7 +15,8 @@ export default {
       ],
       loggedInNavRoutes: [
         {
-          name: 'my-profile',
+          name: 'user-profile',
+          params: () => ({ id: this.user.id }),
           title: () => 'Logged in as ' + this.user.email,
         },
         {
