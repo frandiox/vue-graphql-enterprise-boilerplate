@@ -1,16 +1,24 @@
 <script>
 import Layout from '@layouts/main'
 import PostList from '@components/post-list'
-import { GetUserContent, CreateDraft, PublishPost, UpdatePost } from '@gql/user'
+import {
+  GetUser,
+  GetUserContent,
+  CreateDraft,
+  PublishPost,
+  UpdatePost,
+} from '@gql/user'
 
 export default {
   page() {
+    const name = this.profileOwner ? this.profileOwner.name : 'Profile'
+
     return {
-      title: this.profileOwner.name,
+      title: name,
       meta: [
         {
           name: 'description',
-          content: `The user profile for ${this.profileOwner.name}.`,
+          content: `The user profile for ${name}.`,
         },
       ],
     }
@@ -21,8 +29,8 @@ export default {
       type: Object,
       default: null,
     },
-    profileOwner: {
-      type: Object,
+    id: {
+      type: String,
       required: true,
     },
   },
@@ -32,6 +40,7 @@ export default {
       newText: '',
       isLoading: false,
       userContent: [],
+      profileOwner: this.user && this.user.id === this.id ? this.user : null,
     }
   },
   computed: {
@@ -42,7 +51,7 @@ export default {
       return this.userContent.filter(post => !post.isPublished)
     },
     isOwner() {
-      return this.user && this.user.id === this.profileOwner.id
+      return this.user && this.user.id === this.id
     },
     isLoadingUserContent() {
       return this.$apollo && this.$apollo.queries
@@ -51,12 +60,25 @@ export default {
     },
   },
   apollo: {
+    profileOwner: {
+      query: GetUser,
+      variables() {
+        return { id: this.id }
+      },
+      skip() {
+        return this.isOwner
+      },
+      update: data => data.user,
+      result({ data: { user } }) {
+        if (!user) {
+          this.$router.push({ name: '404', params: { resource: 'User' } })
+        }
+      },
+    },
     userContent: {
       query: GetUserContent,
       variables() {
-        return {
-          id: this.profileOwner.id,
-        }
+        return { id: this.id }
       },
     },
   },
@@ -74,9 +96,7 @@ export default {
           update: (cache, { data: { createDraft } }) => {
             cache.writeQuery({
               query: GetUserContent,
-              variables: {
-                id: this.profileOwner.id,
-              },
+              variables: { id: this.id },
               data: {
                 userContent: [
                   ...this.userContent.filter(post => post.id !== optimisticId),
@@ -105,16 +125,16 @@ export default {
       this.newText = ''
       this.isLoading = false
     },
-    async editPost(newPostData) {
+    async editPost(post) {
       try {
         await this.$apollo.mutate({
           mutation: UpdatePost,
-          variables: newPostData,
+          variables: post,
           optimisticResponse: {
             __typename: 'Mutation',
             updatePost: {
               __typename: 'Post',
-              ...newPostData,
+              ...post,
               updatedAt: new Date().toISOString(),
             },
           },
@@ -123,15 +143,15 @@ export default {
         console.error(err)
       }
     },
-    async publishDraft(post) {
+    async publishDraft(draft) {
       await this.$apollo.mutate({
         mutation: PublishPost,
-        variables: { id: post.id },
+        variables: { id: draft.id },
         optimisticResponse: {
           __typename: 'Mutation',
           publishPost: {
             __typename: 'Post',
-            ...post,
+            ...draft,
             updatedAt: new Date().toISOString(),
             isPublished: true,
           },
@@ -144,10 +164,9 @@ export default {
 
 <template>
   <Layout>
-    <h1>
+    <h1 v-if="profileOwner">
       <BaseIcon name="user" />
-      {{ profileOwner.name }}
-      Profile
+      {{ profileOwner.name }}'s Profile
     </h1>
 
     <pre>{{ profileOwner }}</pre>
@@ -204,6 +223,7 @@ export default {
         />
       </div>
     </template>
+
     <BaseSpinner
       v-else
       style="margin-top: 50px"

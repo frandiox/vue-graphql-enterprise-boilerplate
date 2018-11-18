@@ -1,6 +1,4 @@
 import { tryToLogIn, logout } from '@services/auth'
-import { GetUser } from '@gql/user'
-import { apolloClient } from '@state/index'
 
 export default [
   {
@@ -20,64 +18,11 @@ export default [
       loggedIn ? next({ name: 'home' }) : next()
     },
   },
-  // {
-  //   path: '/profile',
-  //   name: 'my-profile',
-  //   component: () => lazyLoadView(import('@views/profile')),
-  //   meta: {
-  //     authRequired: true,
-  //   },
-  //   props: route => ({
-  //     user: route.params.user,
-  //     profileOwner: route.params.user,
-  //   }),
-  // },
   {
     path: '/profile/:id',
     name: 'user-profile',
     component: () => lazyLoadView(import('@views/profile')),
-    // Set the user from the route params, once it's set in the
-    // beforeEnter route guard.
-    props: route => ({
-      profileOwner: route.params.profileOwner,
-      ...route.params,
-    }),
-    async beforeEnter(routeTo, routeFrom, next) {
-      try {
-        let profileOwner
-
-        if (
-          routeTo.params.user &&
-          routeTo.params.user.id === routeTo.params.id
-        ) {
-          // User current user
-          profileOwner = routeTo.params.user
-        } else {
-          // Try to fetch the user's information by their id
-          const {
-            data: { user },
-          } = await apolloClient.query({
-            query: GetUser,
-            variables: { id: routeTo.params.id },
-          })
-
-          profileOwner = user
-        }
-
-        if (!profileOwner) {
-          // If a user with the provided id could not be
-          // found, redirect to the 404 page.
-          next({ name: '404', params: { resource: 'User' } })
-        } else {
-          // Otherwise, proceed
-          routeTo.params.profileOwner = profileOwner
-          next()
-        }
-      } catch (err) {
-        console.error(err)
-        next('/')
-      }
-    },
+    props: true,
   },
   {
     path: '/logout',
