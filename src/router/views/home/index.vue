@@ -15,6 +15,13 @@ export default {
       recentPosts: [],
     }
   },
+  computed: {
+    isLoadingRecentPosts() {
+      return this.$apollo && this.$apollo.queries
+        ? this.$apollo.queries.recentPosts.loading
+        : false
+    },
+  },
   apollo: {
     recentPosts: {
       query: GetRecentPosts,
@@ -33,8 +40,12 @@ export default {
     >
     <h2>Recent Posts</h2>
     <PostList
+      v-if="!isLoadingRecentPosts"
       :posts="recentPosts"
       show-author
+    />
+    <BaseSpinner
+      v-else
     />
   </Layout>
 </template>

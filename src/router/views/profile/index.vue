@@ -44,6 +44,11 @@ export default {
     isOwner() {
       return this.user && this.user.id === this.profileOwner.id
     },
+    isLoadingUserContent() {
+      return this.$apollo && this.$apollo.queries
+        ? this.$apollo.queries.userContent.loading
+        : false
+    },
   },
   apollo: {
     userContent: {
@@ -144,6 +149,7 @@ export default {
       {{ profileOwner.name }}
       Profile
     </h1>
+
     <pre>{{ profileOwner }}</pre>
 
     <div v-if="isOwner">
@@ -153,16 +159,9 @@ export default {
           :class="$style.form"
           @submit.prevent="submitPost"
         >
-          <BaseButton
+          <BaseSpinner
             v-if="isLoading"
-            :disabled="isLoading"
-            :class="$style.actionButton"
-          >
-            <BaseIcon
-              name="sync"
-              spin
-            />
-          </BaseButton>
+          />
           <div v-else>
             <BaseInput
               v-model="newTitle"
@@ -175,6 +174,7 @@ export default {
             />
             <BaseButton
               :class="$style.publishButton"
+              :disabled="!newTitle || !newText"
               type="submit"
             >
               <span>Save as draft</span>
@@ -184,24 +184,30 @@ export default {
       </div>
     </div>
 
-    <div v-if="posts.length > 0">
-      <h2>Posts</h2>
-      <PostList
-        :posts="posts"
-        :editable="isOwner"
-        @save-post="editPost"
-      />
-    </div>
+    <template v-if="!isLoadingUserContent">
+      <div v-if="posts.length > 0">
+        <h2>Posts</h2>
+        <PostList
+          :posts="posts"
+          :editable="isOwner"
+          @save-post="editPost"
+        />
+      </div>
 
-    <div v-if="drafts.length > 0">
-      <h2>Drafts</h2>
-      <PostList
-        :posts="drafts"
-        :editable="isOwner"
-        @save-post="editPost"
-        @publish-draft="publishDraft"
-      />
-    </div>
+      <div v-if="drafts.length > 0">
+        <h2>Drafts</h2>
+        <PostList
+          :posts="drafts"
+          :editable="isOwner"
+          @save-post="editPost"
+          @publish-draft="publishDraft"
+        />
+      </div>
+    </template>
+    <BaseSpinner
+      v-else
+      style="margin-top: 50px"
+    />
   </Layout>
 </template>
 
