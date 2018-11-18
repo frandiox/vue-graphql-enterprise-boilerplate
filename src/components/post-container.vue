@@ -74,14 +74,14 @@ export default {
           <BaseButton
             :class="$style.actionButton"
             :disabled="text === post.text && title === post.title"
-            @click.prevent="$emit('save-post', { id: post.id, title, text })"
+            @click.prevent="$emit('save-post', Object.assign({}, post, { title, text }))"
           >
             <span>Save</span>
           </BaseButton>
           <BaseButton
             v-if="!post.isPublished"
             :class="$style.actionButton"
-            @click.prevent="$emit('publish-draft', post.id)"
+            @click.prevent="$emit('publish-draft', post)"
           >
             <span>Publish</span>
           </BaseButton>

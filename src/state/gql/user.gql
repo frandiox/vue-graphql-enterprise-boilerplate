@@ -59,7 +59,7 @@ mutation CreateDraft($title: String!, $text: String!) {
 }
 
 mutation PublishPost($id: ID!) {
-  publish(id: $id) {
+  publishPost(id: $id) {
     ...postFields
     isPublished
   }

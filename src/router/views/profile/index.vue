@@ -59,18 +59,38 @@ export default {
   methods: {
     async submitPost() {
       this.inProcess = true
+      const variables = { title: this.newTitle, text: this.newText }
+      const now = new Date().toISOString()
+      const optimisticId = `new-post-${new Date().getTime()}`
+
       try {
         await this.$apollo.mutate({
           mutation: CreateDraft,
-          variables: { title: this.newTitle, text: this.newText },
+          variables,
           update: (cache, { data: { createDraft } }) => {
             cache.writeQuery({
               query: GetUserContent,
               variables: {
                 id: this && this.user && this.user.id ? this.user.id : '',
               },
-              data: { userContent: [...this.userContent, createDraft] },
+              data: {
+                userContent: [
+                  ...this.userContent.filter(post => post.id !== optimisticId),
+                  createDraft,
+                ],
+              },
             })
+          },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            createDraft: {
+              __typename: 'Post',
+              id: optimisticId,
+              isPublished: false,
+              createdAt: now,
+              updatedAt: now,
+              ...variables,
+            },
           },
         })
       } catch (err) {
@@ -86,15 +106,32 @@ export default {
         await this.$apollo.mutate({
           mutation: UpdatePost,
           variables: newPostData,
+          optimisticResponse: {
+            __typename: 'Mutation',
+            updatePost: {
+              __typename: 'Post',
+              ...newPostData,
+              updatedAt: new Date().toISOString(),
+            },
+          },
         })
       } catch (err) {
         console.error(err)
       }
     },
-    async publishDraft(id) {
+    async publishDraft(post) {
       await this.$apollo.mutate({
         mutation: PublishPost,
-        variables: { id },
+        variables: { id: post.id },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          publishPost: {
+            __typename: 'Post',
+            ...post,
+            updatedAt: new Date().toISOString(),
+            isPublished: true,
+          },
+        },
       })
     },
   },

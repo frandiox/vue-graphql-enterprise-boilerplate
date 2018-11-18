@@ -16,7 +16,7 @@ export default {
     )
   },
 
-  async publish(parent, { id }, ctx, info) {
+  async publishPost(parent, { id }, ctx, info) {
     const userId = ctx.req.user.id
     const postExists = await ctx.db.exists.Post({
       id,
