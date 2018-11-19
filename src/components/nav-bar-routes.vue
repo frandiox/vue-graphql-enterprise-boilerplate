@@ -15,21 +15,28 @@ export default {
   },
   // Render functions are an alternative to templates
   render(h, { props, $style = {} }) {
-    function getRouteTitle(route) {
-      return typeof route.title === 'function' ? route.title() : route.title
-    }
-
     // Functional components are the only components allowed
     // to return an array of children, rather than a single
     // root node.
-    return props.routes.map(route => (
+
+    const normalizedRoutes = props.routes.map(r =>
+      Object.keys(r).reduce(
+        (acc, key) => ({
+          ...acc,
+          [key]: typeof r[key] === 'function' ? r[key]() : r[key],
+        }),
+        {}
+      )
+    )
+
+    return normalizedRoutes.map(route => (
       <BaseLink
         tag="li"
         key={route.name}
         to={route}
         exact-active-class={$style.active}
       >
-        <a>{getRouteTitle(route)}</a>
+        <a>{route.title}</a>
       </BaseLink>
     ))
   },

@@ -19,58 +19,16 @@ export default [
     },
   },
   {
-    path: '/profile',
-    name: 'profile',
+    path: '/profile/:id',
+    name: 'user-profile',
     component: () => lazyLoadView(import('@views/profile')),
-    meta: {
-      authRequired: true,
-    },
-    // props: route => ({ user: store.state.auth.currentUser }), // TODO
-  },
-  {
-    path: '/profile/:username',
-    name: 'username-profile',
-    component: () => lazyLoadView(import('@views/profile')),
-    meta: {
-      authRequired: true,
-    },
-    beforeEnter(routeTo, routeFrom, next) {
-      next() // TODO
-      // store
-      //   // Try to fetch the user's information by their username
-      //   .dispatch('users/fetchUser', { username: routeTo.params.username })
-      //   .then(user => {
-      //     // Add the user to the route params, so that it can
-      //     // be provided as a prop for the view component below.
-      //     routeTo.params.user = user
-      //     // Continue to the route.
-      //     next()
-      //   })
-      //   .catch(() => {
-      //     // If a user with the provided username could not be
-      //     // found, redirect to the 404 page.
-      //     next({ name: '404', params: { resource: 'User' } })
-      //   })
-    },
-    // Set the user from the route params, once it's set in the
-    // beforeEnter route guard.
-    props: route => ({ user: route.params.user }),
+    props: true,
   },
   {
     path: '/logout',
     name: 'logout',
-    meta: {
-      authRequired: true,
-    },
     beforeEnter(routeTo, routeFrom, next) {
       logout()
-      // next() // TODO
-      // store.dispatch('auth/logOut')
-      // const authRequiredOnPreviousRoute = routeFrom.matched.some(
-      //   route => route.meta.authRequired
-      // )
-      // // Navigate back to previous page, or home as a fallback
-      // next(authRequiredOnPreviousRoute ? { name: 'home' } : { ...routeFrom })
     },
   },
   {

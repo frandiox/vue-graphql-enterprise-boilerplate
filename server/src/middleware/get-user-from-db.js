@@ -3,7 +3,7 @@ import db from '../db'
 export default async function(req, res, next) {
   if (req.user) {
     const user = await db.query.user({
-      where: { auth0id: req.user.sub.split(`|`)[1] },
+      where: { authId: req.user.sub },
     })
 
     // Expose user in request object

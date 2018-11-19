@@ -39,20 +39,20 @@ router.beforeEach(async (routeTo, routeFrom, next) => {
     NProgress.start()
   }
 
-  if (['login', 'logout'].includes(routeTo.name)) return next()
+  // Check if session is valid and renew if necessary.
+  // Fetch user asynchronously after checking session.
+  const userPromise = checkSession().then(getCurrentUser)
 
-  await checkSession()
+  // If auth isn't required for the route (or nested routes),
+  // just continue and don't wait for user object.
+  if (!routeTo.matched.some(route => route.meta.authRequired)) return next()
 
-  const user = await getCurrentUser()
-
-  // Check if auth is required on this route
-  // (including nested routes).
-  const authRequired = routeTo.matched.some(route => route.meta.authRequired)
-
-  // If auth isn't required for the route, just continue.
-  if (!authRequired) return next()
+  // Wait for user object to check permissions
+  const user = await userPromise
 
   if (!user || user.role === 'TODO') {
+    // TODO: Add user roles
+    // TODO: Redirect to a "forbidden" view instead of "login"
     next({ name: 'login' })
   }
 

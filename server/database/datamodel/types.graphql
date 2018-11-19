@@ -10,8 +10,7 @@ type Post {
 
 type User {
   id: ID! @unique
-  auth0id: String! @unique
-  identity: String!
+  authId: String! @unique
   email: String! @unique
   name: String
   posts: [Post!]!

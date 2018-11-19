@@ -20,8 +20,30 @@ export default {
     return ctx.db.query.post({ where: { id } }, info)
   },
 
-  getSelf(parent, args, ctx, info) {
+  self(parent, args, ctx, info) {
     const { token, ...user } = ctx.req.user || {}
     return user.id ? user : null
+  },
+
+  user(parent, { id }, ctx, info) {
+    return ctx.db.query.user({ where: { id } }, info)
+  },
+
+  userContent(parent, { id }, ctx, info) {
+    const where = {
+      isPublished: ctx.req.user && ctx.req.user.id === id ? undefined : true,
+      author: {
+        id,
+      },
+    }
+
+    return ctx.db.query.posts({ where }, info)
+  },
+
+  recentPosts(parent, args, ctx, info) {
+    return ctx.db.query.posts(
+      { first: 10, orderBy: 'updatedAt_DESC', where: { isPublished: true } },
+      info
+    )
   },
 }

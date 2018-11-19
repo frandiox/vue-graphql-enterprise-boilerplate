@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/frandiox/vue-graphql-enterprise-boilerplate/dev
-# timestamp: Sun Sep 30 2018 13:34:02 GMT+0200 (Central European Summer Time)
+# timestamp: Mon Nov 19 2018 01:20:59 GMT+0900 (Japan Standard Time)
 
 type AggregatePost {
   count: Int!
@@ -31,8 +31,8 @@ type Mutation {
   deleteUser(where: UserWhereUniqueInput!): User
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  updateManyPosts(data: PostUpdateInput!, where: PostWhereInput): BatchPayload!
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   deleteManyPosts(where: PostWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
@@ -135,6 +135,185 @@ type PostPreviousValues {
   text: String!
 }
 
+input PostScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PostScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PostScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PostScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  isPublished: Boolean
+
+  """All values that are not equal to given value."""
+  isPublished_not: Boolean
+  title: String
+
+  """All values that are not equal to given value."""
+  title_not: String
+
+  """All values that are contained in given list."""
+  title_in: [String!]
+
+  """All values that are not contained in given list."""
+  title_not_in: [String!]
+
+  """All values less than the given value."""
+  title_lt: String
+
+  """All values less than or equal the given value."""
+  title_lte: String
+
+  """All values greater than the given value."""
+  title_gt: String
+
+  """All values greater than or equal the given value."""
+  title_gte: String
+
+  """All values containing the given string."""
+  title_contains: String
+
+  """All values not containing the given string."""
+  title_not_contains: String
+
+  """All values starting with the given string."""
+  title_starts_with: String
+
+  """All values not starting with the given string."""
+  title_not_starts_with: String
+
+  """All values ending with the given string."""
+  title_ends_with: String
+
+  """All values not ending with the given string."""
+  title_not_ends_with: String
+  text: String
+
+  """All values that are not equal to given value."""
+  text_not: String
+
+  """All values that are contained in given list."""
+  text_in: [String!]
+
+  """All values that are not contained in given list."""
+  text_not_in: [String!]
+
+  """All values less than the given value."""
+  text_lt: String
+
+  """All values less than or equal the given value."""
+  text_lte: String
+
+  """All values greater than the given value."""
+  text_gt: String
+
+  """All values greater than or equal the given value."""
+  text_gte: String
+
+  """All values containing the given string."""
+  text_contains: String
+
+  """All values not containing the given string."""
+  text_not_contains: String
+
+  """All values starting with the given string."""
+  text_starts_with: String
+
+  """All values not starting with the given string."""
+  text_not_starts_with: String
+
+  """All values ending with the given string."""
+  text_ends_with: String
+
+  """All values not ending with the given string."""
+  text_not_ends_with: String
+}
+
 type PostSubscriptionPayload {
   mutation: MutationType!
   node: Post
@@ -181,13 +360,32 @@ input PostUpdateInput {
   author: UserUpdateOneRequiredWithoutPostsInput
 }
 
+input PostUpdateManyDataInput {
+  isPublished: Boolean
+  title: String
+  text: String
+}
+
+input PostUpdateManyMutationInput {
+  isPublished: Boolean
+  title: String
+  text: String
+}
+
 input PostUpdateManyWithoutAuthorInput {
   create: [PostCreateWithoutAuthorInput!]
   connect: [PostWhereUniqueInput!]
   disconnect: [PostWhereUniqueInput!]
   delete: [PostWhereUniqueInput!]
   update: [PostUpdateWithWhereUniqueWithoutAuthorInput!]
+  updateMany: [PostUpdateManyWithWhereNestedInput!]
+  deleteMany: [PostScalarWhereInput!]
   upsert: [PostUpsertWithWhereUniqueWithoutAuthorInput!]
+}
+
+input PostUpdateManyWithWhereNestedInput {
+  where: PostScalarWhereInput!
+  data: PostUpdateManyDataInput!
 }
 
 input PostUpdateWithoutAuthorDataInput {
@@ -413,8 +611,7 @@ type Subscription {
 
 type User implements Node {
   id: ID!
-  auth0id: String!
-  identity: String!
+  authId: String!
   email: String!
   name: String
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
@@ -431,8 +628,7 @@ type UserConnection {
 }
 
 input UserCreateInput {
-  auth0id: String!
-  identity: String!
+  authId: String!
   email: String!
   name: String
   posts: PostCreateManyWithoutAuthorInput
@@ -444,8 +640,7 @@ input UserCreateOneWithoutPostsInput {
 }
 
 input UserCreateWithoutPostsInput {
-  auth0id: String!
-  identity: String!
+  authId: String!
   email: String!
   name: String
 }
@@ -462,10 +657,8 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
-  auth0id_ASC
-  auth0id_DESC
-  identity_ASC
-  identity_DESC
+  authId_ASC
+  authId_DESC
   email_ASC
   email_DESC
   name_ASC
@@ -478,8 +671,7 @@ enum UserOrderByInput {
 
 type UserPreviousValues {
   id: ID!
-  auth0id: String!
-  identity: String!
+  authId: String!
   email: String!
   name: String
 }
@@ -524,11 +716,16 @@ input UserSubscriptionWhereInput {
 }
 
 input UserUpdateInput {
-  auth0id: String
-  identity: String
+  authId: String
   email: String
   name: String
   posts: PostUpdateManyWithoutAuthorInput
+}
+
+input UserUpdateManyMutationInput {
+  authId: String
+  email: String
+  name: String
 }
 
 input UserUpdateOneRequiredWithoutPostsInput {
@@ -539,8 +736,7 @@ input UserUpdateOneRequiredWithoutPostsInput {
 }
 
 input UserUpdateWithoutPostsDataInput {
-  auth0id: String
-  identity: String
+  authId: String
   email: String
   name: String
 }
@@ -599,86 +795,46 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  auth0id: String
+  authId: String
 
   """All values that are not equal to given value."""
-  auth0id_not: String
+  authId_not: String
 
   """All values that are contained in given list."""
-  auth0id_in: [String!]
+  authId_in: [String!]
 
   """All values that are not contained in given list."""
-  auth0id_not_in: [String!]
+  authId_not_in: [String!]
 
   """All values less than the given value."""
-  auth0id_lt: String
+  authId_lt: String
 
   """All values less than or equal the given value."""
-  auth0id_lte: String
+  authId_lte: String
 
   """All values greater than the given value."""
-  auth0id_gt: String
+  authId_gt: String
 
   """All values greater than or equal the given value."""
-  auth0id_gte: String
+  authId_gte: String
 
   """All values containing the given string."""
-  auth0id_contains: String
+  authId_contains: String
 
   """All values not containing the given string."""
-  auth0id_not_contains: String
+  authId_not_contains: String
 
   """All values starting with the given string."""
-  auth0id_starts_with: String
+  authId_starts_with: String
 
   """All values not starting with the given string."""
-  auth0id_not_starts_with: String
+  authId_not_starts_with: String
 
   """All values ending with the given string."""
-  auth0id_ends_with: String
+  authId_ends_with: String
 
   """All values not ending with the given string."""
-  auth0id_not_ends_with: String
-  identity: String
-
-  """All values that are not equal to given value."""
-  identity_not: String
-
-  """All values that are contained in given list."""
-  identity_in: [String!]
-
-  """All values that are not contained in given list."""
-  identity_not_in: [String!]
-
-  """All values less than the given value."""
-  identity_lt: String
-
-  """All values less than or equal the given value."""
-  identity_lte: String
-
-  """All values greater than the given value."""
-  identity_gt: String
-
-  """All values greater than or equal the given value."""
-  identity_gte: String
-
-  """All values containing the given string."""
-  identity_contains: String
-
-  """All values not containing the given string."""
-  identity_not_contains: String
-
-  """All values starting with the given string."""
-  identity_starts_with: String
-
-  """All values not starting with the given string."""
-  identity_not_starts_with: String
-
-  """All values ending with the given string."""
-  identity_ends_with: String
-
-  """All values not ending with the given string."""
-  identity_not_ends_with: String
+  authId_not_ends_with: String
   email: String
 
   """All values that are not equal to given value."""
@@ -766,6 +922,6 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
-  auth0id: String
+  authId: String
   email: String
 }
