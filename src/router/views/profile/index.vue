@@ -4,6 +4,7 @@ import PostList from '@components/post-list'
 import {
   GetUser,
   GetUserContent,
+  LocalGetSelf,
   CreateDraft,
   PublishPost,
   UpdatePost,
@@ -25,10 +26,6 @@ export default {
   },
   components: { Layout, PostList },
   props: {
-    user: {
-      type: Object,
-      default: null,
-    },
     id: {
       type: String,
       required: true,
@@ -40,7 +37,7 @@ export default {
       newText: '',
       isLoading: false,
       userContent: [],
-      profileOwner: this.user && this.user.id === this.id ? this.user : null,
+      profileOwner: null,
     }
   },
   computed: {
@@ -60,13 +57,11 @@ export default {
     },
   },
   apollo: {
+    user: LocalGetSelf,
     profileOwner: {
       query: GetUser,
       variables() {
         return { id: this.id }
-      },
-      skip() {
-        return this.isOwner
       },
       update: data => data.user,
       result({ data: { user } }) {
