@@ -9,8 +9,7 @@
     "build": "vue-cli-service build --modern",
     "build:ci": "cross-env ANALYZE=true yarn build",
     "test": "yarn unit && yarn e2e",
-    "test:ci":
-      "yarn lint && yarn unit --coverage --ci --maxWorkers=4 && yarn e2e",
+    "test:ci": "yarn unit --coverage --ci --maxWorkers=4 && yarn e2e",
     "unit": "vue-cli-service test:unit",
     "unit:watch": "yarn unit --watch --notify --notifyMode change",
     "e2e": "vue-cli-service test:e2e --headless",
