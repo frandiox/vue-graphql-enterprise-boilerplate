@@ -51,15 +51,14 @@ export default {
   async authenticate(parent, { idToken }, ctx, info) {
     const userToken = await verifyAndDecodeIdToken(idToken)
 
-    const [identity, auth0id] = userToken.sub.split('|')
+    const authId = userToken.sub
 
-    let user = await ctx.db.query.user({ where: { auth0id } }, info)
+    let user = await ctx.db.query.user({ where: { authId } }, info)
 
     if (!user) {
       user = await ctx.db.mutation.createUser({
         data: {
-          identity,
-          auth0id,
+          authId,
           email: userToken.email,
           // Other data can be added here from Auth0 user
         },

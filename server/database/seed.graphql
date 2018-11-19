@@ -3,8 +3,7 @@ mutation {
     data: {
       email: "developer@example.com"
       name: "Sarah"
-      identity: "auth0"
-      auth0id: "test-auth0-id"
+      authId: "auth0|test-auth0-id"
       posts: {
         create: [
           {
