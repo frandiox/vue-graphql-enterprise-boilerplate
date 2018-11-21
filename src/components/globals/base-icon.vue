@@ -16,6 +16,7 @@ export default {
   components: {
     FontAwesomeIcon,
   },
+  inheritAttrs: false,
   props: {
     source: {
       type: String,
@@ -38,11 +39,13 @@ export default {
 <template>
   <FontAwesomeIcon
     v-if="source === 'font-awesome'"
+    v-bind="$attrs"
     :icon="name"
     v-bind="$attrs"
   />
   <span
     v-else-if="source === 'custom'"
+    v-bind="$attrs"
     :class="customIconClass"
   />
 </template>
