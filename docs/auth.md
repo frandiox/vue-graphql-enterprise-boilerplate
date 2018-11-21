@@ -14,7 +14,7 @@ Our login page handles Auth0 callback and logout redirection. This can be change
 
 Make sure you also enable `Use Auth0 instead of the IdP to do Single Sign On` as well. This will allow us to renew tokens in the background when the session expires. Optionally, enable `Advanced Settings > OAuth > OIDC Conformant`.
 
-After the app is create, go to APIs and create a new one (do not use the default Management API). You can customize its settings but defaults also work.
+After the app is create, go to APIs and create a new one (do not use the default Management API). You can customize its settings but defaults also work. Make sure to note the Identifier of the API.
 
 Finally, update `.env` with your new Auth0 app domain, app client ID and the new API's ID (audience).
 

@@ -1,4 +1,4 @@
-# Backend arquitecture
+# Backend architecture
 
 - [`database`](#database)
   - [`datamodel`](#datamodel)
