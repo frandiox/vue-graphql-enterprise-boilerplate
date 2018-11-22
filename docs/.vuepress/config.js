@@ -12,6 +12,7 @@ module.exports = {
       '/routing',
       '/techback',
       '/backend',
+      '/auth',
       '/state',
       '/tests',
       '/linting',
