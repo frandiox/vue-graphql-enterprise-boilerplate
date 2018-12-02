@@ -248,13 +248,14 @@ export async function checkSession() {
     // If this is the first time and session is valid
     singleSignOn === undefined && scheduleRenewAuth()
   } else if (singleSignOn !== false && !window.Cypress) {
+    setTimeout(() => clearSession(), 0)
+
     // If this is the first time or is already logged in
     // but session is not valid
     try {
       await renewAuth()
     } catch (err) {
       err.error !== 'login_required' && console.error(err)
-      clearSession()
     }
   }
 }
