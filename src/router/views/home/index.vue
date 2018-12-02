@@ -33,20 +33,18 @@ export default {
 <template>
   <Layout>
     <h1>Home Page</h1>
-    <img
-      class="logo"
-      src="@assets/images/logo.png"
+    <img 
+      class="logo" 
+      src="@assets/images/logo.png" 
       alt="Logo"
     >
     <h2>Recent Posts</h2>
-    <PostList
-      v-if="!isLoadingRecentPosts"
-      :posts="recentPosts"
+    <PostList 
+      v-if="!isLoadingRecentPosts && recentPosts" 
+      :posts="recentPosts" 
       show-author
     />
-    <BaseSpinner
-      v-else
-    />
+    <BaseSpinner v-else />
   </Layout>
 </template>
 
