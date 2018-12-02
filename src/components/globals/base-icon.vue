@@ -39,7 +39,6 @@ export default {
 <template>
   <FontAwesomeIcon
     v-if="source === 'font-awesome'"
-    v-bind="$attrs"
     :icon="name"
     v-bind="$attrs"
   />

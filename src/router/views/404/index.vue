@@ -20,9 +20,9 @@ export default {
   <Layout>
     <h1 :class="$style.title">
       404
-      <span v-if="resource">
+      <template v-if="resource">
         {{ resource }}
-      </span>
+      </template>
       Not Found
     </h1>
   </Layout>
