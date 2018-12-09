@@ -1,16 +1,3 @@
-const TEST = 'test'
-jest.mock('prisma-binding')
-
-require('prisma-binding').Prisma.mockImplementationOnce(() => ({
-  query: {
-    user() {
-      return {
-        test: TEST,
-      }
-    },
-  },
-}))
-
 const { default: getUserAuth } = require('./get-user-auth')
 
 describe('getUserAuth middleware', () => {
@@ -43,7 +30,6 @@ describe('getUserAuth middleware', () => {
 
     await getUserAuth(req, null, next)
 
-    expect(req.user.test).toBe(TEST)
     expect(req.user.token.sub).toBe(sub)
     expect(next).toHaveBeenCalled()
   })
