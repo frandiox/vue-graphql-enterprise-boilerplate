@@ -19,9 +19,12 @@ datamodel:
 seed:
   import: seed.graphql
 
+generate:
+  - generator: graphql-schema
+    output: ../src/generated/
+
 # OPTIONAL
 # Defines hooks with custom behavior. This downloads "generated/prisma.graphql"
 hooks:
   post-deploy:
-    - graphql get-schema --project database
-    - graphql prepare
+    - prisma generate
