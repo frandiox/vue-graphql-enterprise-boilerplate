@@ -12,6 +12,7 @@ type User {
   id: ID! @unique
   authId: String! @unique
   email: String! @unique
+  role: Role @default(value: WRITER)
   name: String
   posts: [Post!]!
 }

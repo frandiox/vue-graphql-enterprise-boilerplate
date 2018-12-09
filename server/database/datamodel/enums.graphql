@@ -1,0 +1,6 @@
+enum Role {
+  ADMIN
+  MANAGER
+  EDITOR
+  WRITER
+}

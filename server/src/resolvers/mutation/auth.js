@@ -1,6 +1,7 @@
 import jwksClient from 'jwks-rsa'
 import jwt from 'jsonwebtoken'
 import { AuthenticationError } from '../../errors'
+import { forwardTo } from 'prisma-binding'
 
 const jwks = jwksClient({
   cache: true,
@@ -67,4 +68,6 @@ export default {
 
     return user
   },
+
+  deleteUser: forwardTo('db'),
 }

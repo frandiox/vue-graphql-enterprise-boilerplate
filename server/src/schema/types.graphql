@@ -1,8 +1,9 @@
-# import Post from "../generated/prisma.graphql"
+# import Post, Role from "../generated/prisma.graphql"
 
 type User {
   id: ID!
   email: String!
+  role: Role!
   name: String
   posts: [Post!]!
 }

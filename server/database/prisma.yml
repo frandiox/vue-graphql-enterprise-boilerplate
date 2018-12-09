@@ -5,7 +5,7 @@ endpoint: ${env:PRISMA_ENDPOINT}
 # Points to the files containing your data model.
 datamodel:
   - datamodel/types.graphql
-# - datamodel/enums.graphql
+  - datamodel/enums.graphql
 
 # The secret is used to generate JTWs which allow to authenticate
 # against your Prisma service. You can use the `prisma token` command from the CLI
