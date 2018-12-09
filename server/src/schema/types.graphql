@@ -7,3 +7,8 @@ type User {
   name: String
   posts: [Post!]!
 }
+
+type AuthPayload {
+  id: ID!
+  role: Role!
+}

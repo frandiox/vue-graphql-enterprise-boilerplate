@@ -2,7 +2,7 @@ import express from 'express'
 import { importSchema } from 'graphql-import'
 
 import verifyAccessToken from './middleware/verify-access-token'
-import getUserFromDB from './middleware/get-user-from-db'
+import getUserAuth from './middleware/get-user-auth'
 
 import createApolloServer from './apollo-server'
 import * as resolvers from './resolvers'
@@ -20,7 +20,7 @@ const app = express()
 // Middlewares for HTTP and WS connections
 const connectionMiddlewares = [
   verifyAccessToken, // Verify and expose token information in req.user
-  getUserFromDB, // Transform req.user to real DB user
+  getUserAuth, // Transform req.user to real DB user
 ]
 
 app.post(GRAPHQL_ENDPOINT, ...connectionMiddlewares)

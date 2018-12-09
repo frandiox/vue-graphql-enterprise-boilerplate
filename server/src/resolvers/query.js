@@ -21,8 +21,15 @@ export default {
   },
 
   self(parent, args, ctx, info) {
-    const { token, ...user } = ctx.req.user || {}
-    return user.id ? user : null
+    return ctx.req.user
+      ? ctx.db.query.user({ where: { id: ctx.req.user.id } }, info)
+      : null
+  },
+
+  auth(parent, { authId }, ctx, info) {
+    return !authId || ctx.req.get('x-audience') !== process.env.AUTH0_AUDIENCE
+      ? null
+      : ctx.db.query.user({ where: { authId } }, info)
   },
 
   user(parent, { id }, ctx, info) {

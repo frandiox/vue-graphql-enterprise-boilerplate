@@ -57,6 +57,9 @@ export default {
     let user = await ctx.db.query.user({ where: { authId } }, info)
 
     if (!user) {
+      // If we extended idToken in an Auth0 rule, data can be used here
+      // const { ... } = userToken[process.env.AUTH0_OIDC_NAMESPACE + 'user_metadata']
+
       user = await ctx.db.mutation.createUser({
         data: {
           authId,
