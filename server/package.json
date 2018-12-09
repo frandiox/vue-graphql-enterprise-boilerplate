@@ -26,7 +26,7 @@
     "cross-env": "^5.2.0",
     "graphql-cli": "^2.17.0",
     "nodemon": "^1.18.0",
-    "prisma": "~1.21.0"
+    "prisma": "~1.22.0"
   },
   "engines": {
     "node": ">=8.9.0",
