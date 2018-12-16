@@ -1,5 +1,3 @@
-# import Post, Role from "../generated/prisma.graphql"
-
 type User {
   id: ID!
   email: String!

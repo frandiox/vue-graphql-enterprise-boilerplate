@@ -65,8 +65,8 @@ mutation PublishPost($id: ID!) {
   }
 }
 
-mutation UpdatePost($id: ID!, $title: String!, $text: String!) {
-  updatePost(id: $id, title: $title, text: $text) {
+mutation UpdatePost($input: PostUpdatedInput!) {
+  updatePost(input: $input) {
     ...postFields
   }
 }

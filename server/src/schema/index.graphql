@@ -1,3 +1,5 @@
+# import Post, Role from "../generated/prisma.graphql"
+# import PostCreateInput from "../generated/prisma.graphql"
 # import * from "./directives.graphql"
 # import * from "./inputs.graphql"
 # import * from "./types.graphql"
@@ -18,7 +20,7 @@ type Mutation {
   createDraft(title: String!, text: String!): Post! @isAuthenticated
   publishPost(id: ID!): Post! @isAuthenticated
   deletePost(id: ID!): Post! @isAuthenticated
-  updatePost(id: ID!, title: String!, text: String!): Post!
+  updatePost(input: PostUpdatedInput!): Post!
     @isAuthenticated
     @maxDepth(depth: 2)
 

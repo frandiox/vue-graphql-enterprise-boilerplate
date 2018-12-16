@@ -1,1 +1,5 @@
-# import { PostCreateInput } from "../generated/prisma.graphql"
+input PostUpdatedInput {
+  id: ID!
+  title: String!
+  text: String!
+}

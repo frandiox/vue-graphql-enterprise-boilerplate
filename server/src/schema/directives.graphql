@@ -1,5 +1,3 @@
-# import { Role } from "../generated/prisma.graphql"
-
 directive @isAuthenticated on FIELD_DEFINITION
 
 directive @hasRole(roles: [Role]) on FIELD_DEFINITION

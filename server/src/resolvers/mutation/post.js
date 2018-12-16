@@ -35,7 +35,14 @@ export default {
     )
   },
 
-  async updatePost(parent, { id, title, text }, ctx, info) {
+  async updatePost(
+    parent,
+    {
+      input: { id, title, text },
+    },
+    ctx,
+    info
+  ) {
     const userId = ctx.req.user.id
     const postExists = await ctx.db.exists.Post({
       id,

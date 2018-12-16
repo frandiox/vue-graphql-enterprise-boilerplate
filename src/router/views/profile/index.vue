@@ -124,7 +124,9 @@ export default {
       try {
         await this.$apollo.mutate({
           mutation: UpdatePost,
-          variables: post,
+          variables: {
+            input: { id: post.id, title: post.title, text: post.text },
+          },
           optimisticResponse: {
             __typename: 'Mutation',
             updatePost: {
