@@ -1,4 +1,5 @@
 import auth0 from 'auth0-js'
+import jwtDecode from 'jwt-decode'
 import extractHash from '@utils/extract-hash'
 import { Authenticate, GetSelf, LocalSetSelf, LocalGetSelf } from '@gql/user'
 import { apolloClient, apolloOnLogin, apolloOnLogout } from '@state'
@@ -255,18 +256,37 @@ export async function getCurrentUser() {
 
     if (!user) {
       // Get remote version
-      const {
-        data: { self: remoteUser },
-      } = await apolloClient.query({
-        query: GetSelf,
-      })
+      try {
+        const {
+          data: { self: remoteUser },
+        } = await apolloClient.query({
+          query: GetSelf,
+        })
 
-      if (remoteUser) {
+        // Ensure permissions are correct
+        const { accessToken } = getSession()
+        if (accessToken && remoteUser) {
+          const tokenInfo = jwtDecode(accessToken)
+          const authClaimsKey = Object.keys(tokenInfo).find(key =>
+            /^https:\/\/.*\/authInfo\/?/.test(key)
+          )
+
+          if (
+            authClaimsKey &&
+            tokenInfo[authClaimsKey].role !== remoteUser.role
+          ) {
+            await renewAuth()
+          }
+        }
+
         user = remoteUser
-
-        // Store user locally
-        await setCurrentUser(user)
+      } catch (err) {
+        console.error(err)
+        return null
       }
+
+      // Store user locally
+      await setCurrentUser(user)
     }
   }
 

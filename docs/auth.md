@@ -67,7 +67,7 @@ function extendAccessToken(user, context, callback) {
     .then(result => {
       if (result && !result.errors && result.data) {
         // Add result to accessToken using our OIDC namespace
-        context.accessToken[configuration.NAMESPACE + 'auth'] =
+        context.accessToken[configuration.NAMESPACE + 'authInfo'] =
           result.data.getAuth
       }
 

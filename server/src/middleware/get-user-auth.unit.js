@@ -5,7 +5,7 @@ describe('getUserAuth middleware', () => {
     const sub = 'identity|id_number'
     const { AUTH0_OIDC_NAMESPACE } = process.env
     process.env.AUTH0_OIDC_NAMESPACE = 'test/'
-    const authPath = process.env.AUTH0_OIDC_NAMESPACE + 'auth'
+    const authPath = process.env.AUTH0_OIDC_NAMESPACE + 'authInfo'
     const authClaims = { id: 'test-id', role: 'TEST' }
 
     const req = { user: { sub, [authPath]: authClaims } }
