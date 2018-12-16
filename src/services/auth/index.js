@@ -2,12 +2,9 @@ import auth0 from 'auth0-js'
 import extractHash from '@utils/extract-hash'
 import { Authenticate, GetSelf, LocalSetSelf, LocalGetSelf } from '@gql/user'
 import { apolloClient, apolloOnLogin, apolloOnLogout } from '@state'
+import { getSession, setSession, clearSession, isValidSession } from './session'
 
 /* PRIVATE */
-
-const ACCESS_TOKEN = 'access_token'
-const ID_TOKEN = 'id_token'
-const EXPIRES_AT = 'expires_at'
 
 const socialConnection = {
   google: 'google-oauth2',
@@ -28,29 +25,10 @@ let singleSignOn
 let renewAuthTimeout
 
 /**
- * @description Save authentication data in localStorage
+ * @description Shut down session
  */
-function setSession({ expiresIn, accessToken, idToken }) {
-  localStorage.setItem(ACCESS_TOKEN, accessToken)
-  localStorage.setItem(ID_TOKEN, idToken)
-  // Set the time that the access token will expire at
-  localStorage.setItem(
-    EXPIRES_AT,
-    JSON.stringify(expiresIn * 1000 + Date.now())
-  )
-
-  apolloOnLogin(accessToken)
-}
-
-/**
- * @description Remove authentication data from localStorage
- */
-function clearSession() {
-  // Clear access token and ID token from local storage
-  ;[ACCESS_TOKEN, ID_TOKEN, EXPIRES_AT].forEach(item =>
-    localStorage.removeItem(item)
-  )
-
+function clearAuth() {
+  clearSession()
   apolloOnLogout()
   singleSignOn = false
 
@@ -58,14 +36,11 @@ function clearSession() {
 }
 
 /**
- * @description Check if authentication data exists and is valid
+ * @description Save authentication data in localStorage
  */
-function isValidSession() {
-  return (
-    [ACCESS_TOKEN, ID_TOKEN, EXPIRES_AT].every(
-      item => localStorage.getItem(item) !== null
-    ) && new Date().getTime() < JSON.parse(localStorage.getItem(EXPIRES_AT))
-  )
+export function setAuth(auth) {
+  auth && setSession(auth)
+  apolloOnLogin()
 }
 
 /**
@@ -87,7 +62,8 @@ function validateAuthResponse(hash = {}) {
  */
 function scheduleRenewAuth() {
   singleSignOn = true
-  const expiresIn = Number(localStorage.getItem(EXPIRES_AT)) - Date.now()
+  const { expiresAt } = getSession() || {}
+  const expiresIn = Number(expiresAt) - Date.now()
   clearTimeout(renewAuthTimeout)
 
   // Schedule token renewal 1 minute before expiration
@@ -102,7 +78,7 @@ function renewAuth() {
   return new Promise((resolve, reject) => {
     webAuth.checkSession({ audience, scope }, (err, authResult) => {
       if (err) return reject(err)
-      setSession(authResult)
+      setAuth(authResult)
       scheduleRenewAuth()
       resolve(authResult)
     })
@@ -183,7 +159,7 @@ export function passwordReset(email) {
 export async function tryToLogIn() {
   if (isValidSession()) return true
 
-  clearSession()
+  clearAuth()
 
   const hash = extractHash(window.location, window.history)
 
@@ -200,7 +176,7 @@ export async function tryToLogIn() {
       })
 
       await setCurrentUser(user)
-      setSession(authResult)
+      setAuth(authResult)
       scheduleRenewAuth()
 
       console.log('Authenticated!', user) // eslint-disable-line no-console
@@ -217,7 +193,7 @@ export async function tryToLogIn() {
  * @description Remove local session data and Auth0's Single Sign On session
  */
 export function logout() {
-  clearSession()
+  clearAuth()
   setCurrentUser(null)
 
   const { clientID } = authConfig
@@ -246,13 +222,15 @@ export function setCurrentUser(user) {
 export async function checkSession() {
   if (isValidSession()) {
     // If this is the first time and session is valid
-    singleSignOn === undefined && scheduleRenewAuth()
+    if (singleSignOn === undefined) {
+      setAuth()
+      scheduleRenewAuth()
+    }
   } else if (singleSignOn !== false && !window.Cypress) {
-    setTimeout(() => clearSession(), 0)
-
     // If this is the first time or is already logged in
     // but session is not valid
     try {
+      clearSession()
       await renewAuth()
     } catch (err) {
       err.error !== 'login_required' && console.error(err)
