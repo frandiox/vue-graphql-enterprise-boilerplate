@@ -1,3 +1,5 @@
+import { findUser } from '../models/user'
+
 export default {
   feed(parent, args, ctx, info) {
     return ctx.db.query.posts({ where: { isPublished: true } }, info)
@@ -22,18 +24,18 @@ export default {
 
   self(parent, args, ctx, info) {
     return ctx.req.user
-      ? ctx.db.query.user({ where: { id: ctx.req.user.id } }, info)
+      ? findUser({ where: { id: ctx.req.user.id } }, { info })
       : null
   },
 
   auth(parent, { authId }, ctx, info) {
-    return !authId || ctx.req.get('x-audience') !== process.env.AUTH0_AUDIENCE
-      ? null
-      : ctx.db.query.user({ where: { authId } }, info)
+    return authId && ctx.req.get('x-audience') !== process.env.AUTH0_AUDIENCE
+      ? findUser({ where: { authId } }, { info })
+      : null
   },
 
   user(parent, { id }, ctx, info) {
-    return ctx.db.query.user({ where: { id } }, info)
+    return findUser({ where: { id } }, { info })
   },
 
   userContent(parent, { id }, ctx, info) {

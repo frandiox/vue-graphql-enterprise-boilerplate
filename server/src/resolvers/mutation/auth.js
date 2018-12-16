@@ -1,7 +1,7 @@
 import jwksClient from 'jwks-rsa'
 import jwt from 'jsonwebtoken'
 import { AuthenticationError } from '../../errors'
-import { forwardTo } from 'prisma-binding'
+import { findUser, createUser, deleteUser } from '../../models/user'
 
 const jwks = jwksClient({
   cache: true,
@@ -54,23 +54,28 @@ export default {
 
     const authId = userToken.sub
 
-    let user = await ctx.db.query.user({ where: { authId } }, info)
+    let user = await findUser({ where: { authId } }, { info })
 
     if (!user) {
       // If we extended idToken in an Auth0 rule, data can be used here
       // const { ... } = userToken[process.env.AUTH0_OIDC_NAMESPACE + 'user_metadata']
 
-      user = await ctx.db.mutation.createUser({
-        data: {
-          authId,
-          email: userToken.email,
-          // Other data can be added here from Auth0 user
+      user = await createUser(
+        {
+          data: {
+            authId,
+            email: userToken.email,
+            // Other data can be added here from Auth0 user
+          },
         },
-      })
+        { info }
+      )
     }
 
     return user
   },
 
-  deleteUser: forwardTo('db'),
+  async deleteUser(parent, args, ctx, info) {
+    return deleteUser(args, { info })
+  },
 }
