@@ -9,11 +9,15 @@
   - [`errors`](#errors)
   - [`generated`](#generated)
   - [`middleware`](#middleware)
+  - [`models`](#models)
   - [`resolvers`](#resolvers)
   - [`schema`](#appconfigjs)
   - [`utils`](#utils)
-  - [`index.js`](#index-js)
-- [`.graphqlconfig.yml`](#graphqlconfig-yml)
+  - [`db.js`](#db.js)
+  - [`apollo-server.js`](#apollo-server.js)
+  - [`pubsub.js`](#pubsub.js)
+  - [`index.js`](#index.js)
+- [`.graphqlconfig.yml`](#graphqlconfig.yml)
 
 ## `database`
 
@@ -47,9 +51,13 @@ This folder will contain all the GraphQL generated schema. Specifically, our dat
 
 Express.js middleware is located here. Middleware runs right after a request is received and before GraphQL resolvers start. It is a good place to check authentication tokens.
 
+### `models`
+
+Every type in our app should have a model that defines all its actions such as `createItem`, `updateItem`, `publishItem`, etc. This is where most of the DB-interaction logic lives. Ownership checks can be done here.
+
 ### `resolvers`
 
-Contains all the resolvers for queries, mutations and subscriptions.
+Contains all the GraphQL resolvers for queries, mutations and subscriptions. Think of resolvers as thin controllers that call actions defined in models.
 
 ### `schema`
 
@@ -66,6 +74,10 @@ Exports the database connection object that can be used in resolvers or any othe
 ### `apollo-server.js`
 
 Manages configurations specific to `apollo-server` (or `apollo-server-express`) such as subscriptions, mocks, Apollo engine, etc.
+
+### `pubsub.js`
+
+Exports the PubSub implementation for GraphQL subscriptions. By default, an in-memory PubSub is used for development but can be easily updated when scaling the project (Redis, RabbitMQ, etc.).
 
 ### `index.js`
 
