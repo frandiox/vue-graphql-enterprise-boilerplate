@@ -7666,7 +7666,7 @@ graphql-anywhere@^4.1.0-alpha.0:
   dependencies:
     apollo-utilities "^1.0.21"
 
-graphql-binding@2.3.7:
+graphql-binding@2.3.7, graphql-binding@^2.3.0:
   version "2.3.7"
   resolved "https://registry.yarnpkg.com/graphql-binding/-/graphql-binding-2.3.7.tgz#2480d9ae4582ab1fbedb3ab1ae67963f82a8b028"
   integrity sha512-fhvNySzmPHdqyjS73Rrr12RfJ2IehhFz7Ql7qYkls5KHwdktCg2E3MZroLiLkNQOx9uKIPq9AfibgIM7wecYKw==

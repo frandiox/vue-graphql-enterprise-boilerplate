@@ -13,20 +13,3 @@ export const mergeDirectoryModules = dirpath =>
       }),
       {}
     )
-
-// Calculate max depth of a GraphQL query string
-export const calculateQueryDepth = query => {
-  let depth = -1
-  let maxDepth = depth
-
-  for (let letter of query) {
-    switch (letter) {
-      case '{':
-        if (++depth > maxDepth) maxDepth = depth
-        break
-      case '}':
-        depth--
-    }
-  }
-  return maxDepth
-}
