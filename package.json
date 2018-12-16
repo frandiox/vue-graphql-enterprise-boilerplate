@@ -67,7 +67,7 @@
     "express": "^4.16.0",
     "hygen": "^1.6.0",
     "imagemin-lint-staged": "^0.3.0",
-    "jest-fetch-mock": "^2.0.0",
+    "jest-fetch-mock": "^2.1.0",
     "jest-transform-graphql": "^2.1.0",
     "lint-staged": "^8.1.0",
     "markdownlint-cli": "^0.13.0",
