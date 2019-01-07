@@ -15,9 +15,10 @@ export const hasRole = (ctx, roles) => {
 }
 
 const EXTEND_USER_FRAGMENT = `fragment ExtendUser on User { id firstName lastName }`
-const extendInfo = info =>
-  info ? addFragmentToInfo(info, EXTEND_USER_FRAGMENT) : info
-const getInfo = ({ info } = {}) => extendInfo(info)
+const getInfo = ({ info } = {}) =>
+  info && typeof info !== 'string'
+    ? addFragmentToInfo(info, EXTEND_USER_FRAGMENT)
+    : info
 
 /**
  *
