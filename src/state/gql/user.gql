@@ -2,43 +2,35 @@
 
 query GetSelf {
   self {
-    id
-    name
-    email
+    ...UserMainFields
   }
 }
 
 query GetUser($id: ID!) {
   user(id: $id) {
-    id
-    name
-    email
+    ...UserMainFields
   }
 }
 
 query GetUserContent($id: ID!) {
   userContent(id: $id) {
-    ...postFields
+    ...PostFields
     isPublished
   }
 }
 
 query GetRecentPosts {
   recentPosts {
-    ...postFields
+    ...PostFields
     author {
-      id
-      name
-      email
+      ...UserMainFields
     }
   }
 }
 
 query LocalGetSelf {
   user @client {
-    id
-    name
-    email
+    ...UserMainFields
   }
 }
 
@@ -46,28 +38,27 @@ query LocalGetSelf {
 
 mutation Authenticate($idToken: String!) {
   authenticate(idToken: $idToken) {
-    name
-    email
+    ...UserMainFields
   }
 }
 
 mutation CreateDraft($title: String!, $text: String!) {
   createDraft(title: $title, text: $text) {
-    ...postFields
+    ...PostFields
     isPublished
   }
 }
 
 mutation PublishPost($id: ID!) {
   publishPost(id: $id) {
-    ...postFields
+    ...PostFields
     isPublished
   }
 }
 
 mutation UpdatePost($input: PostUpdatedInput!) {
   updatePost(input: $input) {
-    ...postFields
+    ...PostFields
   }
 }
 
@@ -77,10 +68,16 @@ mutation LocalSetSelf($user: User!) {
 
 ### Fragments
 
-fragment postFields on Post {
+fragment PostFields on Post {
   id
   title
   text
   updatedAt
   createdAt
+}
+
+fragment UserMainFields on User {
+  id
+  name
+  email
 }
