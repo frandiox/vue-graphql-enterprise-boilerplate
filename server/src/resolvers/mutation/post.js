@@ -1,7 +1,16 @@
+import {
+  createPost,
+  deletePost,
+  isPostOwner,
+  updatePost,
+} from '../../models/post'
+
+const postNotFoundMessage = `Post not found or you're not the author`
+
 export default {
   async createDraft(parent, { title, text }, ctx, info) {
     const userId = ctx.req.user.id
-    return ctx.db.mutation.createPost(
+    return createPost(
       {
         data: {
           title,
@@ -12,21 +21,16 @@ export default {
           },
         },
       },
-      info
+      { info }
     )
   },
 
   async publishPost(parent, { id }, ctx, info) {
-    const userId = ctx.req.user.id
-    const postExists = await ctx.db.exists.Post({
-      id,
-      author: { id: userId },
-    })
-    if (!postExists) {
-      throw new Error(`Post not found or you're not the author`)
+    if (!(await isPostOwner(ctx.req.user, id))) {
+      throw new Error(postNotFoundMessage)
     }
 
-    return ctx.db.mutation.updatePost(
+    return updatePost(
       {
         where: { id },
         data: { isPublished: true },
@@ -43,16 +47,11 @@ export default {
     ctx,
     info
   ) {
-    const userId = ctx.req.user.id
-    const postExists = await ctx.db.exists.Post({
-      id,
-      author: { id: userId },
-    })
-    if (!postExists) {
-      throw new Error(`Post not found or you're not the author`)
+    if (!(await isPostOwner(ctx.req.user, id))) {
+      throw new Error(postNotFoundMessage)
     }
 
-    return ctx.db.mutation.updatePost(
+    return updatePost(
       {
         where: { id },
         data: { title, text },
@@ -62,15 +61,10 @@ export default {
   },
 
   async deletePost(parent, { id }, ctx, info) {
-    const userId = ctx.req.user.id
-    const postExists = await ctx.db.exists.Post({
-      id,
-      author: { id: userId },
-    })
-    if (!postExists) {
-      throw new Error(`Post not found or you're not the author`)
+    if (!(await isPostOwner(ctx.req.user, id))) {
+      throw new Error(postNotFoundMessage)
     }
 
-    return ctx.db.mutation.deletePost({ where: { id } })
+    return deletePost({ where: { id } }, { info })
   },
 }

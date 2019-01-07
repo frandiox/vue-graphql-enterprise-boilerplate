@@ -1,25 +1,20 @@
 import { findUser } from '../models/user'
+import { findPost, findPostList } from '../models/post'
 
 export default {
   feed(parent, args, ctx, info) {
-    return ctx.db.query.posts({ where: { isPublished: true } }, info)
+    return findPostList({ where: { isPublished: true } }, { info })
   },
 
   drafts(parent, args, ctx, info) {
-    const id = ctx.req.user.id
-
-    const where = {
-      isPublished: false,
-      author: {
-        id,
-      },
-    }
-
-    return ctx.db.query.posts({ where }, info)
+    return findPostList(
+      { where: { author: { id: ctx.req.user.id } } },
+      { info }
+    )
   },
 
   post(parent, { id }, ctx, info) {
-    return ctx.db.query.post({ where: { id } }, info)
+    return findPost({ where: { id } }, { info })
   },
 
   self(parent, args, ctx, info) {
@@ -39,20 +34,28 @@ export default {
   },
 
   userContent(parent, { id }, ctx, info) {
-    const where = {
-      isPublished: ctx.req.user && ctx.req.user.id === id ? undefined : true,
-      author: {
-        id,
+    return findPostList(
+      {
+        where: {
+          isPublished:
+            ctx.req.user && ctx.req.user.id === id ? undefined : true,
+          author: {
+            id,
+          },
+        },
       },
-    }
-
-    return ctx.db.query.posts({ where }, info)
+      { info }
+    )
   },
 
   recentPosts(parent, args, ctx, info) {
-    return ctx.db.query.posts(
-      { first: 10, orderBy: 'updatedAt_DESC', where: { isPublished: true } },
-      info
+    return findPostList(
+      {
+        first: 10,
+        orderBy: 'updatedAt_DESC',
+        where: { isPublished: true },
+      },
+      { info }
     )
   },
 }
