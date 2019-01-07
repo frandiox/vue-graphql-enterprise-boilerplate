@@ -1,5 +1,4 @@
 # import Post, Role from "../generated/prisma.graphql"
-# import PostCreateInput from "../generated/prisma.graphql"
 # import * from "./directives.graphql"
 # import * from "./inputs.graphql"
 # import * from "./types.graphql"
