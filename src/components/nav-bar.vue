@@ -41,14 +41,8 @@ export default {
 <template>
   <ul :class="$style.container">
     <NavBarRoutes :routes="persistentNavRoutes" />
-    <NavBarRoutes
-      v-if="user"
-      :routes="loggedInNavRoutes"
-    />
-    <NavBarRoutes
-      v-else
-      :routes="loggedOutNavRoutes"
-    />
+    <NavBarRoutes v-if="user" :routes="loggedInNavRoutes" />
+    <NavBarRoutes v-else :routes="loggedOutNavRoutes" />
   </ul>
 </template>
 

@@ -22,12 +22,7 @@ export default {
 </script>
 
 <template>
-  <input
-    :type="type"
-    :value="value"
-    :class="$style.input"
-    v-on="listeners"
-  >
+  <input :type="type" :value="value" :class="$style.input" v-on="listeners" />
 </template>
 
 <style lang="scss" module>

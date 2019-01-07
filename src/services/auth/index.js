@@ -50,10 +50,8 @@ export function setAuth(auth) {
 function validateAuthResponse(hash = {}) {
   return new Promise((resolve, reject) => {
     // @ts-ignore
-    webAuth.validateAuthenticationResponse(
-      {},
-      hash,
-      (err, result) => (err ? reject(err) : resolve(result))
+    webAuth.validateAuthenticationResponse({}, hash, (err, result) =>
+      err ? reject(err) : resolve(result)
     )
   })
 }

@@ -37,50 +37,36 @@ export default {
         v-model="title"
         :class="[$style.postTitle, $style.indent]"
         :disabled="editable == false"
-      >
+      />
       <div :class="$style.indent">
-        <div
-          v-if="showAuthor"
-          :class="$style.authorText"
-        >
+        <div v-if="showAuthor" :class="$style.authorText">
           By
-          <BaseLink
-            :params="{ id:post.author.id }"
-            name="user-profile"
-          >
-            <a>{{ post.author.name || 'Anonymous' }}</a>
-          </BaseLink>
-          -
+          <BaseLink :params="{ id: post.author.id }" name="user-profile">
+            <a>{{ post.author.name || 'Anonymous' }}</a> </BaseLink
+          >-
         </div>
-        <div :class="$style.authorText">
-          Last updated on {{ formatDate(post.updatedAt) }}
-        </div>
+        <div :class="$style.authorText"
+          >Last updated on {{ formatDate(post.updatedAt) }}</div
+        >
       </div>
     </div>
-    <div
-      v-if="editable"
-      :class="$style.center"
-    >
+    <div v-if="editable" :class="$style.center">
       <form>
-        <textarea
-          v-model="text"
-          :class="$style.editArea"
-        />
+        <textarea v-model="text" :class="$style.editArea" />
         <BaseButton
           v-if="post.editing"
           :disabled="post.editing"
           :class="$style.actionButton"
         >
-          <BaseIcon
-            name="sync"
-            spin
-          />
+          <BaseIcon name="sync" spin />
         </BaseButton>
         <div v-else>
           <BaseButton
             :class="$style.actionButton"
             :disabled="text === post.text && title === post.title"
-            @click.prevent="$emit('save-post', Object.assign({}, post, { title, text }))"
+            @click.prevent="
+              $emit('save-post', Object.assign({}, post, { title, text }))
+            "
           >
             <span>Save</span>
           </BaseButton>
@@ -94,10 +80,7 @@ export default {
         </div>
       </form>
     </div>
-    <div
-      v-else
-      :class="[$style.textContainer, $style.indent]"
-    >
+    <div v-else :class="[$style.textContainer, $style.indent]">
       <p>{{ post.text }}</p>
     </div>
   </div>

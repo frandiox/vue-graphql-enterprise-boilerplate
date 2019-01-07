@@ -28,15 +28,10 @@ const verifyAccessToken = jwt({
 export default function(req, res, next) {
   if (res) {
     // HTTP has `res`
-    verifyAccessToken(
-      req,
-      res,
-      error =>
-        error
-          ? res
-              .status(401)
-              .send(`Error in request validation. ${error.message}`)
-          : next()
+    verifyAccessToken(req, res, error =>
+      error
+        ? res.status(401).send(`Error in request validation. ${error.message}`)
+        : next()
     )
   } else {
     // WS does not have `res`

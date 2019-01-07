@@ -135,9 +135,7 @@ export default {
 
 <template>
   <Layout>
-    <div
-      :class="$style.loginFormContainer"
-    >
+    <div :class="$style.loginFormContainer">
       <p :class="$style.loginTitle">
         {{ formProperties.title }}
       </p>
@@ -147,11 +145,7 @@ export default {
       >
         <div :class="$style.textKeepNewLine">
           <span>Sign Up Successfull! Logging in...</span>
-          <BaseIcon
-            :class="$style.pullRight"
-            name="sync"
-            spin
-          />
+          <BaseIcon :class="$style.pullRight" name="sync" spin />
         </div>
       </div>
       <div
@@ -162,15 +156,8 @@ export default {
           {{ authError }}
         </div>
       </div>
-      <form
-        :class="$style.form"
-        @submit.prevent="formProperties.action"
-      >
-        <BaseInput
-          v-model="username"
-          name="username"
-          placeholder="Email"
-        />
+      <form :class="$style.form" @submit.prevent="formProperties.action">
+        <BaseInput v-model="username" name="username" placeholder="Email" />
         <BaseInput
           v-model="password"
           name="password"
@@ -182,35 +169,19 @@ export default {
           :class="$style.largeButton"
           type="submit"
         >
-          <BaseIcon
-            v-if="inProgress && !isSuccess"
-            name="sync"
-            spin
-          />
+          <BaseIcon v-if="inProgress && !isSuccess" name="sync" spin />
           <span v-else>
             {{ formProperties.buttonText }}
           </span>
         </BaseButton>
         <div :class="$style.loginFormFooter">
-          <span
-            :v-if="formProperties.leftLinkText"
-            :class="$style.pullLeft"
-          >
-            <a
-              :class="$style.clickable"
-              @click="formProperties.leftAction"
-            >
+          <span :v-if="formProperties.leftLinkText" :class="$style.pullLeft">
+            <a :class="$style.clickable" @click="formProperties.leftAction">
               {{ formProperties.leftLinkText }}
             </a>
           </span>
-          <span
-            :v-if="formProperties.rightLinkText"
-            :class="$style.pullRight"
-          >
-            <a
-              :class="$style.clickable"
-              @click="formProperties.rightAction"
-            >
+          <span :v-if="formProperties.rightLinkText" :class="$style.pullRight">
+            <a :class="$style.clickable" @click="formProperties.rightAction">
               {{ formProperties.rightLinkText }}
             </a>
           </span>
@@ -218,24 +189,15 @@ export default {
       </form>
     </div>
 
-    <div
-      v-if="showForgetPassword"
-      :class="$style.loginFormContainer"
-    >
-      <p
-        v-if="!isSuccessForgetPassword"
-        :class="$style.loginTitle"
-      >
+    <div v-if="showForgetPassword" :class="$style.loginFormContainer">
+      <p v-if="!isSuccessForgetPassword" :class="$style.loginTitle">
         Forgot yout password?
       </p>
       <p
         v-if="isSuccessForgetPassword"
         :class="[$style.loginTitle, $style.successMessage]"
       >
-        <BaseIcon
-          :class="$style.inlineIcon"
-          name="plane"
-        />
+        <BaseIcon :class="$style.inlineIcon" name="plane" />
         <span>We've just sent you an email to reset your password</span>
       </p>
       <div
@@ -244,11 +206,7 @@ export default {
       >
         <div :class="$style.textKeepNewLine">
           <span>Sending email...</span>
-          <BaseIcon
-            :class="$style.pullRight"
-            name="sync"
-            spin
-          />
+          <BaseIcon :class="$style.pullRight" name="sync" spin />
         </div>
       </div>
       <div

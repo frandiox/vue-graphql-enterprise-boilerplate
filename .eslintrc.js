@@ -26,23 +26,18 @@ module.exports = {
       ? ['error', { allow: ['warn', 'error'] }]
       : 'off',
 
-    'vue/html-indent': ['error', 2],
-    'vue/require-default-prop': 'error',
-    'vue/attributes-order': 'error',
-    'vue/html-quotes': ['error', 'double'],
-    'vue/order-in-components': 'error',
     'vue/component-name-in-template-casing': [
       'error',
       'PascalCase',
       {
-        ignores: ['router-view', 'router-link'],
-      },
-    ],
-    'vue/html-closing-bracket-newline': [
-      'error',
-      {
-        singleline: 'never',
-        multiline: 'always',
+        ignores: [
+          'component',
+          'template',
+          'transition',
+          'transition-group',
+          'keep-alive',
+          'slot',
+        ],
       },
     ],
 

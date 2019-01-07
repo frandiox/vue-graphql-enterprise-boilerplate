@@ -171,18 +171,10 @@ export default {
     <div v-if="isOwner">
       <h2>Write a new post</h2>
       <div :class="$style.postFormContainer">
-        <form
-          :class="$style.form"
-          @submit.prevent="submitPost"
-        >
-          <BaseSpinner
-            v-if="isLoading"
-          />
+        <form :class="$style.form" @submit.prevent="submitPost">
+          <BaseSpinner v-if="isLoading" />
           <div v-else>
-            <BaseInput
-              v-model="newTitle"
-              placeholder="Title"
-            />
+            <BaseInput v-model="newTitle" placeholder="Title" />
             <textarea
               v-model="newText"
               :class="$style.resizable"
@@ -203,11 +195,7 @@ export default {
     <template v-if="!isLoadingUserContent">
       <div v-if="posts.length > 0">
         <h2>Posts</h2>
-        <PostList
-          :posts="posts"
-          :editable="isOwner"
-          @save-post="editPost"
-        />
+        <PostList :posts="posts" :editable="isOwner" @save-post="editPost" />
       </div>
 
       <div v-if="drafts.length > 0">
@@ -221,10 +209,7 @@ export default {
       </div>
     </template>
 
-    <BaseSpinner
-      v-else
-      style="margin-top: 50px"
-    />
+    <BaseSpinner v-else style="margin-top: 50px" />
   </Layout>
 </template>
 
