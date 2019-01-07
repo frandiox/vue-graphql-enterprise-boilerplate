@@ -16,7 +16,7 @@
     "lint:all:eslint": "yarn lint:eslint --ext .js,.vue .",
     "lint:all:stylelint": "yarn lint:stylelint \"src/**/*.{vue,scss}\"",
     "lint:all:markdownlint": "yarn lint:markdownlint \"docs/*.md\" \"*.md\"",
-    "lint:all:prettier": "yarn lint:prettier \"**/*.{js,json,css,scss,vue,md}\"",
+    "lint:all:prettier": "yarn lint:prettier \"**/*.{js,json,css,scss,vue,html,md}\"",
     "lint": "run-s lint:all:*",
     "test:unit": "vue-cli-service test:unit",
     "test:unit:file": "yarn test:unit --bail --findRelatedTests",
@@ -49,6 +49,7 @@
     "vue-router": "3.0.x"
   },
   "devDependencies": {
+    "@starptech/prettyhtml": "0.8.x",
     "@vue/cli-plugin-babel": "3.2.x",
     "@vue/cli-plugin-e2e-cypress": "3.2.x",
     "@vue/cli-plugin-eslint": "3.2.x",
@@ -73,6 +74,7 @@
     "lint-staged": "8.1.x",
     "markdownlint-cli": "0.13.x",
     "node-sass": "4.11.x",
+    "prettier": "prettier/prettier#3de36e3",
     "npm-run-all": "4.1.x",
     "sass-loader": "7.1.x",
     "stylelint": "9.9.x",
@@ -82,7 +84,6 @@
     "stylelint-config-standard": "18.2.x",
     "stylelint-scss": "3.4.x",
     "vue-cli-plugin-apollo": "0.19.x",
-    "vue-jest": "3.0.x",
     "vue-template-compiler": "2.5.x",
     "vuepress": "0.14.x",
     "webpack-bundle-analyzer": "3.0.x"

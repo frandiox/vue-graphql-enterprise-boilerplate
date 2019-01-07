@@ -85,19 +85,19 @@ All HTML will exist within [`.vue` files](https://vuejs.org/v2/guide/single-file
 
 For example, any element or component can be self-closing:
 
-```html
-<span class="fa fa-comment"/>
+```vue
+<span class="fa fa-comment" />
 ```
 
 The above simply compiles to:
 
-```html
+```vue
 <span class="fa fa-comment"></span>
 ```
 
 This feature is especially useful when writing components with long names, but no content:
 
-```html
+```vue
 <FileUploader
   title="Upload any relevant legal documents"
   description="PDFs or scanned images are preferred"
@@ -132,9 +132,9 @@ There are no advantages to using a JS(X) file, other than not having to use a `<
 
 For our styles, we're using SCSS and CSS modules, which you can activate by adding the `lang="scss"` and `module` attributes to style tags in Vue components:
 
-```html
+```vue
 <style lang="scss" module>
-  /* Styles go here */
+/* Styles go here */
 </style>
 ```
 
@@ -182,8 +182,8 @@ This makes all our design variables available in your component or SCSS file.
 
 As mentioned earlier, every Vue component should be a CSS module. That means the classes you define are not _actually_ classes. When you write:
 
-```html
-<style lang='scss' module>
+```vue
+<style lang="scss" module>
 .inputLabel {
   /* ... */
 }
@@ -233,9 +233,7 @@ In these cases, you can use an [attribute selector](https://developer.mozilla.or
 
 ```vue
 <template>
-  <div :class="$style.container">
-    <SomeOtherComponentContainingAnInput/>
-  </div>
+  <div :class="$style.container"> <SomeOtherComponentContainingAnInput /> </div>
 </template>
 
 <style lang="scss" module>
@@ -257,7 +255,7 @@ $size-grid-padding: 1.3rem;
 
 You could import our design tooling, then use CSS modules' `:export` it:
 
-```html
+```vue
 <style lang="scss" module>
 @import '@design';
 

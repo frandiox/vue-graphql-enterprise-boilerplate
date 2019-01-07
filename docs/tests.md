@@ -142,7 +142,7 @@ I would argue that if the link's semantic element or content changes so drastica
 
 For example, let's imagine you replaced "Log in" with an icon:
 
-```html
+```vue
 <a href="/login">
   <span class="icon icon-login"></span>
 </a>
@@ -159,11 +159,8 @@ But when you're trying to find a login link as a user, you don't just inspect th
 
 Instead, thinking from a user's perspective forces you to stay accessible, perhaps updating your generated HTML to:
 
-```html
-<a
-  aria-label="Log in"
-  href="/login"
->
+```vue
+<a aria-label="Log in" href="/login">
   <span
     aria-hidden="true"
     class="icon icon-login"

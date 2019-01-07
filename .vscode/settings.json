@@ -33,14 +33,15 @@
   "eslint.autoFixOnSave": true,
   "eslint.run": "onSave",
   "eslint.validate": [
-    { "language": "javascript", "autofix": true },
-    { "language": "javascriptreact", "autofix": true },
-    { "language": "vue", "autofix": true },
-    { "language": "vue-html", "autofix": true },
-    { "language": "html", "autofix": true },
-    { "language": "graphql", "autofix": true }
+    { "language": "javascript", "autoFix": true },
+    { "language": "javascriptreact", "autoFix": true },
+    { "language": "vue", "autoFix": true },
+    { "language": "vue-html", "autoFix": true },
+    { "language": "html", "autoFix": true },
+    { "language": "graphql", "autoFix": true }
   ],
   "vetur.completion.useScaffoldSnippets": false,
+  "prettier.disableLanguages": [],
 
   // ===
   // HTML
@@ -64,6 +65,7 @@
   "javascript.format.enable": false,
   "json.format.enable": false,
   "vetur.validation.script": false,
+  "vetur.format.defaultFormatter.js": "none",
 
   // ===
   // CSS
@@ -73,6 +75,9 @@
   "css.validate": false,
   "scss.validate": false,
   "vetur.validation.style": false,
+  "vetur.format.defaultFormatter.css": "none",
+  "vetur.format.defaultFormatter.postcss": "none",
+  "vetur.format.defaultFormatter.scss": "none",
 
   // ===
   // MARKDOWN
