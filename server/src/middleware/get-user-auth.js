@@ -1,4 +1,4 @@
-import db from '../db'
+import { findUser } from '../models/user'
 
 const authClaims = ['id', 'role']
 
@@ -9,9 +9,9 @@ export default async function(req, res, next) {
 
     // If data is not enough, get user from DB as a fallback (slower but safe)
     if (!user || !authClaims.every(claim => !!user[claim])) {
-      user = await db.query.user(
+      user = await findUser(
         { where: { authId: req.user.sub } },
-        `{ ${authClaims.join(' ')} }`
+        { info: `{ ${authClaims.join(' ')} }` }
       )
     }
 
