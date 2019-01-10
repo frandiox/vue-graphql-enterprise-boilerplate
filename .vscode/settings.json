@@ -48,13 +48,12 @@
   // ===
 
   "html.format.enable": false,
-  "html.suggest.angular1": false,
-  "html.suggest.ionic": false,
   "vetur.validation.template": false,
   "emmet.triggerExpansionOnTab": true,
   "emmet.includeLanguages": {
     "vue-html": "html"
   },
+  "vetur.format.defaultFormatter.html": "none",
 
   // ===
   // JS(ON)
