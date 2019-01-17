@@ -5,7 +5,7 @@ type Post {
   isPublished: Boolean! @default(value: "false")
   title: String!
   text: String!
-  author: User!
+  author: User! @relation(name: "AuthoredPosts")
 }
 
 type User {
@@ -14,5 +14,5 @@ type User {
   email: String! @unique
   role: Role @default(value: WRITER)
   name: String
-  posts: [Post!]!
+  posts: [Post!]! @relation(name: "AuthoredPosts")
 }
