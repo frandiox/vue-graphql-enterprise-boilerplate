@@ -2,6 +2,7 @@ import jwksClient from 'jwks-rsa'
 import jwt from 'jsonwebtoken'
 import { AuthenticationError } from '../../errors'
 import { findUser, createUser, deleteUser } from '../../models/user'
+import got from 'got'
 
 const jwks = jwksClient({
   cache: true,
@@ -60,11 +61,17 @@ export default {
       // If we extended idToken in an Auth0 rule, data can be used here
       // const { ... } = userToken[process.env.AUTH0_OIDC_NAMESPACE + 'user_metadata']
 
+      // Generate random name for the user
+      const {
+        body: { name, surname },
+      } = await got('https://uinames.com/api/', { json: true })
+
       user = await createUser(
         {
           data: {
             authId,
             email: userToken.email,
+            name: `${name} ${surname}`,
             // Other data can be added here from Auth0 user
           },
         },

@@ -17,7 +17,7 @@ export default {
         {
           name: 'user-profile',
           params: () => ({ id: this.user.id }),
-          title: () => 'Logged in as ' + this.user.email,
+          title: () => 'Logged in as ' + this.user.name || this.user.email,
         },
         {
           name: 'logout',
