@@ -2,6 +2,7 @@
 
 - [First-time setup](#first-time-setup)
 - [Installation](#installation)
+- [External services](#external-services)
 - [Dev server](#dev-server)
   - [Developing with the production API](#developing-with-the-production-api)
 - [Generators](#generators)
@@ -31,6 +32,10 @@ This project uses [Yarn workspaces](https://yarnpkg.com/lang/en/docs/workspaces/
 # Install dependencies from package.json and server/package.json
 yarn
 ```
+
+## External services
+
+In order to use this boilerplate as is, we need free accounts in Auth0 for authentication and Prisma for database. See [Languages and Technologies (backend)](techback.md) for more information.
 
 ## Dev server
 

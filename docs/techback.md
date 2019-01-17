@@ -23,7 +23,7 @@ Since GraphQL is just a specification, we will need an actual GraphQL implementa
 
 Authentication is always a very important but incredibly tedious feature to implement. We will rely on [Auth0](https://auth0.com/) service for providing basic authentication. It offers a very generous free tier and is easy enough to get started quickly.
 
-Have a look at [authentication section](auth.md) for more information.
+Have a look at [authentication section](auth.md) for a step by step guide.
 
 ## Database
 
@@ -32,3 +32,5 @@ Have a look at [authentication section](auth.md) for more information.
 [Prisma](https://www.prisma.io) turns our database into a GraphQL API which can be consumed by our backend server. This means we only need to deal with GraphQL and its SDL to define data models and queries.
 
 Prisma is open source and provides development servers (in [Prisma Cloud](https://www.prisma.io/cloud/)) with MySQL databases for free that will help us to get our project started very quickly.
+
+Have a look at [database section](database.md) for a step by step guide.

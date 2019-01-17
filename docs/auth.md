@@ -1,4 +1,4 @@
-# Authentication
+# Auth0 for authentication
 
 As mentioned in [Backend technologies section](techback.md), we rely on [Auth0](https://auth0.com) for authentication.
 
@@ -16,7 +16,7 @@ Make sure you also enable `Use Auth0 instead of the IdP to do Single Sign On` as
 
 After the app is created, go to APIs section and create a new one (do not use the default Management API). You can customize its settings but defaults also work. Make sure to note the Identifier of the API.
 
-Finally, update `.env` with your new Auth0 app domain, app client ID and the new API's ID (audience). Optionally, you can add an [OIDC namespace](https://auth0.com/docs/api-auth/tutorials/adoption/scope-custom-claims) variable to add extra information to the tokens.
+Finally, update `.env` files (for both front and back ends) with your new Auth0 app domain, app client ID and the new API's ID (audience). Optionally, you can add an [OIDC namespace](https://auth0.com/docs/api-auth/tutorials/adoption/scope-custom-claims) variable to add extra information to the tokens.
 
 ## Authorization
 

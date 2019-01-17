@@ -39,7 +39,8 @@ rm _start.js
 
 # 6. Read the documentation linked below.
 
-# 7. Update `.env` file with your corresponding keys from Auth0 and Prisma
+# 7. Update `.env` file with your corresponding keys from Auth0 and Prisma.
+# Have a look at the docs for step by step guides on how to setup these services.
 ```
 
 ## Documentation
