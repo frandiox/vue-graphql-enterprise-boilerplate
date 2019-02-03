@@ -20,7 +20,7 @@ export default function makeAssertionDirectives(assertions) {
           const assert = assertions[key]
           const originalResolver = field.resolve || defaultFieldResolver
           field.resolve = (...args) => {
-            const [, , context] = args
+            const context = args[2]
             assert(context, this.args)
             return originalResolver(...args)
           }

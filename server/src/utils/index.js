@@ -9,7 +9,7 @@ export const mergeDirectoryModules = dirpath =>
     .reduce(
       (acc, filename) => ({
         ...acc,
-        ...require(path.resolve(dirpath, filename)).default,
+        ...require(path.resolve(dirpath, filename)),
       }),
       {}
     )
