@@ -54,6 +54,7 @@
     "vue-html": "html"
   },
   "vetur.format.defaultFormatter.html": "none",
+  "vetur.completion.tagCasing": "initial",
 
   // ===
   // JS(ON)
@@ -65,6 +66,7 @@
   "json.format.enable": false,
   "vetur.validation.script": false,
   "vetur.format.defaultFormatter.js": "none",
+  "vetur.format.defaultFormatter.ts": "none",
 
   // ===
   // CSS
@@ -77,6 +79,8 @@
   "vetur.format.defaultFormatter.css": "none",
   "vetur.format.defaultFormatter.postcss": "none",
   "vetur.format.defaultFormatter.scss": "none",
+  "vetur.format.defaultFormatter.less": "none",
+  "vetur.format.defaultFormatter.stylus": "none",
 
   // ===
   // MARKDOWN
