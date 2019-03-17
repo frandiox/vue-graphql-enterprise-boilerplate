@@ -74,12 +74,19 @@ function scheduleRenewAuth() {
  */
 function renewAuth() {
   const { audience, scope } = authConfig
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     webAuth.checkSession({ audience, scope }, (err, authResult) => {
-      if (err) return reject(err)
-      setAuth(authResult)
-      scheduleRenewAuth()
-      resolve(authResult)
+      if (err) {
+        if (err.error !== 'login_required') {
+          console.error(err)
+          clearAuth()
+        }
+        resolve(null)
+      } else {
+        setAuth(authResult)
+        scheduleRenewAuth()
+        resolve(authResult)
+      }
     })
   })
 }
@@ -228,12 +235,7 @@ export async function checkSession() {
   } else if (singleSignOn !== false && !window.Cypress) {
     // If this is the first time or is already logged in
     // but session is not valid
-    try {
-      clearSession()
-      await renewAuth()
-    } catch (err) {
-      err.error !== 'login_required' && console.error(err)
-    }
+    await renewAuth()
   }
 }
 
