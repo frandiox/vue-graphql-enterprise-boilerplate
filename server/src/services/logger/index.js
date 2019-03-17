@@ -14,14 +14,10 @@ class LoggerService {
       }),
     ]
 
-    const logger = createLogger({
+    return createLogger({
       level: 'info',
       transports: winstonTransports,
       exceptionHandlers: winstonTransports,
-    })
-
-    return new Proxy(this, {
-      get: (target, propKey) => logger[propKey],
     })
   }
 }
