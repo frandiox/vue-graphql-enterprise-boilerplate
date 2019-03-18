@@ -98,5 +98,8 @@
   ],
   "workspaces": [
     "server"
-  ]
+  ],
+  "resolutions": {
+    "apollo-client": "2.4.13"
+  }
 }
