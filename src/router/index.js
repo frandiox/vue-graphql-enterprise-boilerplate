@@ -39,6 +39,8 @@ router.beforeEach(async (routeTo, routeFrom, next) => {
     NProgress.start()
   }
 
+  if (['login', 'logout', '404'].includes(routeTo.name)) return next()
+
   // Check if session is valid and renew if necessary.
   // Fetch user asynchronously after checking session.
   const userPromise = checkSession().then(getCurrentUser)
