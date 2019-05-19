@@ -1,10 +1,14 @@
 import { createProvider, onLogin, onLogout } from '@state/vue-apollo'
-import { defaults, resolvers } from '@state/local'
+import { typeDefs, resolvers, initialState } from '@state/local'
 import { ACCESS_TOKEN } from '@services/auth/session'
 
 export const apolloProvider = createProvider({
   tokenName: ACCESS_TOKEN,
-  clientState: { defaults, resolvers },
+  typeDefs,
+  resolvers,
+  onCacheInit: cache => {
+    cache.writeData({ data: initialState })
+  },
 })
 
 export const apolloClient = apolloProvider.defaultClient

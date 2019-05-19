@@ -1,6 +1,14 @@
-// Defaults and resovlers for local store (apollo-link-state)
+// Defaults and resovlers for local store
+import gql from 'graphql-tag'
 
-export const defaults = {
+export const typeDefs = gql`
+  type Query {
+    user: User
+    project: Project
+  }
+`
+
+export const initialState = {
   user: null,
 }
 

@@ -9,7 +9,7 @@
     "prisma": "prisma"
   },
   "dependencies": {
-    "apollo-server-express": "2.4.x",
+    "apollo-server-express": "2.5.x",
     "esm": "3.2.x",
     "express": "4.17.x",
     "express-jwt": "5.3.x",

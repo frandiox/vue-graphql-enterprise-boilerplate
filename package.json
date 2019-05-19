@@ -65,6 +65,7 @@
     "eslint-plugin-node": "9.x",
     "eslint-plugin-unicorn": "8.x",
     "eslint-plugin-vue": "5.x",
+    "graphql-tag": "^2.10.1",
     "hygen": "4.x",
     "imagemin-lint-staged": "0.x",
     "jest-fetch-mock": "2.x",
@@ -97,8 +98,5 @@
   ],
   "workspaces": [
     "server"
-  ],
-  "resolutions": {
-    "apollo-client": "2.4.13"
-  }
+  ]
 }
