@@ -11,23 +11,23 @@
   "dependencies": {
     "apollo-server-express": "2.4.x",
     "esm": "3.2.x",
-    "express": "4.16.x",
+    "express": "4.17.x",
     "express-jwt": "5.3.x",
     "got": "9.6.x",
     "graphql-binding": "2.5.x",
     "graphql-import": "0.7.x",
     "graphql-middleware": "3.0.x",
-    "graphql-subscriptions": "1.0.x",
+    "graphql-subscriptions": "1.1.x",
     "jsonwebtoken": "8.5.x",
-    "jwks-rsa": "1.4.x",
+    "jwks-rsa": "1.5.x",
     "multienv-loader": "1.1.x",
     "prisma-binding": "2.3.x",
     "winston": "3.2.x"
   },
   "devDependencies": {
-    "cross-env": "5.2.x",
-    "graphql-cli": "3.0.x",
-    "nodemon": "1.18.x",
+    "cross-env": "5.x",
+    "graphql-cli": "3.x",
+    "nodemon": "1.x",
     "prisma": "1.28.x"
   },
   "engines": {
