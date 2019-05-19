@@ -41,12 +41,8 @@ module.exports = {
       },
     ],
 
-    'unicorn/catch-error-name': [
-      'error',
-      {
-        name: 'err',
-      },
-    ],
+    'unicorn/prevent-abbreviations': 'off',
+    'unicorn/filename-case': ['error', { case: 'kebabCase' }],
   },
   overrides: [
     {

@@ -63,9 +63,9 @@ export default function createApolloServer(
         } else {
           contextData = await context({ req, request: req })
         }
-      } catch (err) {
-        logger.error(err)
-        throw err
+      } catch (error) {
+        logger.error(error)
+        throw error
       }
 
       return contextData
@@ -95,12 +95,12 @@ export default function createApolloServer(
             request: req,
             req,
           })
-        } catch (err) {
-          if (err.status !== 401) {
-            logger.error(err)
+        } catch (error) {
+          if (error.status !== 401) {
+            logger.error(error)
           }
 
-          throw err
+          throw error
         }
 
         return contextData

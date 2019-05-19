@@ -37,8 +37,8 @@ export default {
       try {
         // This redirects to home page
         await authorizeSelf(this.username, this.password)
-      } catch (err) {
-        this.setError(err)
+      } catch (error) {
+        this.setError(error)
       }
 
       this.inProgress = false
@@ -54,8 +54,8 @@ export default {
         await signupSelf(this.username, this.password)
         this.isSuccess = true
         this.logIn()
-      } catch (err) {
-        this.setError(err)
+      } catch (error) {
+        this.setError(error)
       }
 
       this.inProgress = false
@@ -69,8 +69,8 @@ export default {
       try {
         await passwordReset(this.resetEmail)
         this.isSuccessForgetPassword = true
-      } catch (err) {
-        this.setError(err)
+      } catch (error) {
+        this.setError(error)
       }
       this.inProgressForgetPassword = false
     },

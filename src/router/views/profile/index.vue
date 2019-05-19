@@ -112,8 +112,8 @@ export default {
             },
           },
         })
-      } catch (err) {
-        console.error(err)
+      } catch (error) {
+        console.error(error)
       }
 
       this.newTitle = ''
@@ -136,8 +136,8 @@ export default {
             },
           },
         })
-      } catch (err) {
-        console.error(err)
+      } catch (error) {
+        console.error(error)
       }
     },
     async publishDraft(draft) {

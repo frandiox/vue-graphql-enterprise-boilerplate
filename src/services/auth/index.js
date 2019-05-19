@@ -187,8 +187,8 @@ export async function tryToLogIn() {
 
       console.log('Authenticated!', user) // eslint-disable-line no-console
       return true
-    } catch (err) {
-      console.error(err)
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -280,8 +280,8 @@ export async function getCurrentUser() {
         }
 
         user = remoteUser
-      } catch (err) {
-        console.error(err)
+      } catch (error) {
+        console.error(error)
         return null
       }
 
