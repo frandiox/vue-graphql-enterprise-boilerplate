@@ -21,7 +21,7 @@ seed:
 
 generate:
   - generator: graphql-schema
-    output: ../src/generated/
+    output: ../src/generated/prisma.graphql
 
 # OPTIONAL
 # Defines hooks with custom behavior. This downloads "generated/prisma.graphql"
