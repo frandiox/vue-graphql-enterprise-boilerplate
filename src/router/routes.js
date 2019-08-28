@@ -28,6 +28,9 @@ export default [
     path: '/logout',
     name: 'logout',
     beforeEnter(routeTo, routeFrom, next) {
+      // Continue before calling logout in order to avoid triggering
+      // extra requests in the current page when cache is cleared.
+      next()
       logout()
     },
   },
