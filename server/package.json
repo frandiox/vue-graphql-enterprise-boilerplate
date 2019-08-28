@@ -9,17 +9,17 @@
     "prisma": "prisma"
   },
   "dependencies": {
-    "apollo-server-express": "2.5.x",
+    "apollo-server-express": "2.9.x",
     "esm": "3.2.x",
     "express": "4.17.x",
     "express-jwt": "5.3.x",
     "got": "9.6.x",
     "graphql-binding": "2.5.x",
     "graphql-import": "0.7.x",
-    "graphql-middleware": "3.0.x",
+    "graphql-middleware": "4.0.x",
     "graphql-subscriptions": "1.1.x",
     "jsonwebtoken": "8.5.x",
-    "jwks-rsa": "1.5.x",
+    "jwks-rsa": "1.6.x",
     "multienv-loader": "1.1.x",
     "prisma-binding": "2.3.x",
     "winston": "3.2.x"
@@ -28,7 +28,7 @@
     "cross-env": "5.x",
     "graphql-cli": "3.x",
     "nodemon": "1.x",
-    "prisma": "1.33.x"
+    "prisma": "1.34.x"
   },
   "engines": {
     "node": ">=8.9.0",
