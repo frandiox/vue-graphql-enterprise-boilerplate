@@ -38,9 +38,7 @@ function verifyAndDecodeIdToken(idToken) {
           err
             ? reject(
                 new AuthenticationError(
-                  `${invalidTokenMessage} JWT verification error: ${
-                    err.message
-                  }`
+                  `${invalidTokenMessage} JWT verification error: ${err.message}`
                 )
               )
             : resolve(decoded)
