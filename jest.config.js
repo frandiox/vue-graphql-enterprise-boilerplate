@@ -37,7 +37,10 @@ module.exports = {
       },
       globals: {
         'vue-jest': {
-          // Disable CSS compilation until it's more stable (doesn't work with sass-dart)
+          // Compilation errors in the <style> tags of Vue components will
+          // already result in failing builds, so compiling CSS during unit
+          // tests doesn't protect us from anything. It only complicates
+          // and slows down our unit tests.
           experimentalCSSCompile: false,
         },
       },
