@@ -1,11 +1,11 @@
 import express from 'express'
-import { importSchema } from 'graphql-import'
 
 import verifyAccessToken from './middleware/verify-access-token'
 import getUserAuth from './middleware/get-user-auth'
 
 import createApolloServer from './apollo-server'
 import * as resolvers from './resolvers'
+import { typeDefs } from './schema'
 import { schemaDirectives } from './directives'
 import { formatError } from './errors'
 
@@ -30,7 +30,7 @@ const server = createApolloServer(app, {
   subscriptionsEndpoint: GRAPHQL_SUBSCRIPTIONS,
   wsMiddlewares: connectionMiddlewares,
   apolloServerOptions: { formatError },
-  typeDefs: importSchema('src/schema/index.graphql'),
+  typeDefs,
   resolvers,
   schemaDirectives,
   context: params => ({
