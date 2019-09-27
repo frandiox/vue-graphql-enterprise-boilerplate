@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import fs from 'fs'
 import path from 'path'
+import VueApollo from 'vue-apollo'
+import { apolloMockProvider } from './apollo-mock'
 
 // ===
 // Utility functions
@@ -88,12 +90,28 @@ global.shallowMountView = (Component, options = {}) => {
 }
 
 // A helper for creating Vue component mocks
-global.createComponentMocks = ({ store, router, style, mocks, stubs }) => {
+global.createComponentMocks = ({
+  store,
+  router,
+  style,
+  mocks,
+  stubs,
+  resolvers,
+  providers = {},
+}) => {
   // Use a local version of Vue, to avoid polluting the global
   // Vue and thereby affecting other tests.
   // https://vue-test-utils.vuejs.org/api/#createlocalvue
   const localVue = vueTestUtils.createLocalVue()
-  const returnOptions = { localVue }
+  const returnOptions = {
+    localVue,
+    provide: { ...providers },
+  }
+
+  if (resolvers) {
+    localVue.use(VueApollo)
+    returnOptions.provide['$apolloProvider'] = apolloMockProvider(resolvers)
+  }
 
   // https://vue-test-utils.vuejs.org/api/options.html#stubs
   returnOptions.stubs = stubs || {}
