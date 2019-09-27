@@ -54,7 +54,7 @@ To understand how to manage pages with Vue Router, I recommend reading through t
 
 Both `apollo-client` and `vue-apollo` are included for state management through GraphQL. Have a look first at [Apollo Client introduction](https://www.apollographql.com/docs/) and then at [Vue Apollo integration docs](https://github.com/akryum/vue-apollo).
 
-On top of that, `apollo-link-state` is used for local state management. Read about [state management in this application](state.md).
+Local state management is also managed by `apollo-client` (previously `apollo-link-state`). Read about [state management in this application](state.md).
 
 ### JavaScript FAQ
 
