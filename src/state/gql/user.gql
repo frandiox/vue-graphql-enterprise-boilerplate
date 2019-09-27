@@ -28,12 +28,6 @@ query GetRecentPosts {
   }
 }
 
-query LocalGetSelf {
-  user @client {
-    ...UserMainFields
-  }
-}
-
 ### Mutations
 
 mutation Authenticate($idToken: String!) {
@@ -60,10 +54,6 @@ mutation UpdatePost($input: PostUpdatedInput!) {
   updatePost(input: $input) {
     ...PostFields
   }
-}
-
-mutation LocalSetSelf($user: User!) {
-  setSelf(user: $user) @client
 }
 
 ### Fragments

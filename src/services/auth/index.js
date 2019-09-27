@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js'
 import jwtDecode from 'jwt-decode'
 import extractHash from '@utils/extract-hash'
-import { Authenticate, GetSelf, LocalSetSelf, LocalGetSelf } from '@gql/user'
+import { Authenticate, GetSelf } from '@gql/user'
 import { apolloClient, apolloOnLogin, apolloOnLogout } from '@state'
 import { getSession, setSession, clearSession, isValidSession } from './session'
 
@@ -181,7 +181,13 @@ export async function tryToLogIn() {
         variables: { idToken: authResult.idToken },
       })
 
-      await setCurrentUser(user)
+      // Set the same data in GetSelf query
+      // for performance (skip 1 query)
+      apolloClient.writeQuery({
+        query: GetSelf,
+        data: { self: user },
+      })
+
       setAuth(authResult)
       scheduleRenewAuth()
 
@@ -200,25 +206,12 @@ export async function tryToLogIn() {
  */
 export function logout() {
   clearAuth()
-  setCurrentUser(null)
 
   const { clientID } = authConfig
 
   webAuth.logout({
     clientID,
     returnTo: `${window.location.origin}/login`,
-  })
-}
-
-/**
- * @description Store user information locally
- * @param {Object} user User object
- * @returns {Promise<Object>} Local mutation result
- */
-export function setCurrentUser(user) {
-  return apolloClient.mutate({
-    mutation: LocalSetSelf,
-    variables: { user },
   })
 }
 
@@ -247,46 +240,33 @@ export async function getCurrentUser() {
   let user = null
 
   if (isValidSession()) {
-    // Get local version if exists
-    let {
-      data: { user: localUser },
-    } = await apolloClient.query({ query: LocalGetSelf })
+    try {
+      const {
+        data: { self: remoteUser },
+      } = await apolloClient.query({
+        query: GetSelf,
+      })
 
-    user = localUser
+      // Ensure permissions are correct
+      const { accessToken } = getSession()
+      if (accessToken && remoteUser) {
+        const tokenInfo = jwtDecode(accessToken)
+        const authClaimsKey = Object.keys(tokenInfo).find(key =>
+          /^https:\/\/.*\/authInfo\/?/.test(key)
+        )
 
-    if (!user) {
-      // Get remote version
-      try {
-        const {
-          data: { self: remoteUser },
-        } = await apolloClient.query({
-          query: GetSelf,
-        })
-
-        // Ensure permissions are correct
-        const { accessToken } = getSession()
-        if (accessToken && remoteUser) {
-          const tokenInfo = jwtDecode(accessToken)
-          const authClaimsKey = Object.keys(tokenInfo).find(key =>
-            /^https:\/\/.*\/authInfo\/?/.test(key)
-          )
-
-          if (
-            authClaimsKey &&
-            tokenInfo[authClaimsKey].role !== remoteUser.role
-          ) {
-            await renewAuth()
-          }
+        if (
+          authClaimsKey &&
+          tokenInfo[authClaimsKey].role !== remoteUser.role
+        ) {
+          await renewAuth()
         }
-
-        user = remoteUser
-      } catch (error) {
-        console.error(error)
-        return null
       }
 
-      // Store user locally
-      await setCurrentUser(user)
+      user = remoteUser
+    } catch (error) {
+      console.error(error)
+      return null
     }
   }
 

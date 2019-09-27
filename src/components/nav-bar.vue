@@ -1,6 +1,6 @@
 <script>
 import NavBarRoutes from './nav-bar-routes.vue'
-import { LocalGetSelf } from '@gql/user'
+import { GetSelf } from '@gql/user'
 
 export default {
   components: { NavBarRoutes },
@@ -33,7 +33,10 @@ export default {
     }
   },
   apollo: {
-    user: LocalGetSelf,
+    user: {
+      query: GetSelf,
+      update: data => data.self,
+    },
   },
 }
 </script>

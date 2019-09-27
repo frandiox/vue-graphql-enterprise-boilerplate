@@ -4,7 +4,7 @@ import PostList from '@components/post-list'
 import {
   GetUser,
   GetUserContent,
-  LocalGetSelf,
+  GetSelf,
   CreateDraft,
   PublishPost,
   UpdatePost,
@@ -57,7 +57,10 @@ export default {
     },
   },
   apollo: {
-    user: LocalGetSelf,
+    user: {
+      query: GetSelf,
+      update: data => data.self,
+    },
     profileOwner: {
       query: GetUser,
       variables() {
