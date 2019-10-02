@@ -31,7 +31,7 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div data-test="postItem">
     <div :class="$style.postHeader">
       <input
         v-model="title"
@@ -41,11 +41,15 @@ export default {
       <div :class="$style.indent">
         <div v-if="showAuthor" :class="$style.authorText">
           By
-          <BaseLink :params="{ id: post.author.id }" name="user-profile">
+          <BaseLink
+            data-test="postAuthorLink"
+            :params="{ id: post.author.id }"
+            name="user-profile"
+          >
             <a>{{ post.author.name || 'Anonymous' }}</a> </BaseLink
           >-
         </div>
-        <div :class="$style.authorText"
+        <div data-test="postUpdatedAt" :class="$style.authorText"
           >Last updated on {{ formatDate(post.updatedAt) }}</div
         >
       </div>
@@ -62,6 +66,7 @@ export default {
         </BaseButton>
         <div v-else>
           <BaseButton
+            data-test="saveButton"
             :class="$style.actionButton"
             :disabled="text === post.text && title === post.title"
             @click.prevent="
@@ -81,7 +86,7 @@ export default {
       </form>
     </div>
     <div v-else :class="[$style.textContainer, $style.indent]">
-      <p>{{ post.text }}</p>
+      <p data-test="postText">{{ post.text }}</p>
     </div>
   </div>
 </template>
