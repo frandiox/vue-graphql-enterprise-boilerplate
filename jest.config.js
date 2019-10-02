@@ -69,5 +69,6 @@ module.exports = {
     '!server/src/index.js',
     '!server/src/resolvers/**',
     '!server/src/**/_*.js',
+    '!**/*.unit.js', // tests
   ],
 }
