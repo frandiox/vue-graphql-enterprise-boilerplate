@@ -9,6 +9,7 @@
     "prisma": "prisma"
   },
   "dependencies": {
+    "apollo-server-cloud-functions": "^2.19.0",
     "apollo-server-express": "2.9.x",
     "esm": "3.2.x",
     "express": "4.17.x",
