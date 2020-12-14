@@ -60,16 +60,23 @@ export default {
       // const { ... } = userToken[process.env.AUTH0_OIDC_NAMESPACE + 'user_metadata']
 
       // Generate random name for the user
-      const {
-        body: { name, surname },
-      } = await got('https://uinames.com/api/', { json: true })
+      let name
+      try {
+        const { body } = await got(
+          'http://names.drycodes.com/1?nameOptions=girl_names',
+          { json: true }
+        )
+        name = body[0].replace('_', ' ')
+      } catch (error) {
+        name = 'Fake Name'
+      }
 
       user = await createUser(
         {
           data: {
             authId,
             email: userToken.email,
-            name: `${name} ${surname}`,
+            name,
             // Other data can be added here from Auth0 user
           },
         },
