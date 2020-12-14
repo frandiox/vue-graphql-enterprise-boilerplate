@@ -30,15 +30,17 @@
   // ===
 
   "editor.formatOnSave": true,
-  "eslint.autoFixOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
   "eslint.run": "onSave",
   "eslint.validate": [
-    { "language": "javascript", "autoFix": true },
-    { "language": "javascriptreact", "autoFix": true },
-    { "language": "vue", "autoFix": true },
-    { "language": "vue-html", "autoFix": true },
-    { "language": "html", "autoFix": true },
-    { "language": "graphql", "autoFix": true }
+    "javascript",
+    "javascriptreact",
+    "vue",
+    "vue-html",
+    "html",
+    "graphql"
   ],
   "vetur.completion.useScaffoldSnippets": false,
   "prettier.disableLanguages": [],
